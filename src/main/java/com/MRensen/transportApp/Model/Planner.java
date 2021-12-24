@@ -10,12 +10,13 @@ public class Planner {
     @Id
     long id;
 
+    String name;
+
     @OneToMany(mappedBy = "planner")
     List<Driver> drivers = new ArrayList<>();
 
     @OneToMany(mappedBy = "planner")
     List<Route> routes = new ArrayList<>();
 
-    String name;
 
 }

@@ -1,6 +1,8 @@
-package com.MRensen.transportApp.utils;
+package com.MRensen.transportApp.utils.Pallet;
 
-public class BlockPallet extends Pallet{
+import com.MRensen.transportApp.utils.Pallet.Pallet;
+
+public class BlockPallet extends Pallet {
     int width = 120;
     int length = 100;
 

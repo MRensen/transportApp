@@ -12,5 +12,6 @@ public class Route {
     @ManyToOne
     Planner planner;
 
+    @OneToMany(mappedBy = "route")
     List<Order> orders;
 }

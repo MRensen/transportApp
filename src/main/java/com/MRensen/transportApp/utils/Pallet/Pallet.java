@@ -1,5 +1,8 @@
-package com.MRensen.transportApp.utils;
+package com.MRensen.transportApp.utils.Pallet;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public abstract class Pallet {
     String load;
     int height;
@@ -23,5 +26,8 @@ public abstract class Pallet {
     public Pallet(String load, int height) {
         this.load = load;
         this.height = height;
+    }
+
+    public Pallet() {
     }
 }

@@ -1,9 +1,6 @@
 package com.MRensen.transportApp.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Driver {
@@ -11,7 +8,7 @@ public class Driver {
     @Id
     long id;
 
-    @OneToMany
+    @ManyToOne
     Planner planner;
 
     String firstName;

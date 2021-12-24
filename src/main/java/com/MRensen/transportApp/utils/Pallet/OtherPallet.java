@@ -1,6 +1,8 @@
-package com.MRensen.transportApp.utils;
+package com.MRensen.transportApp.utils.Pallet;
 
-public class OtherPallet extends Pallet{
+import com.MRensen.transportApp.utils.Pallet.Pallet;
+
+public class OtherPallet extends Pallet {
     int width;
     int length;
 
@@ -14,5 +16,21 @@ public class OtherPallet extends Pallet{
         super(load, height);
         this.width = 0;
         this.length = 0;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }
