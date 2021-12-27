@@ -1,4 +1,4 @@
-package com.MRensen.transportApp.Model;
+package com.MRensen.transportApp.model;
 
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 
@@ -17,7 +17,6 @@ public class Order {
 
     @ManyToOne
     Route route;
-
 
     @ElementCollection
     @CollectionTable(

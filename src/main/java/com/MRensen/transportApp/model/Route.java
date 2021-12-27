@@ -1,4 +1,4 @@
-package com.MRensen.transportApp.Model;
+package com.MRensen.transportApp.model;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +8,9 @@ public class Route {
     @GeneratedValue
     @Id
     long id;
+
+    @OneToOne
+    Driver driver;
 
     @ManyToOne
     Planner planner;

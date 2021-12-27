@@ -1,4 +1,4 @@
-package com.MRensen.transportApp.Model;
+package com.MRensen.transportApp.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,9 +11,6 @@ public class Planner {
     long id;
 
     String name;
-
-    @OneToMany(mappedBy = "planner")
-    List<Driver> drivers = new ArrayList<>();
 
     @OneToMany(mappedBy = "planner")
     List<Route> routes = new ArrayList<>();

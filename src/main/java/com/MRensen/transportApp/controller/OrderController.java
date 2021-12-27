@@ -1,6 +1,6 @@
-package com.MRensen.transportApp.Controller;
+package com.MRensen.transportApp.controller;
 
-import com.MRensen.transportApp.Repository.OrderRepository;
+import com.MRensen.transportApp.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
