@@ -3,6 +3,7 @@ package com.MRensen.transportApp.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name="drivers")
 public class Driver {
     @GeneratedValue
     @Id

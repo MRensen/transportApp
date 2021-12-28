@@ -3,10 +3,12 @@ package com.MRensen.transportApp.controller;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,8 +21,29 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public List<Customer> getCustomers(){
-        return customerService.getAllCustomers();
+        //return customerService.getAllCustomers();
+        ArrayList<Customer> c = new ArrayList<>();
+        c.add(new Customer(1L, "henk", "straat"));
+        c.add(new Customer(2L, "piet", "laan"));
+        return c;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable Long id){
+//        long id = intid;
+        System.out.println(id);
+        Customer customer = customerService.getCustomer(id);
+        return ResponseEntity.ok().body(customer);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Object> postCustomer(@RequestBody Customer customer){
+        Customer newCustomer = customerService.addCustomer(customer);
+        Long id = newCustomer.getId();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(id).toUri();
+        return ResponseEntity.created(location).build();
     }
 }

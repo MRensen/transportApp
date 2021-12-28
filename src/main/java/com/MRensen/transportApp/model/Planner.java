@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="planners")
 public class Planner {
     @GeneratedValue
     @Id

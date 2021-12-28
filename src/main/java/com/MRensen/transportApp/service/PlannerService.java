@@ -42,8 +42,8 @@ public class PlannerService {
             throw new RecordNotFoundException("Planner not found");
         }
         Planner old = plannerRepository.findById(id).orElse(null);
-        old.setId(customer.getId());
-        old.setAdress(customer.getAdress());
-        old.setName(customer.getName());
+//        old.setId(customer.getId());
+//        old.setAdress(customer.getAdress());
+//        old.setName(customer.getName());
     }
 }

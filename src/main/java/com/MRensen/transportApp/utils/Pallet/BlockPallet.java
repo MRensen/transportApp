@@ -10,6 +10,9 @@ public class BlockPallet extends Pallet {
         super(load, height);
     }
 
+    public BlockPallet() {
+    }
+
     public int getWidth() {
         return width;
     }

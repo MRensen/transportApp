@@ -41,8 +41,8 @@ public class RouteService {
             throw new RecordNotFoundException("Route not found");
         }
         Route old = routeRepository.findById(id).orElse(null);
-        old.setId(customer.getId());
-        old.setAdress(customer.getAdress());
-        old.setName(customer.getName());
+//        old.setId(customer.getId());
+//        old.setAdress(customer.getAdress());
+//        old.setName(customer.getName());
     }
 }

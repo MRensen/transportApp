@@ -10,6 +10,9 @@ public class EuroPallet extends Pallet {
         super(load, height);
     }
 
+    public EuroPallet() {
+    }
+
     public int getWidth() {
         return width;
     }

@@ -1,0 +1,1 @@
+INSERT INTO customers (id, name, adress) VALUES (1001, "mark", "wehl");

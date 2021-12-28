@@ -44,9 +44,7 @@ public class DriverService {
             throw new RecordNotFoundException("Driver not found");
         }
         Driver old = driverRepository.findById(id).orElse(null);
-        old.setId(customer.getId());
-        old.setAdress(customer.getAdress());
-        old.setName(customer.getName());
+
     }
 
     public Route getDriverRoute(Long id){

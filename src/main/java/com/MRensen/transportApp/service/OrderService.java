@@ -42,8 +42,8 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-        old.setId(customer.getId());
-        old.setAdress(customer.getAdress());
-        old.setName(customer.getName());
+//        old.setId(customer.getId());
+//        old.setAdress(customer.getAdress());
+//        old.setName(customer.getName());
     }
 }
