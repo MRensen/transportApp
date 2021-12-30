@@ -1,9 +1,9 @@
 package com.MRensen.transportApp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="customers")
@@ -11,6 +11,10 @@ public class Customer {
     @GeneratedValue
     @Id
     long id;
+
+    @OneToMany
+    List<Order> myOrders;
+
     String name;
     String adress;
 

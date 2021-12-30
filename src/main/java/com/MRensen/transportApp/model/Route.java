@@ -10,6 +10,8 @@ public class Route {
     @Id
     long id;
 
+    String truck; //license plate
+
     @OneToOne
     Driver driver;
 

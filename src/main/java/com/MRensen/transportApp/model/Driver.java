@@ -12,9 +12,47 @@ public class Driver {
     @OneToOne
     Route route;
 
+    //personal details
     String firstName;
     String lastName;
     String adress;
+
+    int employeeNumber;
+    String driverLicenseNumber;
+    String phoneNumber;
+    String regularTruck; //license plate
+
+    public int getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    public void setEmployeeNumber(int employeeNumber) {
+        this.employeeNumber = employeeNumber;
+    }
+
+    public String getDriverLicenseNumber() {
+        return driverLicenseNumber;
+    }
+
+    public void setDriverLicenseNumber(String driverLicenseNumber) {
+        this.driverLicenseNumber = driverLicenseNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getRegularTruck() {
+        return regularTruck;
+    }
+
+    public void setRegularTruck(String regularTruck) {
+        this.regularTruck = regularTruck;
+    }
 
     public long getId() {
         return id;
