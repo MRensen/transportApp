@@ -15,7 +15,7 @@ public class Order {
 
     //loading adress
     String loadingStreet;
-    String loadingHousenumber;
+    String loadingHouseNumber;
     String loadingPostal;
     String loadingName;
     String loadingCity;
@@ -23,7 +23,7 @@ public class Order {
 
     //delivery adress
     String deliveryStreet;
-    String deliveryHousenumber;
+    String deliveryHouseNumber;
     String deliveryPostal;
     String deliveryName;
     String deliveryCity;
@@ -59,12 +59,12 @@ public class Order {
         this.loadingStreet = loadingStreet;
     }
 
-    public String getLoadingHousenumber() {
-        return loadingHousenumber;
+    public String getLoadingHouseNumber() {
+        return loadingHouseNumber;
     }
 
-    public void setLoadingHousenumber(String loadingHousenumber) {
-        this.loadingHousenumber = loadingHousenumber;
+    public void setLoadingHouseNumber(String loadingHouseNumber) {
+        this.loadingHouseNumber = loadingHouseNumber;
     }
 
     public String getLoadingPostal() {
@@ -99,12 +99,12 @@ public class Order {
         this.deliveryStreet = deliveryStreet;
     }
 
-    public String getDeliveryHousenumber() {
-        return deliveryHousenumber;
+    public String getDeliveryHouseNumber() {
+        return deliveryHouseNumber;
     }
 
-    public void setDeliveryHousenumber(String deliveryHousenumber) {
-        this.deliveryHousenumber = deliveryHousenumber;
+    public void setDeliveryHouseNumber(String deliveryHouseNumber) {
+        this.deliveryHouseNumber = deliveryHouseNumber;
     }
 
     public String getDeliveryPostal() {

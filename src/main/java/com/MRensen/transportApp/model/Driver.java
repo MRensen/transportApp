@@ -1,5 +1,7 @@
 package com.MRensen.transportApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,17 +12,38 @@ public class Driver {
     long id;
 
     @OneToOne
+    @JsonIgnoreProperties("driver")
+    @JoinColumn(name="route_id")
     Route route;
 
     //personal details
     String firstName;
     String lastName;
-    String adress;
+    String street;
+    String houseNumber;
+    String city;
 
     int employeeNumber;
     String driverLicenseNumber;
     String phoneNumber;
     String regularTruck; //license plate
+
+    public Driver() {
+    }
+
+    public Driver(long id, Route route, String firstName, String lastName, String street, String houseNumber, String city, int employeeNumber, String driverLicenseNumber, String phoneNumber, String regularTruck) {
+        this.id = id;
+        this.route = route;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.city = city;
+        this.employeeNumber = employeeNumber;
+        this.driverLicenseNumber = driverLicenseNumber;
+        this.phoneNumber = phoneNumber;
+        this.regularTruck = regularTruck;
+    }
 
     public int getEmployeeNumber() {
         return employeeNumber;
@@ -86,11 +109,27 @@ public class Driver {
         this.lastName = lastName;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

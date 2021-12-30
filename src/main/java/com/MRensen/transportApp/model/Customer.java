@@ -1,6 +1,6 @@
 package com.MRensen.transportApp.model;
 
-import org.w3c.dom.stylesheets.LinkStyle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,16 +12,58 @@ public class Customer {
     @Id
     long id;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator")
     List<Order> myOrders;
 
     String name;
-    String adress;
+    String street;
+    String houseNumber;
+    String postalCode;
+    String city;
+    String phoneNumber;
 
-    public Customer(long id, String name, String adress) {
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Customer(long id, List<Order> myOrders, String name, String street, String houseNumber, String postalCode, String city, String phoneNumber) {
         this.id = id;
+        this.myOrders = myOrders;
         this.name = name;
-        this.adress = adress;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.phoneNumber = phoneNumber;
     }
 
     public Customer() {
@@ -43,11 +85,19 @@ public class Customer {
         this.name = name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public List<Order> getMyOrders() {
+        return myOrders;
+    }
+
+    public void setMyOrders(List<Order> myOrders) {
+        this.myOrders = myOrders;
     }
 }

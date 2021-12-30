@@ -12,7 +12,7 @@ public class Route {
 
     String truck; //license plate
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Driver driver;
 
     @ManyToOne
@@ -20,4 +20,44 @@ public class Route {
 
     @OneToMany(mappedBy = "route")
     List<Order> orders;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTruck() {
+        return truck;
+    }
+
+    public void setTruck(String truck) {
+        this.truck = truck;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public Planner getPlanner() {
+        return planner;
+    }
+
+    public void setPlanner(Planner planner) {
+        this.planner = planner;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

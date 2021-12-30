@@ -2,6 +2,7 @@ package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Customer;
+import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,23 @@ public class CustomerService {
             throw new RecordNotFoundException("Customer not found");
         }
         Customer old = customerRepository.findById(id).orElse(null);
-        old.setId(customer.getId());
-        old.setAdress(customer.getAdress());
+        old.setStreet(customer.getStreet());
         old.setName(customer.getName());
+        old.setHouseNumber(customer.getHouseNumber());
+        old.setPostalCode(customer.getPostalCode());
+        old.setCity(customer.getCity());
+        old.setPhoneNumber(customer.getPhoneNumber());
+        customerRepository.save(old);
     }
+
+   public List<Order> getOrders(Long id) {
+       Optional<Customer> customerOption = customerRepository.findById(id);
+       if (customerOption.isPresent()) {
+           Customer customer = customerOption.get();
+           return customer.getMyOrders();
+       } else {
+           throw new RecordNotFoundException("Customer Id was not found");
+       }
+   }
+
 }

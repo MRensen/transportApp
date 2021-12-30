@@ -1,6 +1,7 @@
 package com.MRensen.transportApp.controller;
 
 import com.MRensen.transportApp.model.Customer;
+import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,21 +22,22 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/all")
-    public List<Customer> getCustomers(){
-        //return customerService.getAllCustomers();
-        ArrayList<Customer> c = new ArrayList<>();
-        c.add(new Customer(1L, "henk", "straat"));
-        c.add(new Customer(2L, "piet", "laan"));
-        return c;
+    @GetMapping("")
+    public ResponseEntity<List<Customer>> getCustomers(){
+        var c = customerService.getAllCustomers();
+        return ResponseEntity.ok().body(c);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable Long id){
-//        long id = intid;
-        System.out.println(id);
         Customer customer = customerService.getCustomer(id);
         return ResponseEntity.ok().body(customer);
+    }
+
+    @GetMapping("/{id}/orders")
+    public ResponseEntity<List<Order>> getOrders(@PathVariable Long id){
+        var orders = customerService.getOrders(id);
+        return ResponseEntity.ok().body(orders);
     }
 
     @PostMapping("")
@@ -45,5 +47,10 @@ public class CustomerController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{id}")
+    public void putCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        customerService.updateCustomer(id, customer);
     }
 }
