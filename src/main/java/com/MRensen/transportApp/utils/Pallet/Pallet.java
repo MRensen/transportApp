@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 public abstract class Pallet {
     String load;
     int height;
+    String type;
 
     public int getHeight() {
         return height;
@@ -23,11 +24,21 @@ public abstract class Pallet {
         this.load = load;
     }
 
-    public Pallet(String load, int height) {
+    public Pallet(String load, int height, String type) {
         this.load = load;
         this.height = height;
+        this.type = type;
     }
 
-    public Pallet() {
+    public Pallet(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

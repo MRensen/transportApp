@@ -7,10 +7,11 @@ public class EuroPallet extends Pallet {
     int length = 80;
 
     public EuroPallet(String load, int height) {
-        super(load, height);
+        super(load, height, "euro");
     }
 
     public EuroPallet() {
+        super("euro");
     }
 
     public int getWidth() {
