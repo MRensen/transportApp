@@ -37,6 +37,32 @@ public class CustomerService {
 
     public void deleteCustomer(Long id){customerRepository.deleteById(id);}
 
+    public void patchCustomer(Long id, Customer customer){
+        if(!customerRepository.existsById(id)){
+            throw new RecordNotFoundException("Customer not found");
+        }
+        Customer old = customerRepository.findById(id).orElse(null);
+        if(customer.getStreet() != null){
+            old.setStreet(customer.getStreet());
+        }
+        if(customer.getName() != null) {
+            old.setName(customer.getName());
+        }
+        if(customer.getHouseNumber() != null) {
+            old.setHouseNumber(customer.getHouseNumber());
+        }
+        if(customer.getPostalCode() != null) {
+            old.setPostalCode(customer.getPostalCode());
+        }
+        if(customer.getCity() != null) {
+            old.setCity(customer.getCity());
+        }
+        if(customer.getPhoneNumber() != null) {
+            old.setPhoneNumber(customer.getPhoneNumber());
+        }
+        customerRepository.save(old);
+    }
+
     public void updateCustomer(Long id, Customer customer){
         if(!customerRepository.existsById(id)){
             throw new RecordNotFoundException("Customer not found");

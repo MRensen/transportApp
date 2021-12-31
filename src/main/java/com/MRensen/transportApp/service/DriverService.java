@@ -48,6 +48,42 @@ public class DriverService {
         driverRepository.deleteById(id);
     }
 
+    public Driver patchOne(Long id, Driver driver){
+        if(!driverRepository.existsById(id)){
+            throw new RecordNotFoundException("Driver not found");
+        }
+        Driver old = driverRepository.findById(id).orElse(null);
+        if(driver.getFirstName() != null){
+            old.setFirstName(driver.getFirstName());
+        }
+        if(driver.getFirstName() != null){
+            old.setLastName(driver.getLastName());
+        }
+        if(driver.getFirstName() != null){
+            old.setStreet(driver.getStreet());
+        }
+        if(driver.getFirstName() != null){
+            old.setHouseNumber(driver.getHouseNumber());
+        }
+        if(driver.getFirstName() != null){
+            old.setCity(driver.getCity());
+        }
+        if(driver.getFirstName() != null){
+            old.setEmployeeNumber(driver.getEmployeeNumber());
+        }
+        if(driver.getFirstName() != null){
+            old.setDriverLicenseNumber(driver.getDriverLicenseNumber());
+        }
+        if(driver.getFirstName() != null){
+            old.setPhoneNumber(driver.getPhoneNumber());
+        }
+        if(driver.getFirstName() != null){
+            old.setRegularTruck(driver.getRegularTruck());
+        }
+        driverRepository.save(old);
+        return old;
+    }
+
     public Driver updateOne(Long id, Driver driver){
         if(!driverRepository.existsById(id)){
             throw new RecordNotFoundException("Driver not found");

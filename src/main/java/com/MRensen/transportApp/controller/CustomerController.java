@@ -53,4 +53,9 @@ public class CustomerController {
     public void putCustomer(@PathVariable Long id, @RequestBody Customer customer){
         customerService.updateCustomer(id, customer);
     }
+
+    @PatchMapping("/{id}")
+    public void patchCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        customerService.patchCustomer(id, customer);
+    }
 }

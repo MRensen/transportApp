@@ -58,9 +58,15 @@ public class DriverController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Driver> updateDriver(@PathVariable long id, @RequestBody Driver driver){
+    public ResponseEntity<Driver> updateDriver(@PathVariable Long id, @RequestBody Driver driver){
         Driver returnDriver = driverService.updateOne(id, driver);
         return ResponseEntity.ok().body(returnDriver);
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<Driver> patchDriver(@PathVariable Long id, @RequestBody Driver driver){
+        Driver returnDriver = driverService.patchOne(id, driver);
+        return  ResponseEntity.ok().body(returnDriver);
     }
 
     @DeleteMapping("/{id}/route")
