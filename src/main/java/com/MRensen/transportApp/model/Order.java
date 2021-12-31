@@ -4,7 +4,9 @@ import com.MRensen.transportApp.utils.Pallet.Pallet;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -28,6 +30,17 @@ public class Order {
     String deliveryName;
     String deliveryCity;
 
+    //security
+    String password;
+    boolean enabled = true;
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "id",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<Authority> authorities = new HashSet<>();
+
     @ManyToOne
     Customer creator;
 
@@ -42,7 +55,13 @@ public class Order {
     @Column(name="palletlist")
     List<Pallet> pallets = new ArrayList<>();
 
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
 
+    public void addAuthority(String authority) {
+        this.authorities.add(new Authority(this.id, authority));
+    }
     public long getId() {
         return id;
     }

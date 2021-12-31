@@ -3,7 +3,9 @@ package com.MRensen.transportApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="customers")
@@ -22,6 +24,41 @@ public class Customer {
     String postalCode;
     String city;
     String phoneNumber;
+
+    String password;
+    boolean enabled = true;
+
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "id",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<Authority> authorities = new HashSet<>();
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+
+    public void addAuthority(String authority) {
+        this.authorities.add(new Authority(this.id, authority));
+    }
 
     public String getHouseNumber() {
         return houseNumber;

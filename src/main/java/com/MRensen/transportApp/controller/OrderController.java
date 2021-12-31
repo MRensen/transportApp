@@ -42,7 +42,7 @@ public class OrderController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/type/{id}")
+    @GetMapping("/{id}/type")
     public ResponseEntity<String> gettype(@PathVariable long id){
         String type = orderService.getType(id);
         return ResponseEntity.ok().body(type);

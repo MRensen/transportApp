@@ -3,6 +3,8 @@ package com.MRensen.transportApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="drivers")
@@ -27,6 +29,16 @@ public class Driver {
     String driverLicenseNumber;
     String phoneNumber;
     String regularTruck; //license plate
+    String password;
+    boolean enabled = true;
+
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "id",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<Authority> authorities = new HashSet<>();
 
     public Driver() {
     }
@@ -43,6 +55,14 @@ public class Driver {
         this.driverLicenseNumber = driverLicenseNumber;
         this.phoneNumber = phoneNumber;
         this.regularTruck = regularTruck;
+    }
+
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+
+    public void addAuthority(String authority) {
+        this.authorities.add(new Authority(this.id, authority));
     }
 
     public int getEmployeeNumber() {
