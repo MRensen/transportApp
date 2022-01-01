@@ -1,5 +1,6 @@
 package com.MRensen.transportApp.model;
 
+import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 
 import javax.persistence.*;
@@ -15,8 +16,9 @@ public class Order {
     @Id
     long id;
 
-    @Column(nullable = false,unique = true)
-    String username;
+    OrderStatus orderStatus;
+
+    Boolean isPickup = false;
 
     @ManyToOne(optional = false)
     Customer creator;
@@ -38,6 +40,7 @@ public class Order {
     String loadingPostal;
     String loadingName;
     String loadingCity;
+    String loadingDate;
 
 
     //delivery adress
@@ -46,61 +49,44 @@ public class Order {
     String deliveryPostal;
     String deliveryName;
     String deliveryCity;
+    String deliveryDate;
 
 
-    //security
-    String password;
-    boolean enabled = true;
-    @OneToMany(
-            targetEntity = Authority.class,
-            mappedBy = "username",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
-    private Set<Authority> authorities = new HashSet<>();
+    //GETTERS AND SETTERS
 
-    // GETTERS AND SETTERS
-
-    public String getUsername() {
-        return username;
+    public Boolean isPickup() {
+        return isPickup;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPickup(Boolean pickup) {
+        isPickup = pickup;
     }
 
-    public String getPassword() {
-        return password;
+    public String getLoadingDate() {
+        return loadingDate;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLoadingDate(String loadingDate) {
+        this.loadingDate = loadingDate;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
-    public void addAuthority(Authority authority) {
-        this.authorities.add(authority);
-    }
-
-    public void addAuthority(String authority) {
-        this.authorities.add(new Authority(this.username, authority));
-    }
-    public long getId() {
+   public long getId() {
         return id;
     }
 

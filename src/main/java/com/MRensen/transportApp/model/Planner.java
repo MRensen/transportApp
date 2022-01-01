@@ -13,17 +13,25 @@ public class Planner {
     @Id
     long id;
 
-    @Column(nullable = false,unique = true)
-    String username;
-
-    String name;
+    String firstName;
+    String lastName;
+    String street;
+    String houseNumber;
+    String postalCode;
+    String city;
+    String phoneNumber;
 
     @OneToMany(mappedBy = "planner")
     List<Route> routes = new ArrayList<>();
 
     //security
     String password;
+
     boolean enabled = true;
+
+    @Column(nullable = false,unique = true)
+    String username;
+
     @OneToMany(
             targetEntity = Authority.class,
             mappedBy = "username",
@@ -76,12 +84,12 @@ public class Planner {
         this.authorities = authorities;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public List<Route> getRoutes() {

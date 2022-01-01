@@ -6,7 +6,8 @@ import javax.persistence.Embeddable;
 public abstract class Pallet {
     String load;
     int height;
-    String type;
+    int weight;
+    String type = "none";
 
     public int getHeight() {
         return height;
@@ -34,11 +35,22 @@ public abstract class Pallet {
         this.type = type;
     }
 
+    //this is useless, but I get an error is I don't put this in
+    public Pallet(){}
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }

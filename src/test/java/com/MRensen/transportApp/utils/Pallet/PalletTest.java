@@ -7,6 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PalletTest{
 
+//    @Test
+//    void WeightTest(){
+//        Pallet pallet = new EuroPallet();
+//        pallet.setWeight(100);
+//        assertEquals(100, pallet.getWeight());
+//    }
+
     @Test
     void NoPalletTest(){
         Pallet pallet = new BlockPallet();
@@ -15,6 +22,8 @@ public class PalletTest{
         assertEquals(null, pallet.getLoad());
         pallet = new OtherPallet();
         assertEquals(null, pallet.getLoad());
+        pallet.setType("none");
+        assertEquals("none", pallet.getType());
 
     }
 
@@ -29,6 +38,9 @@ public class PalletTest{
         pallet.setLoad("setTest");
         assertEquals("setTest", pallet.getLoad());
         assertEquals(10, pallet.getHeight());
+        pallet.setWeight(100);
+        assertEquals(100, pallet.getWeight());
+        assertEquals("block", pallet.getType());
     }
 
     @Test
@@ -42,6 +54,9 @@ public class PalletTest{
         pallet.setLoad("setTest");
         assertEquals("setTest", pallet.getLoad());
         assertEquals(10, pallet.getHeight());
+        pallet.setWeight(100);
+        assertEquals(100, pallet.getWeight());
+        assertEquals("euro", pallet.getType());
     }
 
     @Test
@@ -62,5 +77,8 @@ public class PalletTest{
         pallet = new OtherPallet("constructorTest", 50);
         assertEquals(50, pallet.getHeight());
         assertEquals("constructorTest", pallet.getLoad());
+        pallet.setWeight(100);
+        assertEquals(100, pallet.getWeight());
+        assertEquals("other", pallet.getType());
     }
 }

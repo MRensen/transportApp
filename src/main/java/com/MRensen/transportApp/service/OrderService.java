@@ -2,6 +2,7 @@ package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Order;
+import com.MRensen.transportApp.repository.CustomerRepository;
 import com.MRensen.transportApp.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,37 +15,46 @@ import java.util.Optional;
 public class OrderService {
 
     private OrderRepository orderRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository,
+                        CustomerRepository customerRepository) {
         this.orderRepository = orderRepository;
+        this.customerRepository = customerRepository;
     }
 
-    public List<Order> getAllOrders(){
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    public Order getOrder(Long id){
+    public Order getOrder(Long id) {
         Optional<Order> orderOption = orderRepository.findById(id);
-        if(orderOption.isPresent()) {
+        if (orderOption.isPresent()) {
             return orderOption.get();
         } else {
             throw new RecordNotFoundException("Order Id was not found");
-        }}
+        }
+    }
 
     public Order addOrder(Order order) {
         return orderRepository.save(order);
     }
 
-    public void deleteOrder(Long id){orderRepository.deleteById(id);}
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
+    }
 
-    public void updateOrder(Long id, Order order){
-        if(!orderRepository.existsById(id)){
+    public void updateOrder(Long id, Order order) {
+        if (!orderRepository.existsById(id)) {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-        old.setUsername(order.getUsername());
-        old.setCreator(order.getCreator());
+        if(customerRepository.existsById(order.getCreator().getId())){
+            old.setCreator(order.getCreator());
+        } else {
+            throw new RecordNotFoundException("No (creator)customer found");
+        }
         old.setPallets(order.getPallets());
         old.setLoadingStreet(order.getLoadingStreet());
         old.setLoadingHouseNumber(order.getLoadingHouseNumber());
@@ -56,73 +66,65 @@ public class OrderService {
         old.setDeliveryPostal(order.getDeliveryPostal());
         old.setDeliveryName(order.getDeliveryName());
         old.setDeliveryCity(order.getDeliveryCity());
-        old.setPassword(order.getPassword());
-        old.setEnabled(order.isEnabled());
-        old.setAuthorities(order.getAuthorities());
+        old.setDeliveryDate(order.getDeliveryDate());
     }
 
-    public void patchOrder(Long id, Order order){
-        if(!orderRepository.existsById(id)){
+    public void patchOrder(Long id, Order order) {
+        if (!orderRepository.existsById(id)) {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-        if(order.getUsername() != null) {
-            old.setUsername(order.getUsername());
-        }
-        if(order.getCreator() != null) {
+        if (order.getCreator() != null) {
             old.setCreator(order.getCreator());
         }
-        if(order.getPallets() != null) {
+        if (order.getPallets() != null) {
             old.setPallets(order.getPallets());
         }
-        if(order.getLoadingStreet() != null) {
+        if (order.getLoadingStreet() != null) {
             old.setLoadingStreet(order.getLoadingStreet());
         }
-        if(order.getLoadingHouseNumber() != null) {
+        if (order.getLoadingHouseNumber() != null) {
             old.setLoadingHouseNumber(order.getLoadingHouseNumber());
         }
-        if(order.getLoadingPostal() != null) {
+        if (order.getLoadingPostal() != null) {
             old.setLoadingPostal(order.getLoadingPostal());
         }
-        if(order.getLoadingName() != null) {
+        if (order.getLoadingName() != null) {
             old.setLoadingName(order.getLoadingName());
         }
-        if(order.getLoadingCity() != null) {
+        if (order.getLoadingCity() != null) {
             old.setLoadingCity(order.getLoadingCity());
         }
-        if(order.getDeliveryStreet() != null) {
+        if (order.getLoadingDate() != null) {
+            old.setLoadingDate(order.getLoadingDate());
+        }
+        if (order.getDeliveryStreet() != null) {
             old.setDeliveryStreet(order.getDeliveryStreet());
         }
-        if(order.getDeliveryHouseNumber() != null) {
+        if (order.getDeliveryHouseNumber() != null) {
             old.setDeliveryHouseNumber(order.getDeliveryHouseNumber());
         }
-        if(order.getDeliveryPostal() != null) {
+        if (order.getDeliveryPostal() != null) {
             old.setDeliveryPostal(order.getDeliveryPostal());
         }
-        if(order.getDeliveryName() != null) {
+        if (order.getDeliveryDate() != null) {
+            old.setDeliveryDate(order.getDeliveryDate());
+        }
+        if (order.getDeliveryName() != null) {
             old.setDeliveryName(order.getDeliveryName());
         }
-        if(order.getDeliveryCity() != null) {
+        if (order.getDeliveryCity() != null) {
             old.setDeliveryCity(order.getDeliveryCity());
-        }
-        if(order.getPassword() != null) {
-            old.setPassword(order.getPassword());
-        }
-        if(!order.isEnabled()) {
-            old.setEnabled(order.isEnabled());
-        }
-        if(order.getAuthorities() != null) {
-            old.setAuthorities(order.getAuthorities());
         }
     }
 
-    public String getType(Long id){
-        if(!orderRepository.existsById(id)){
+    public String getType(Long id) {
+        if (!orderRepository.existsById(id)) {
             throw new RecordNotFoundException("Order not found");
         }
         Order order = orderRepository.findById(id).orElse(null);
         var pallets = order.getPallets();
-        if(pallets.isEmpty()){
+        if (pallets.isEmpty()) {
             return "none";
         } else {
             return pallets.get(0).getType();
