@@ -42,7 +42,7 @@ public class Driver {
             mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private Set<Authority> authorities = new HashSet<>();
 
 

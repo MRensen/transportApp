@@ -22,7 +22,6 @@ public class PlannerDto {
     public String password;
     public boolean enabled;
     public String username;
-    public Set<Authority> authorities;
 
     public static PlannerDto fromPlanner(Planner p){
         PlannerDto dto = new PlannerDto();
@@ -38,7 +37,6 @@ public class PlannerDto {
         dto.password = p.getPassword();
         dto.enabled = p.isEnabled();
         dto.username = p.getUsername();
-        dto.authorities = p.getAuthorities();
         return dto;
     }
 
@@ -56,7 +54,6 @@ public class PlannerDto {
         p.setPassword(password);
         p.setEnabled(enabled);
         p.setUsername(username);
-        p.setAuthorities(authorities);
         return p;
     }
 }

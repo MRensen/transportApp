@@ -24,7 +24,6 @@ public class DriverDto {
     public String regularTruck;
     public String password;
     public boolean enabled;
-    public Set<Authority> authorities;
 
     public static DriverDto fromDriver(Driver d){
         DriverDto dto = new DriverDto();
@@ -42,7 +41,6 @@ public class DriverDto {
         dto.regularTruck = d.getRegularTruck();
         dto.password = d.getPassword();
         dto.enabled = d.isEnabled();
-        dto.authorities = d.getAuthorities();
         return dto;
     }
 
@@ -62,7 +60,6 @@ public class DriverDto {
         d.setRegularTruck(regularTruck);
         d.setPassword(password);
         d.setEnabled(enabled);
-        d.setAuthorities(authorities);
         return d;
     }
 }

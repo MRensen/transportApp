@@ -22,7 +22,6 @@ public class CustomerDto {
     public String phoneNumber;
     public String password;
     public boolean enabled;
-    public Set<Authority> authorities;
 
     public static CustomerDto fromCustomer(Customer c){
         CustomerDto dto = new CustomerDto();
@@ -37,7 +36,6 @@ public class CustomerDto {
         dto.phoneNumber = c.getPhoneNumber();
         dto.password = c.getPassword();
         dto.enabled = c.isEnabled();
-        dto.authorities = c.getAuthorities();
         return dto;
     }
 
@@ -54,7 +52,6 @@ public class CustomerDto {
         c.setPhoneNumber(phoneNumber);
         c.setPassword(password);
         c.setEnabled(enabled);
-        c.setAuthorities(authorities);
         return c;
     }
 }

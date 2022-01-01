@@ -32,12 +32,13 @@ public class Customer {
     String password;
     boolean enabled = true;
 
+    @JsonIgnore
     @OneToMany(
             targetEntity = Authority.class,
             mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private Set<Authority> authorities = new HashSet<>();
 
 
