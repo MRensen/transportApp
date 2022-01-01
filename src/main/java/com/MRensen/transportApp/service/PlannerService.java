@@ -46,4 +46,13 @@ public class PlannerService {
 //        old.setAdress(customer.getAdress());
 //        old.setName(customer.getName());
     }
+    public void patchPlanner(Long id, Planner planner){
+        if(!plannerRepository.existsById(id)){
+            throw new RecordNotFoundException("Planner not found");
+        }
+        Planner old = plannerRepository.findById(id).orElse(null);
+//        old.setId(customer.getId());
+//        old.setAdress(customer.getAdress());
+//        old.setName(customer.getName());
+    }
 }

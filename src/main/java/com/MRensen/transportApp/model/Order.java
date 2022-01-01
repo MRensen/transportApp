@@ -15,6 +15,23 @@ public class Order {
     @Id
     long id;
 
+    @Column(nullable = false,unique = true)
+    String username;
+
+    @ManyToOne(optional = false)
+    Customer creator;
+
+    @ManyToOne
+    Route route;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "pallets",
+            joinColumns = @JoinColumn(name="id")
+    )
+    @Column(name="palletlist")
+    List<Pallet> pallets = new ArrayList<>();
+
     //loading adress
     String loadingStreet;
     String loadingHouseNumber;
@@ -30,37 +47,58 @@ public class Order {
     String deliveryName;
     String deliveryCity;
 
+
     //security
     String password;
     boolean enabled = true;
     @OneToMany(
             targetEntity = Authority.class,
-            mappedBy = "id",
+            mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
-    @ManyToOne
-    Customer creator;
+    // GETTERS AND SETTERS
 
-    @ManyToOne
-    Route route;
+    public String getUsername() {
+        return username;
+    }
 
-    @ElementCollection
-    @CollectionTable(
-            name = "pallets",
-            joinColumns = @JoinColumn(name="id")
-    )
-    @Column(name="palletlist")
-    List<Pallet> pallets = new ArrayList<>();
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
 
     public void addAuthority(String authority) {
-        this.authorities.add(new Authority(this.id, authority));
+        this.authorities.add(new Authority(this.username, authority));
     }
     public long getId() {
         return id;

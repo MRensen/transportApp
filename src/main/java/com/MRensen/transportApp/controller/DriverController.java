@@ -52,21 +52,19 @@ public class DriverController {
     @PutMapping("/{id}/route")
     public ResponseEntity<Object> postRoute(@PathVariable Long id, @RequestBody Route route){
         driverService.addDriverRoute(route, id);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/route")
-                .buildAndExpand(id).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Driver> updateDriver(@PathVariable Long id, @RequestBody Driver driver){
-        Driver returnDriver = driverService.updateOne(id, driver);
-        return ResponseEntity.ok().body(returnDriver);
+        driverService.updateOne(id, driver);
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{id}")
     public ResponseEntity<Driver> patchDriver(@PathVariable Long id, @RequestBody Driver driver){
-        Driver returnDriver = driverService.patchOne(id, driver);
-        return  ResponseEntity.ok().body(returnDriver);
+        driverService.patchOne(id, driver);
+        return  ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}/route")

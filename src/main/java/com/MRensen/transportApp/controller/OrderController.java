@@ -47,4 +47,22 @@ public class OrderController {
         String type = orderService.getType(id);
         return ResponseEntity.ok().body(type);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> putOrder(@PathVariable Long id, @RequestBody Order order){
+        orderService.updateOrder(id, order);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> patchOrder(@PathVariable Long id, @RequestBody Order order){
+        orderService.patchOrder(id, order);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteOrder(@PathVariable Long id){
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
+    }
 }

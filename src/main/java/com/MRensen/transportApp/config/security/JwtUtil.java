@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-    private final static String SECRET_KEY = "secret";
+    private final static String SECRET_KEY = "supercalifragilisticexpialidocious";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

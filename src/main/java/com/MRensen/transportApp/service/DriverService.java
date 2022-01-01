@@ -56,28 +56,28 @@ public class DriverService {
         if(driver.getFirstName() != null){
             old.setFirstName(driver.getFirstName());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getLastName() != null){
             old.setLastName(driver.getLastName());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getStreet() != null){
             old.setStreet(driver.getStreet());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getHouseNumber() != null){
             old.setHouseNumber(driver.getHouseNumber());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getCity() != null){
             old.setCity(driver.getCity());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getEmployeeNumber() > 0){
             old.setEmployeeNumber(driver.getEmployeeNumber());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getDriverLicenseNumber() != null){
             old.setDriverLicenseNumber(driver.getDriverLicenseNumber());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getPhoneNumber() != null){
             old.setPhoneNumber(driver.getPhoneNumber());
         }
-        if(driver.getFirstName() != null){
+        if(driver.getRegularTruck() != null){
             old.setRegularTruck(driver.getRegularTruck());
         }
         driverRepository.save(old);

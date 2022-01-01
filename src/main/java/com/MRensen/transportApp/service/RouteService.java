@@ -45,4 +45,13 @@ public class RouteService {
 //        old.setAdress(customer.getAdress());
 //        old.setName(customer.getName());
     }
+    public void patchRoute(Long id, Route route){
+        if(!routeRepository.existsById(id)){
+            throw new RecordNotFoundException("Route not found");
+        }
+        Route old = routeRepository.findById(id).orElse(null);
+//        old.setId(customer.getId());
+//        old.setAdress(customer.getAdress());
+//        old.setName(customer.getName());
+    }
 }

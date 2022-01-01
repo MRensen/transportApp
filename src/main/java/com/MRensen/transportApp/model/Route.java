@@ -12,31 +12,73 @@ public class Route {
     @Id
     long id;
 
+    @Column(nullable = false,unique = true)
+    String username;
+
+    String truck; //license plate
+
+    @OneToOne(cascade = CascadeType.ALL)
+    Driver driver;
+
+    @ManyToOne
+    Planner planner;
+
+    @OneToMany(mappedBy = "route")
+    List<Order> orders;
+
     //security
     String password;
     boolean enabled = true;
     @OneToMany(
             targetEntity = Authority.class,
-            mappedBy = "id",
+            mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
-    String truck; //license plate
-    @OneToOne(cascade = CascadeType.ALL)
-    Driver driver;
-    @ManyToOne
-    Planner planner;
-    @OneToMany(mappedBy = "route")
-    List<Order> orders;
+
+    // GETTERS AND SETTERS
 
     public void addAuthority(Authority authority) {
         this.authorities.add(authority);
     }
 
     public void addAuthority(String authority) {
-        this.authorities.add(new Authority(this.id, authority));
+        this.authorities.add(new Authority(this.username, authority));
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     public long getId() {

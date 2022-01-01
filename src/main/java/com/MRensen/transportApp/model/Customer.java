@@ -14,6 +14,9 @@ public class Customer {
     @Id
     long id;
 
+    @Column(nullable = false,unique = true)
+    String username;
+
     @JsonIgnore
     @OneToMany(mappedBy = "creator")
     List<Order> myOrders;
@@ -25,16 +28,37 @@ public class Customer {
     String city;
     String phoneNumber;
 
+    // security
     String password;
     boolean enabled = true;
 
     @OneToMany(
             targetEntity = Authority.class,
-            mappedBy = "id",
+            mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
+
+
+
+    //GETTERS AND SETTERS
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
     public String getPassword() {
         return password;
@@ -57,7 +81,7 @@ public class Customer {
     }
 
     public void addAuthority(String authority) {
-        this.authorities.add(new Authority(this.id, authority));
+        this.authorities.add(new Authority(this.username, authority));
     }
 
     public String getHouseNumber() {

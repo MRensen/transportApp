@@ -1,8 +1,8 @@
-package nl.novi.demo.Services;
+package com.MRensen.transportApp.service;
 
-import nl.novi.demo.Dtos.AuthenticationRequestDto;
-import nl.novi.demo.Dtos.AuthenticationResponseDto;
-import nl.novi.demo.security.JwtUtil;
+import com.MRensen.transportApp.DTO.AuthenticationRequestDto;
+import com.MRensen.transportApp.DTO.AuthenticationResponseDto;
+import com.MRensen.transportApp.config.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -38,7 +38,7 @@ public class UserAuthenticateService {
             throw new UsernameNotFoundException("Incorrect username or password");
         }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+       final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         final String jwt = jwtUtl.generateToken(userDetails);
 

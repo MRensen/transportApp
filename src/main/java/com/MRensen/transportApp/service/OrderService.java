@@ -43,9 +43,77 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-//        old.setId(customer.getId());
-//        old.setAdress(customer.getAdress());
-//        old.setName(customer.getName());
+        old.setUsername(order.getUsername());
+        old.setCreator(order.getCreator());
+        old.setPallets(order.getPallets());
+        old.setLoadingStreet(order.getLoadingStreet());
+        old.setLoadingHouseNumber(order.getLoadingHouseNumber());
+        old.setLoadingPostal(order.getLoadingPostal());
+        old.setLoadingName(order.getLoadingName());
+        old.setLoadingCity(order.getLoadingCity());
+        old.setDeliveryStreet(order.getDeliveryStreet());
+        old.setDeliveryHouseNumber(order.getDeliveryHouseNumber());
+        old.setDeliveryPostal(order.getDeliveryPostal());
+        old.setDeliveryName(order.getDeliveryName());
+        old.setDeliveryCity(order.getDeliveryCity());
+        old.setPassword(order.getPassword());
+        old.setEnabled(order.isEnabled());
+        old.setAuthorities(order.getAuthorities());
+    }
+
+    public void patchOrder(Long id, Order order){
+        if(!orderRepository.existsById(id)){
+            throw new RecordNotFoundException("Order not found");
+        }
+        Order old = orderRepository.findById(id).orElse(null);
+        if(order.getUsername() != null) {
+            old.setUsername(order.getUsername());
+        }
+        if(order.getCreator() != null) {
+            old.setCreator(order.getCreator());
+        }
+        if(order.getPallets() != null) {
+            old.setPallets(order.getPallets());
+        }
+        if(order.getLoadingStreet() != null) {
+            old.setLoadingStreet(order.getLoadingStreet());
+        }
+        if(order.getLoadingHouseNumber() != null) {
+            old.setLoadingHouseNumber(order.getLoadingHouseNumber());
+        }
+        if(order.getLoadingPostal() != null) {
+            old.setLoadingPostal(order.getLoadingPostal());
+        }
+        if(order.getLoadingName() != null) {
+            old.setLoadingName(order.getLoadingName());
+        }
+        if(order.getLoadingCity() != null) {
+            old.setLoadingCity(order.getLoadingCity());
+        }
+        if(order.getDeliveryStreet() != null) {
+            old.setDeliveryStreet(order.getDeliveryStreet());
+        }
+        if(order.getDeliveryHouseNumber() != null) {
+            old.setDeliveryHouseNumber(order.getDeliveryHouseNumber());
+        }
+        if(order.getDeliveryPostal() != null) {
+            old.setDeliveryPostal(order.getDeliveryPostal());
+        }
+        if(order.getDeliveryName() != null) {
+            old.setDeliveryName(order.getDeliveryName());
+        }
+        if(order.getDeliveryCity() != null) {
+            old.setDeliveryCity(order.getDeliveryCity());
+        }
+        if(order.getPassword() != null) {
+            old.setPassword(order.getPassword());
+        }
+        if(!order.isEnabled()) {
+            old.setEnabled(order.isEnabled());
+        }
+        if(order.getAuthorities() != null) {
+            old.setAuthorities(order.getAuthorities());
+        }
     }
 
     public String getType(Long id){
