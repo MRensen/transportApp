@@ -1,5 +1,6 @@
 package com.MRensen.transportApp.controller;
 
+import com.MRensen.transportApp.DTO.OrderDto;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.service.OrderService;
@@ -22,20 +23,20 @@ public class OrderController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Order>> getAllOrders(){
-        var orders = orderService.getAllOrders();
+    public ResponseEntity<List<OrderDto>> getAllOrders(){
+        var orders = orderService.getAllOrders().stream().map(OrderDto::fromOrder).toList();
         return ResponseEntity.ok().body(orders);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long id){
-        var order = orderService.getOrder(id);
+    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id){
+        var order = OrderDto.fromOrder(orderService.getOrder(id));
         return ResponseEntity.ok().body(order);
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> postOrder(@RequestBody Order order){
-        Order newOrder = orderService.addOrder(order);
+    public ResponseEntity<Object> postOrder(@RequestBody OrderDto order){
+        Order newOrder = orderService.addOrder(order.toOrder());
         Long id = newOrder.getId();
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(id).toUri();
@@ -49,14 +50,14 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> putOrder(@PathVariable Long id, @RequestBody Order order){
-        orderService.updateOrder(id, order);
+    public ResponseEntity<Object> putOrder(@PathVariable Long id, @RequestBody OrderDto order){
+        orderService.updateOrder(id, order.toOrder());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> patchOrder(@PathVariable Long id, @RequestBody Order order){
-        orderService.patchOrder(id, order);
+    public ResponseEntity<Object> patchOrder(@PathVariable Long id, @RequestBody OrderDto order){
+        orderService.patchOrder(id, order.toOrder());
         return ResponseEntity.noContent().build();
     }
 

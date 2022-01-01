@@ -1,5 +1,6 @@
 package com.MRensen.transportApp.controller;
 
+import com.MRensen.transportApp.DTO.PlannerDto;
 import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Planner;
 import com.MRensen.transportApp.service.PlannerService;
@@ -22,20 +23,20 @@ public class PlannerController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Planner>> getAllPlanners(){
-       var planners = plannerService.getAllPlanners();
+    public ResponseEntity<List<PlannerDto>> getAllPlanners(){
+       var planners = plannerService.getAllPlanners().stream().map(PlannerDto::fromPlanner).toList();
        return ResponseEntity.ok().body(planners);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Planner> getPlanner(@PathVariable Long id){
-        var planner = plannerService.getPlanner(id);
+    public ResponseEntity<PlannerDto> getPlanner(@PathVariable Long id){
+        var planner = PlannerDto.fromPlanner(plannerService.getPlanner(id));
         return ResponseEntity.ok().body(planner);
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> postPlanner(@RequestBody Planner planner){
-        Planner p = plannerService.addPlanner(planner);
+    public ResponseEntity<Object> postPlanner(@RequestBody PlannerDto planner){
+        Planner p = plannerService.addPlanner(planner.toPlanner());
         Long id = p.getId();
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(id).toUri();
@@ -49,14 +50,14 @@ public class PlannerController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updatePlanner(@PathVariable Long id, @RequestBody Planner planner){
-        plannerService.updatePlanner(id, planner);
+    public ResponseEntity<Object> updatePlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
+        plannerService.updatePlanner(id, planner.toPlanner());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Object> patchPlanner(@PathVariable Long id, @RequestBody Planner planner){
-        plannerService.patchPlanner(id, planner);
+    public ResponseEntity<Object> patchPlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
+        plannerService.patchPlanner(id, planner.toPlanner());
         return  ResponseEntity.noContent().build();
     }
 }

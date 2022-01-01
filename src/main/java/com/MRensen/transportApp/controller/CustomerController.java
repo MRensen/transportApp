@@ -1,5 +1,6 @@
 package com.MRensen.transportApp.controller;
 
+import com.MRensen.transportApp.DTO.CustomerDto;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.service.CustomerService;
@@ -23,14 +24,14 @@ public class CustomerController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Customer>> getCustomers(){
-        var c = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerDto>> getCustomers(){
+        var c = customerService.getAllCustomers().stream().map(CustomerDto::fromCustomer).toList();
         return ResponseEntity.ok().body(c);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable Long id){
-        Customer customer = customerService.getCustomer(id);
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id){
+        CustomerDto customer = CustomerDto.fromCustomer(customerService.getCustomer(id));
         return ResponseEntity.ok().body(customer);
     }
 
@@ -41,8 +42,8 @@ public class CustomerController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> postCustomer(@RequestBody Customer customer){
-        Customer newCustomer = customerService.addCustomer(customer);
+    public ResponseEntity<Object> postCustomer(@RequestBody CustomerDto customer){
+        Customer newCustomer = customerService.addCustomer(customer.toCustomer());
         Long id = newCustomer.getId();
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(id).toUri();
@@ -50,14 +51,14 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> putCustomer(@PathVariable Long id, @RequestBody Customer customer){
-        customerService.updateCustomer(id, customer);
+    public ResponseEntity<Object> putCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
+        customerService.updateCustomer(id, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> patchCustomer(@PathVariable Long id, @RequestBody Customer customer){
-        customerService.patchCustomer(id, customer);
+    public ResponseEntity<Object> patchCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
+        customerService.patchCustomer(id, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 }

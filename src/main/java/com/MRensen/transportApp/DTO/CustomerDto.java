@@ -1,6 +1,60 @@
 package com.MRensen.transportApp.DTO;
 
 
-public class CustomerDto {
+import com.MRensen.transportApp.model.Authority;
+import com.MRensen.transportApp.model.Customer;
+import com.MRensen.transportApp.model.Order;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
+import java.util.List;
+import java.util.Set;
+
+public class CustomerDto {
+    public Long id;
+    public String username;
+    @JsonIncludeProperties("id")
+    public List<Order> myOrders;
+    public String name;
+    public String street;
+    public String houseNumber;
+    public String postalCode;
+    public String city;
+    public String phoneNumber;
+    public String password;
+    public boolean enabled;
+    public Set<Authority> authorities;
+
+    public static CustomerDto fromCustomer(Customer c){
+        CustomerDto dto = new CustomerDto();
+        dto.id = c.getId();
+        dto.username = c.getUsername();
+        dto.myOrders = c.getMyOrders();
+        dto.name = c.getName();
+        dto.street = c.getStreet();
+        dto.houseNumber = c.getHouseNumber();
+        dto.postalCode = c.getPostalCode();
+        dto.city = c.getCity();
+        dto.phoneNumber = c.getPhoneNumber();
+        dto.password = c.getPassword();
+        dto.enabled = c.isEnabled();
+        dto.authorities = c.getAuthorities();
+        return dto;
+    }
+
+    public Customer toCustomer(){
+        Customer c = new Customer();
+        c.setId(id);
+        c.setUsername(username);
+        c.setMyOrders(myOrders);
+        c.setName(name);
+        c.setStreet(street);
+        c.setHouseNumber(houseNumber);
+        c.setPostalCode(postalCode);
+        c.setCity(city);
+        c.setPhoneNumber(phoneNumber);
+        c.setPassword(password);
+        c.setEnabled(enabled);
+        c.setAuthorities(authorities);
+        return c;
+    }
 }

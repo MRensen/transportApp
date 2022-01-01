@@ -1,5 +1,6 @@
 package com.MRensen.transportApp.controller;
 
+import com.MRensen.transportApp.DTO.RouteDto;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +22,20 @@ public class RouteController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Route>> getRoutes(){
-        var routes = routeService.getAllRoutes();
+    public ResponseEntity<List<RouteDto>> getRoutes(){
+        var routes = routeService.getAllRoutes().stream().map(RouteDto::fromRoute).toList();
         return ResponseEntity.ok().body(routes);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Route> getRoute(@PathVariable Long id){
-        Route route = routeService.getRoute(id);
+    public ResponseEntity<RouteDto> getRoute(@PathVariable Long id){
+        RouteDto route = RouteDto.fromRoute(routeService.getRoute(id));
         return ResponseEntity.ok().body(route);
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> postRoute(@RequestBody Route route){
-        Route newRoute = routeService.addRoute(route);
+    public ResponseEntity<Object> postRoute(@RequestBody RouteDto route){
+        Route newRoute = routeService.addRoute(route.toRoute());
         Long id = newRoute.getId();
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(id).toUri();
@@ -48,14 +49,14 @@ public class RouteController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> putRoute(@PathVariable Long id, @RequestBody Route route){
-        routeService.updateRoute(id, route);
+    public ResponseEntity<Object> putRoute(@PathVariable Long id, @RequestBody RouteDto route){
+        routeService.updateRoute(id, route.toRoute());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Object> patchRoute(@PathVariable Long id, @RequestBody Route route){
-        routeService.patchRoute(id, route);
+    public ResponseEntity<Object> patchRoute(@PathVariable Long id, @RequestBody RouteDto route){
+        routeService.patchRoute(id, route.toRoute());
         return ResponseEntity.noContent().build();
     }
 }
