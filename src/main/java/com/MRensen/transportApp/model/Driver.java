@@ -10,10 +10,10 @@ import java.util.Set;
 @Table(name="drivers")
 public class Driver {
     @GeneratedValue
-    @Id
     long id;
 
     @Column(nullable = false,unique = true)
+    @Id
     String username;
 
     @OneToOne

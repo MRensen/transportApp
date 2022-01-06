@@ -23,8 +23,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer getCustomer(Long id){
-        Optional<Customer> cumstomerOption = customerRepository.findById(id);
+    public Customer getCustomer(String username){
+        Optional<Customer> cumstomerOption = customerRepository.findById(username);
         if(cumstomerOption.isPresent()) {
             return cumstomerOption.get();
         } else {
@@ -35,13 +35,13 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public void deleteCustomer(Long id){customerRepository.deleteById(id);}
+    public void deleteCustomer(String username){customerRepository.deleteById(username);}
 
-    public void patchCustomer(Long id, Customer customer){
-        if(!customerRepository.existsById(id)){
+    public void patchCustomer(String username, Customer customer){
+        if(!customerRepository.existsById(username)){
             throw new RecordNotFoundException("Customer not found");
         }
-        Customer old = customerRepository.findById(id).orElse(null);
+        Customer old = customerRepository.findById(username).orElse(null);
         if(customer.getStreet() != null){
             old.setStreet(customer.getStreet());
         }
@@ -63,11 +63,11 @@ public class CustomerService {
         customerRepository.save(old);
     }
 
-    public void updateCustomer(Long id, Customer customer){
-        if(!customerRepository.existsById(id)){
+    public void updateCustomer(String username, Customer customer){
+        if(!customerRepository.existsById(username)){
             throw new RecordNotFoundException("Customer not found");
         }
-        Customer old = customerRepository.findById(id).orElse(null);
+        Customer old = customerRepository.findById(username).orElse(null);
         old.setStreet(customer.getStreet());
         old.setName(customer.getName());
         old.setHouseNumber(customer.getHouseNumber());
@@ -77,8 +77,8 @@ public class CustomerService {
         customerRepository.save(old);
     }
 
-   public List<Order> getOrders(Long id) {
-       Optional<Customer> customerOption = customerRepository.findById(id);
+   public List<Order> getOrders(String username) {
+       Optional<Customer> customerOption = customerRepository.findById(username);
        if (customerOption.isPresent()) {
            Customer customer = customerOption.get();
            return customer.getMyOrders();

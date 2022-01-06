@@ -10,7 +10,6 @@ import java.util.Set;
 @Table(name="planners")
 public class Planner {
     @GeneratedValue
-    @Id
     long id;
 
     String firstName;
@@ -30,6 +29,7 @@ public class Planner {
     boolean enabled = true;
 
     @Column(nullable = false,unique = true)
+    @Id
     String username;
 
     @OneToMany(

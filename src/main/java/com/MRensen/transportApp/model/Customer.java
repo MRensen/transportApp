@@ -11,10 +11,10 @@ import java.util.Set;
 @Table(name="customers")
 public class Customer {
     @GeneratedValue
-    @Id
     long id;
 
     @Column(nullable = false,unique = true)
+    @Id
     String username;
 
     @JsonIgnore

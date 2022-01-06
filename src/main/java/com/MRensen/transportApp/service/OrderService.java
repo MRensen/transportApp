@@ -50,7 +50,7 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-        if(customerRepository.existsById(order.getCreator().getId())){
+        if(customerRepository.existsById(order.getCreator().getUsername())){
             old.setCreator(order.getCreator());
         } else {
             throw new RecordNotFoundException("No (creator)customer found");

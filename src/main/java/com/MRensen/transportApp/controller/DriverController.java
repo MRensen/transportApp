@@ -31,13 +31,13 @@ public class DriverController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DriverDto> getDriver(@PathVariable Long id){
-        var driver = DriverDto.fromDriver(driverService.getOne(id));
+    public ResponseEntity<DriverDto> getDriver(@PathVariable String username){
+        var driver = DriverDto.fromDriver(driverService.getOne(username));
         return ResponseEntity.ok().body(driver);
     }
 
     @GetMapping("/{id}/route")
-    public ResponseEntity<RouteDto> getRoute(@PathVariable Long id){
+    public ResponseEntity<RouteDto> getRoute(@PathVariable String id){
         var route = RouteDto.fromRoute(driverService.getDriverRoute(id));
         return ResponseEntity.ok().body(route);
     }
@@ -52,31 +52,31 @@ public class DriverController {
     }
 
     @PutMapping("/{id}/route")
-    public ResponseEntity<Object> postRoute(@PathVariable Long id, @RequestBody RouteDto route){
+    public ResponseEntity<Object> postRoute(@PathVariable String id, @RequestBody RouteDto route){
         driverService.addDriverRoute(route.toRoute(), id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Driver> updateDriver(@PathVariable Long id, @RequestBody DriverDto driver){
+    public ResponseEntity<Driver> updateDriver(@PathVariable String id, @RequestBody DriverDto driver){
         driverService.updateOne(id, driver.toDriver());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Driver> patchDriver(@PathVariable Long id, @RequestBody DriverDto driver){
+    public ResponseEntity<Driver> patchDriver(@PathVariable String id, @RequestBody DriverDto driver){
         driverService.patchOne(id, driver.toDriver());
         return  ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}/route")
-    public ResponseEntity<Object> deleteRoute(@PathVariable Long id){
+    public ResponseEntity<Object> deleteRoute(@PathVariable String id){
         driverService.deleteDriverRoute(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteDriver(@PathVariable Long id){
+    public ResponseEntity<Object> deleteDriver(@PathVariable String id){
         driverService.deleteOne(id);
         return ResponseEntity.noContent().build();
     }

@@ -29,8 +29,8 @@ public class PlannerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlannerDto> getPlanner(@PathVariable Long id){
-        var planner = PlannerDto.fromPlanner(plannerService.getPlanner(id));
+    public ResponseEntity<PlannerDto> getPlanner(@PathVariable String username){
+        var planner = PlannerDto.fromPlanner(plannerService.getPlanner(username));
         return ResponseEntity.ok().body(planner);
     }
 
@@ -44,20 +44,20 @@ public class PlannerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> deletePlanner(@PathVariable Long id){
-        plannerService.deletePlanner(id);
+    public ResponseEntity<Object> deletePlanner(@PathVariable String username){
+        plannerService.deletePlanner(username);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updatePlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
-        plannerService.updatePlanner(id, planner.toPlanner());
+    public ResponseEntity<Object> updatePlanner(@PathVariable String username, @RequestBody PlannerDto planner){
+        plannerService.updatePlanner(username, planner.toPlanner());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Object> patchPlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
-        plannerService.patchPlanner(id, planner.toPlanner());
+    public ResponseEntity<Object> patchPlanner(@PathVariable String username, @RequestBody PlannerDto planner){
+        plannerService.patchPlanner(username, planner.toPlanner());
         return  ResponseEntity.noContent().build();
     }
 }

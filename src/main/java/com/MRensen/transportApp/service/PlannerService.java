@@ -23,8 +23,8 @@ public class PlannerService {
         return plannerRepository.findAll();
     }
 
-    public Planner getPlanner(Long id){
-        Optional<Planner> plannerOption = plannerRepository.findById(id);
+    public Planner getPlanner(String username){
+        Optional<Planner> plannerOption = plannerRepository.findById(username);
         if(plannerOption.isPresent()) {
             return plannerOption.get();
         } else {
@@ -35,22 +35,22 @@ public class PlannerService {
         return plannerRepository.save(planner);
     }
 
-    public void deletePlanner(Long id){plannerRepository.deleteById(id);}
+    public void deletePlanner(String username){plannerRepository.deleteById(username);}
 
-    public void updatePlanner(Long id, Planner planner){
-        if(!plannerRepository.existsById(id)){
+    public void updatePlanner(String username, Planner planner){
+        if(!plannerRepository.existsById(username)){
             throw new RecordNotFoundException("Planner not found");
         }
-        Planner old = plannerRepository.findById(id).orElse(null);
+        Planner old = plannerRepository.findById(username).orElse(null);
 //        old.setId(customer.getId());
 //        old.setAdress(customer.getAdress());
 //        old.setName(customer.getName());
     }
-    public void patchPlanner(Long id, Planner planner){
-        if(!plannerRepository.existsById(id)){
+    public void patchPlanner(String username, Planner planner){
+        if(!plannerRepository.existsById(username)){
             throw new RecordNotFoundException("Planner not found");
         }
-        Planner old = plannerRepository.findById(id).orElse(null);
+        Planner old = plannerRepository.findById(username).orElse(null);
 //        old.setId(customer.getId());
 //        old.setAdress(customer.getAdress());
 //        old.setName(customer.getName());

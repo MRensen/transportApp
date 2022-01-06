@@ -30,14 +30,14 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id){
-        CustomerDto customer = CustomerDto.fromCustomer(customerService.getCustomer(id));
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable String username){
+        CustomerDto customer = CustomerDto.fromCustomer(customerService.getCustomer(username));
         return ResponseEntity.ok().body(customer);
     }
 
     @GetMapping("/{id}/orders")
-    public ResponseEntity<List<Order>> getOrders(@PathVariable Long id){
-        var orders = customerService.getOrders(id);
+    public ResponseEntity<List<Order>> getOrders(@PathVariable String username){
+        var orders = customerService.getOrders(username);
         return ResponseEntity.ok().body(orders);
     }
 
@@ -51,14 +51,14 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> putCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
-        customerService.updateCustomer(id, customer.toCustomer());
+    public ResponseEntity<Object> putCustomer(@PathVariable String username, @RequestBody CustomerDto customer){
+        customerService.updateCustomer(username, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> patchCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
-        customerService.patchCustomer(id, customer.toCustomer());
+    public ResponseEntity<Object> patchCustomer(@PathVariable String username, @RequestBody CustomerDto customer){
+        customerService.patchCustomer(username, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 }

@@ -29,8 +29,8 @@ public class DriverService {
         return driverRepository.findAll();
     }
 
-    public Driver getOne(Long id){
-        Optional<Driver> driverOption = driverRepository.findById(id);
+    public Driver getOne(String username){
+        Optional<Driver> driverOption = driverRepository.findById(username);
         if(driverOption.isPresent()) {
             return driverOption.get();
         } else {
@@ -41,14 +41,14 @@ public class DriverService {
         return driverRepository.save(driver);
     }
 
-    public void deleteOne(Long id){
+    public void deleteOne(String id){
 //        Driver driver = driverRepository.getById(id);
 //        driver.setRoute(null);
 //        driverRepository.save(driver);
         driverRepository.deleteById(id);
     }
 
-    public Driver patchOne(Long id, Driver driver){
+    public Driver patchOne(String id, Driver driver){
         if(!driverRepository.existsById(id)){
             throw new RecordNotFoundException("Driver not found");
         }
@@ -84,7 +84,7 @@ public class DriverService {
         return old;
     }
 
-    public Driver updateOne(Long id, Driver driver){
+    public Driver updateOne(String id, Driver driver){
         if(!driverRepository.existsById(id)){
             throw new RecordNotFoundException("Driver not found");
         }
@@ -102,7 +102,7 @@ public class DriverService {
         return old;
     }
 
-    public Route getDriverRoute(Long id){
+    public Route getDriverRoute(String id){
         Optional<Driver> driverOption = driverRepository.findById(id);
         if(driverOption.isPresent()) {
             Driver driver = driverOption.get();
@@ -110,7 +110,7 @@ public class DriverService {
         } else { throw new RecordNotFoundException("Driver not found");}
     }
 
-    public void addDriverRoute(Route route, Long id){
+    public void addDriverRoute(Route route, String id){
         Optional<Driver> driverOption = driverRepository.findById(id);
         if(driverOption.isPresent()) {
             Driver driver = driverOption.get();
@@ -126,7 +126,7 @@ public class DriverService {
         } else { throw new RecordNotFoundException("Driver not found");}
     }
 
-    public void deleteDriverRoute(Long id){
+    public void deleteDriverRoute(String id){
         Optional<Driver> driverOption = driverRepository.findById(id);
         if(driverOption.isPresent()) {
             Driver driver = driverOption.get();
