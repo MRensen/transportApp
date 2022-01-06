@@ -1,6 +1,5 @@
 package com.MRensen.transportApp.controller;
 
-import com.MRensen.transportApp.DTO.IdDto;
 import com.MRensen.transportApp.DTO.RouteDto;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.service.RouteService;
@@ -29,8 +28,8 @@ public class RouteController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<RouteDto> getRoute(@PathVariable IdDto id){
-        RouteDto route = RouteDto.fromRoute(routeService.getRoute(id.id));
+    public ResponseEntity<RouteDto> getRoute(@PathVariable Long id){
+        RouteDto route = RouteDto.fromRoute(routeService.getRoute(id));
         return ResponseEntity.ok().body(route);
     }
 
@@ -44,20 +43,20 @@ public class RouteController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteRoute(@PathVariable IdDto id){
-        routeService.deleteRoute(id.id);
+    public ResponseEntity<Object> deleteRoute(@PathVariable Long id){
+        routeService.deleteRoute(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> putRoute(@PathVariable IdDto id, @RequestBody RouteDto route){
-        routeService.updateRoute(id.id, route.toRoute());
+    public ResponseEntity<Object> putRoute(@PathVariable Long id, @RequestBody RouteDto route){
+        routeService.updateRoute(id, route.toRoute());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Object> patchRoute(@PathVariable IdDto id, @RequestBody RouteDto route){
-        routeService.patchRoute(id.id, route.toRoute());
+    public ResponseEntity<Object> patchRoute(@PathVariable Long id, @RequestBody RouteDto route){
+        routeService.patchRoute(id, route.toRoute());
         return ResponseEntity.noContent().build();
     }
 }

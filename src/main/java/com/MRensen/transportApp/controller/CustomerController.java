@@ -1,7 +1,6 @@
 package com.MRensen.transportApp.controller;
 
 import com.MRensen.transportApp.DTO.CustomerDto;
-import com.MRensen.transportApp.DTO.IdDto;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.service.CustomerService;
@@ -31,14 +30,14 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> getCustomer(@PathVariable IdDto id){
-        CustomerDto customer = CustomerDto.fromCustomer(customerService.getCustomer(id.id));
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id){
+        CustomerDto customer = CustomerDto.fromCustomer(customerService.getCustomer(id));
         return ResponseEntity.ok().body(customer);
     }
 
     @GetMapping("/{id}/orders")
-    public ResponseEntity<List<Order>> getOrders(@PathVariable IdDto id){
-        var orders = customerService.getOrders(id.id);
+    public ResponseEntity<List<Order>> getOrders(@PathVariable Long id){
+        var orders = customerService.getOrders(id);
         return ResponseEntity.ok().body(orders);
     }
 
@@ -52,14 +51,14 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> putCustomer(@PathVariable IdDto id, @RequestBody CustomerDto customer){
-        customerService.updateCustomer(id.id, customer.toCustomer());
+    public ResponseEntity<Object> putCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
+        customerService.updateCustomer(id, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> patchCustomer(@PathVariable IdDto id, @RequestBody CustomerDto customer){
-        customerService.patchCustomer(id.id, customer.toCustomer());
+    public ResponseEntity<Object> patchCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
+        customerService.patchCustomer(id, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 }

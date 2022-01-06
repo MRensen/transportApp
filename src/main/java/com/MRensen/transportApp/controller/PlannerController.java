@@ -1,6 +1,5 @@
 package com.MRensen.transportApp.controller;
 
-import com.MRensen.transportApp.DTO.IdDto;
 import com.MRensen.transportApp.DTO.PlannerDto;
 import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Planner;
@@ -30,8 +29,8 @@ public class PlannerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlannerDto> getPlanner(@PathVariable IdDto id){
-        var planner = PlannerDto.fromPlanner(plannerService.getPlanner(id.id));
+    public ResponseEntity<PlannerDto> getPlanner(@PathVariable Long id){
+        var planner = PlannerDto.fromPlanner(plannerService.getPlanner(id));
         return ResponseEntity.ok().body(planner);
     }
 
@@ -45,20 +44,20 @@ public class PlannerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> deletePlanner(@PathVariable IdDto id){
-        plannerService.deletePlanner(id.id);
+    public ResponseEntity<Object> deletePlanner(@PathVariable Long id){
+        plannerService.deletePlanner(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updatePlanner(@PathVariable IdDto id, @RequestBody PlannerDto planner){
-        plannerService.updatePlanner(id.id, planner.toPlanner());
+    public ResponseEntity<Object> updatePlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
+        plannerService.updatePlanner(id, planner.toPlanner());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Object> patchPlanner(@PathVariable IdDto id, @RequestBody PlannerDto planner){
-        plannerService.patchPlanner(id.id, planner.toPlanner());
+    public ResponseEntity<Object> patchPlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
+        plannerService.patchPlanner(id, planner.toPlanner());
         return  ResponseEntity.noContent().build();
     }
 }

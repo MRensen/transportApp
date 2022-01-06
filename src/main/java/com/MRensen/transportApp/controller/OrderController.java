@@ -1,6 +1,5 @@
 package com.MRensen.transportApp.controller;
 
-import com.MRensen.transportApp.DTO.IdDto;
 import com.MRensen.transportApp.DTO.OrderDto;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.OrderRepository;
@@ -30,8 +29,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getOrder(@PathVariable IdDto id){
-        var order = OrderDto.fromOrder(orderService.getOrder(id.id));
+    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id){
+        var order = OrderDto.fromOrder(orderService.getOrder(id));
         return ResponseEntity.ok().body(order);
     }
 
@@ -45,26 +44,26 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/type")
-    public ResponseEntity<String> gettype(@PathVariable IdDto id){
-        String type = orderService.getType(id.id);
+    public ResponseEntity<String> gettype(@PathVariable long id){
+        String type = orderService.getType(id);
         return ResponseEntity.ok().body(type);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> putOrder(@PathVariable IdDto id, @RequestBody OrderDto order){
-        orderService.updateOrder(id.id, order.toOrder());
+    public ResponseEntity<Object> putOrder(@PathVariable Long id, @RequestBody OrderDto order){
+        orderService.updateOrder(id, order.toOrder());
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> patchOrder(@PathVariable IdDto id, @RequestBody OrderDto order){
-        orderService.patchOrder(id.id, order.toOrder());
+    public ResponseEntity<Object> patchOrder(@PathVariable Long id, @RequestBody OrderDto order){
+        orderService.patchOrder(id, order.toOrder());
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteOrder(@PathVariable IdDto id){
-        orderService.deleteOrder(id.id);
+    public ResponseEntity<Object> deleteOrder(@PathVariable Long id){
+        orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
 }
