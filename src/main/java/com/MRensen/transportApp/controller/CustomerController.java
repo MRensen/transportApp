@@ -29,13 +29,13 @@ public class CustomerController {
         return ResponseEntity.ok().body(c);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{username}")
     public ResponseEntity<CustomerDto> getCustomer(@PathVariable String username){
         CustomerDto customer = CustomerDto.fromCustomer(customerService.getCustomer(username));
         return ResponseEntity.ok().body(customer);
     }
 
-    @GetMapping("/{id}/orders")
+    @GetMapping("/{username}/orders")
     public ResponseEntity<List<Order>> getOrders(@PathVariable String username){
         var orders = customerService.getOrders(username);
         return ResponseEntity.ok().body(orders);
@@ -44,19 +44,19 @@ public class CustomerController {
     @PostMapping("")
     public ResponseEntity<Object> postCustomer(@RequestBody CustomerDto customer){
         Customer newCustomer = customerService.addCustomer(customer.toCustomer());
-        Long id = newCustomer.getId();
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(id).toUri();
+        String username = newCustomer.getUsername();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(username).toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{username}")
     public ResponseEntity<Object> putCustomer(@PathVariable String username, @RequestBody CustomerDto customer){
         customerService.updateCustomer(username, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{username}")
     public ResponseEntity<Object> patchCustomer(@PathVariable String username, @RequestBody CustomerDto customer){
         customerService.patchCustomer(username, customer.toCustomer());
         return ResponseEntity.noContent().build();

@@ -28,7 +28,7 @@ public class PlannerController {
        return ResponseEntity.ok().body(planners);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{username}")
     public ResponseEntity<PlannerDto> getPlanner(@PathVariable String username){
         var planner = PlannerDto.fromPlanner(plannerService.getPlanner(username));
         return ResponseEntity.ok().body(planner);
@@ -37,25 +37,25 @@ public class PlannerController {
     @PostMapping("")
     public ResponseEntity<Object> postPlanner(@RequestBody PlannerDto planner){
         Planner p = plannerService.addPlanner(planner.toPlanner());
-        Long id = p.getId();
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(id).toUri();
+        String username = p.getUsername();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(username).toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{username}")
     public ResponseEntity<Object> deletePlanner(@PathVariable String username){
         plannerService.deletePlanner(username);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{username}")
     public ResponseEntity<Object> updatePlanner(@PathVariable String username, @RequestBody PlannerDto planner){
         plannerService.updatePlanner(username, planner.toPlanner());
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("{username}")
     public ResponseEntity<Object> patchPlanner(@PathVariable String username, @RequestBody PlannerDto planner){
         plannerService.patchPlanner(username, planner.toPlanner());
         return  ResponseEntity.noContent().build();

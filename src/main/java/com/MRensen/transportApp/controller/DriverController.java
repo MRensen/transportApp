@@ -30,54 +30,54 @@ public class DriverController {
         return ResponseEntity.ok().body(drivers);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{username}")
     public ResponseEntity<DriverDto> getDriver(@PathVariable String username){
         var driver = DriverDto.fromDriver(driverService.getOne(username));
         return ResponseEntity.ok().body(driver);
     }
 
-    @GetMapping("/{id}/route")
-    public ResponseEntity<RouteDto> getRoute(@PathVariable String id){
-        var route = RouteDto.fromRoute(driverService.getDriverRoute(id));
+    @GetMapping("/{username}/route")
+    public ResponseEntity<RouteDto> getRoute(@PathVariable String username){
+        var route = RouteDto.fromRoute(driverService.getDriverRoute(username));
         return ResponseEntity.ok().body(route);
     }
 
     @PostMapping("")
     public ResponseEntity<Object> postDriver(@RequestBody DriverDto driver){
         Driver newDriver = driverService.addOne(driver.toDriver());
-        Long id = newDriver.getId();
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(id).toUri();
+        String username = newDriver.getUsername();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(username).toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping("/{id}/route")
-    public ResponseEntity<Object> postRoute(@PathVariable String id, @RequestBody RouteDto route){
-        driverService.addDriverRoute(route.toRoute(), id);
+    @PutMapping("/{username}/route")
+    public ResponseEntity<Object> postRoute(@PathVariable String username, @RequestBody RouteDto route){
+        driverService.addDriverRoute(route.toRoute(), username);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Driver> updateDriver(@PathVariable String id, @RequestBody DriverDto driver){
-        driverService.updateOne(id, driver.toDriver());
+    @PutMapping("/{username}")
+    public ResponseEntity<Driver> updateDriver(@PathVariable String username, @RequestBody DriverDto driver){
+        driverService.updateOne(username, driver.toDriver());
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("{id}")
-    public ResponseEntity<Driver> patchDriver(@PathVariable String id, @RequestBody DriverDto driver){
-        driverService.patchOne(id, driver.toDriver());
+    @PatchMapping("{username}")
+    public ResponseEntity<Driver> patchDriver(@PathVariable String username, @RequestBody DriverDto driver){
+        driverService.patchOne(username, driver.toDriver());
         return  ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}/route")
-    public ResponseEntity<Object> deleteRoute(@PathVariable String id){
-        driverService.deleteDriverRoute(id);
+    @DeleteMapping("/{username}/route")
+    public ResponseEntity<Object> deleteRoute(@PathVariable String username){
+        driverService.deleteDriverRoute(username);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteDriver(@PathVariable String id){
-        driverService.deleteOne(id);
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Object> deleteDriver(@PathVariable String username){
+        driverService.deleteOne(username);
         return ResponseEntity.noContent().build();
     }
 
