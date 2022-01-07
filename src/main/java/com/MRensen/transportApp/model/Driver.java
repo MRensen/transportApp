@@ -1,9 +1,11 @@
 package com.MRensen.transportApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,10 +18,12 @@ public class Driver {
     @Id
     String username;
 
-    @OneToOne
-    @JsonIgnoreProperties("driver")
-    @JoinColumn(name="route_id")
-    Route route;
+    @OneToMany(
+            mappedBy = "driver",
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    List<Route> routes;
 
     //personal details
     String firstName;
@@ -51,9 +55,9 @@ public class Driver {
     public Driver() {
     }
 
-    public Driver(long id, Route route, String firstName, String lastName, String street, String houseNumber, String city, int employeeNumber, String driverLicenseNumber, String phoneNumber, String regularTruck) {
+    public Driver(long id, List<Route> route, String firstName, String lastName, String street, String houseNumber, String city, int employeeNumber, String driverLicenseNumber, String phoneNumber, String regularTruck) {
         this.id = id;
-        this.route = route;
+        this.routes = route;
         this.firstName = firstName;
         this.lastName = lastName;
         this.street = street;
@@ -147,12 +151,15 @@ public class Driver {
         this.id = id;
     }
 
-    public Route getRoute() {
-        return route;
+    public List<Route> getRoutes() {
+        return routes;
+    }
+    public void addRoutes(Route route){
+        routes.add(route);
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
     }
 
     public String getFirstName() {

@@ -14,7 +14,7 @@ public class Route {
 
     String truck; //license plate
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Driver driver;
 
     @ManyToOne

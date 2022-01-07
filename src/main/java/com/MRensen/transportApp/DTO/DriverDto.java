@@ -1,18 +1,16 @@
 package com.MRensen.transportApp.DTO;
 
-import com.MRensen.transportApp.model.Authority;
 import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Route;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class DriverDto {
     public Long id;
     public String username;
     @JsonIncludeProperties("id")
-    public Route route;
+    public List<Route> route;
     public String firstName;
     public String lastName;
     public String street;
@@ -29,7 +27,7 @@ public class DriverDto {
         DriverDto dto = new DriverDto();
         dto.id = d.getId();
         dto.username = d.getUsername();
-        dto.route = d.getRoute();
+        dto.route = d.getRoutes();
         dto.firstName = d.getFirstName();
         dto.lastName = d.getLastName();
         dto.street = d.getStreet();
@@ -48,7 +46,7 @@ public class DriverDto {
         Driver d = new Driver();
         d.setId(id);
         d.setUsername(username);
-        d.setRoute(route);
+        d.setRoutes(route);
         d.setFirstName(firstName);
         d.setLastName(lastName);
         d.setStreet(street);

@@ -37,9 +37,9 @@ public class DriverController {
     }
 
     @GetMapping("/{username}/route")
-    public ResponseEntity<RouteDto> getRoute(@PathVariable String username){
-        var route = RouteDto.fromRoute(driverService.getDriverRoute(username));
-        return ResponseEntity.ok().body(route);
+    public ResponseEntity<Object> getRoute(@PathVariable String username){
+        var routes = driverService.getDriverRoute(username).stream().map(RouteDto::fromRoute).toList();
+        return ResponseEntity.ok().body(routes);
     }
 
     @PostMapping("")

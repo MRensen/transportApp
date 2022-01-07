@@ -2,7 +2,6 @@ package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.AttributeOverrideException;
 import com.MRensen.transportApp.exception.RecordNotFoundException;
-import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.repository.DriverRepository;
@@ -102,11 +101,11 @@ public class DriverService {
         return old;
     }
 
-    public Route getDriverRoute(String id){
+    public List<Route> getDriverRoute(String id){
         Optional<Driver> driverOption = driverRepository.findById(id);
         if(driverOption.isPresent()) {
             Driver driver = driverOption.get();
-            return driver.getRoute();
+            return driver.getRoutes();
         } else { throw new RecordNotFoundException("Driver not found");}
     }
 
@@ -114,11 +113,11 @@ public class DriverService {
         Optional<Driver> driverOption = driverRepository.findById(id);
         if(driverOption.isPresent()) {
             Driver driver = driverOption.get();
-            if(driver.getRoute() == null){
+            if(driver.getRoutes() == null){
                 Route routedb = routeRepository.findById(route.getId()).orElse(null);
                 routedb.setDriver(driver);
                 routeRepository.save(routedb);
-                driver.setRoute(routedb);
+                driver.addRoutes(routedb);
                 driverRepository.save(driver);
             } else {
                 throw new AttributeOverrideException("Attribute is allready filled");
@@ -130,10 +129,11 @@ public class DriverService {
         Optional<Driver> driverOption = driverRepository.findById(id);
         if(driverOption.isPresent()) {
             Driver driver = driverOption.get();
-            Route route = driver.getRoute();
-            route.setDriver(null);
-            routeRepository.save(route);
-            driver.setRoute(null);
+            List<Route> route = driver.getRoutes();
+            route.stream().forEach((r)->{
+                r.setDriver(null);
+                routeRepository.save(r);});
+            driver.setRoutes(null);
             driverRepository.save(driver);
         } else { throw new RecordNotFoundException("Driver not found");}
 
