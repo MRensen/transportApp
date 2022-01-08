@@ -2,6 +2,7 @@ package com.MRensen.transportApp.model;
 
 import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
+import com.MRensen.transportApp.utils.Pallet.PalletType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,10 +16,13 @@ public class Order {
     @GeneratedValue
     @Id
     long id;
+    PalletType type = PalletType.EURO;
 
-    OrderStatus orderStatus;
+    OrderStatus orderStatus = OrderStatus.PROCESSING;
 
     Boolean isPickup = false;
+
+    String description;
 
     @ManyToOne(optional = false)
     Customer creator;
@@ -53,6 +57,24 @@ public class Order {
 
 
     //GETTERS AND SETTERS
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public PalletType getType() {
+        return type;
+    }
+
+    public void setType(PalletType type) {
+        this.type = type;
+    }
+
 
     public Boolean isPickup() {
         return isPickup;

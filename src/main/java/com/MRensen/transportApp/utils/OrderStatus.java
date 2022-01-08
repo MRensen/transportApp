@@ -5,5 +5,5 @@ public enum OrderStatus {
     IN_TRANSPORT,
     DELIVERED,
     DECLINED,
-    IN_PROCESS
+    PROCESSING
 }

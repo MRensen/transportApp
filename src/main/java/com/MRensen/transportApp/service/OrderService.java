@@ -4,6 +4,7 @@ import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.CustomerRepository;
 import com.MRensen.transportApp.repository.OrderRepository;
+import com.MRensen.transportApp.utils.Pallet.PalletType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -118,14 +119,14 @@ public class OrderService {
         }
     }
 
-    public String getType(Long id) {
+    public PalletType getType(Long id) {
         if (!orderRepository.existsById(id)) {
             throw new RecordNotFoundException("Order not found");
         }
         Order order = orderRepository.findById(id).orElse(null);
         var pallets = order.getPallets();
         if (pallets.isEmpty()) {
-            return "none";
+            return PalletType.NONE;
         } else {
             return pallets.get(0).getType();
         }

@@ -4,6 +4,7 @@ import com.MRensen.transportApp.DTO.OrderDto;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.service.OrderService;
+import com.MRensen.transportApp.utils.Pallet.PalletType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +45,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/type")
-    public ResponseEntity<String> gettype(@PathVariable long id){
-        String type = orderService.getType(id);
+    public ResponseEntity<Object> gettype(@PathVariable long id){
+        PalletType type = orderService.getType(id);
         return ResponseEntity.ok().body(type);
     }
 

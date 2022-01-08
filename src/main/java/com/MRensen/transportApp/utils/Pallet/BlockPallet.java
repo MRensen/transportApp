@@ -5,11 +5,11 @@ public class BlockPallet extends Pallet {
     int length = 100;
 
     public BlockPallet(String load, int height) {
-        super(load, height, "block");
+        super(load, height, PalletType.BLOCK);
     }
 
     public BlockPallet() {
-        super("block");
+        super(PalletType.BLOCK);
     }
 
     public int getWidth() {

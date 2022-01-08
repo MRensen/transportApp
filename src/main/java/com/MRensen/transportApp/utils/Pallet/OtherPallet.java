@@ -8,17 +8,17 @@ public class OtherPallet extends Pallet {
 
 
     public OtherPallet() {
-        super("other");
+        super(PalletType.OTHER);
     }
 
     public OtherPallet(String load, int height, int width, int length) {
-        super(load, height, "other");
+        super(load, height, PalletType.OTHER);
         this.width = width;
         this.length = length;
     }
 
     public OtherPallet(String load, int height) {
-        super(load, height, "other");
+        super(load, height, PalletType.OTHER);
         this.width = 0;
         this.length = 0;
     }
