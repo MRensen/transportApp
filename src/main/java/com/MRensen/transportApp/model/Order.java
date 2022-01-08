@@ -220,5 +220,7 @@ public class Order {
         this.pallets = pallets;
     }
 
+    public void addPallet(Pallet pallet){ this.pallets.add(pallet);}
+
 
 }

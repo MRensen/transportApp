@@ -7,6 +7,8 @@ public abstract class Pallet {
     String load;
     int height;
     int weight;
+    int width;
+    int length;
     PalletType type = PalletType.NONE;
 
     public int getHeight() {
@@ -52,5 +54,21 @@ public abstract class Pallet {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

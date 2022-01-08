@@ -21,7 +21,7 @@ public class OrderDto {
     public Customer creator;
     @JsonIncludeProperties("id")
     public Route route;
-    public List<Pallet> pallets = new ArrayList<>();
+    public List<Pallet> pallets;
 
     public String loadingStreet;
     public String loadingHouseNumber;

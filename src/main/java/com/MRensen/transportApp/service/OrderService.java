@@ -4,6 +4,7 @@ import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.CustomerRepository;
 import com.MRensen.transportApp.repository.OrderRepository;
+import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -130,5 +131,11 @@ public class OrderService {
         } else {
             return pallets.get(0).getType();
         }
+    }
+
+    public void addPallet(Long id, Pallet pallet){
+        Order newOrder = new Order();
+        newOrder.addPallet(pallet);
+        patchOrder(id, newOrder);
     }
 }

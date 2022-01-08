@@ -1,6 +1,7 @@
 package com.MRensen.transportApp.controller;
 
 import com.MRensen.transportApp.DTO.OrderDto;
+import com.MRensen.transportApp.DTO.PalletDto;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.service.OrderService;
@@ -42,6 +43,12 @@ public class OrderController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{id}/pallet")
+    public ResponseEntity<Object> addPallet(@PathVariable Long id, @RequestBody PalletDto pallet){
+        orderService.addPallet(id, pallet.toPallet());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/type")
