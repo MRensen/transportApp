@@ -8,6 +8,8 @@ import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +18,13 @@ public class OrderDto {
     public PalletType type;
     public OrderStatus orderStatus;
     public Boolean isPickup = false;
+    @Size(max=30)
     public String description;
     @JsonIncludeProperties("id")
     public Customer creator;
     @JsonIncludeProperties("id")
     public Route route;
-    public List<Pallet> pallets;
+    public List<PalletDto> pallets;
 
     public String loadingStreet;
     public String loadingHouseNumber;
@@ -46,7 +49,7 @@ public class OrderDto {
         dto.description = o.getDescription();
         dto.creator = o.getCreator();
         dto.route = o.getRoute();
-        dto.pallets = o.getPallets();
+        dto.pallets = o.getPallets().stream().map(PalletDto::fromPallet).toList();
         dto.loadingStreet = o.getLoadingStreet();
         dto.loadingHouseNumber = o.getLoadingHouseNumber();
         dto.loadingPostal = o.getLoadingPostal();
@@ -71,7 +74,7 @@ public class OrderDto {
         o.setDescription(description);
         o.setCreator(creator);
         o.setRoute(route);
-        o.setPallets(pallets);
+        o.setPallets(pallets.stream().map(PalletDto::toPallet).toList());
         o.setLoadingStreet(loadingStreet);
         o.setLoadingHouseNumber(loadingHouseNumber);
         o.setLoadingPostal(loadingPostal);

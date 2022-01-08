@@ -2,6 +2,9 @@ package com.MRensen.transportApp.utils.Pallet;
 
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 
+import javax.persistence.Entity;
+
+@Entity
 public class OtherPallet extends Pallet {
     int width;
     int length;

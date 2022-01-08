@@ -16,8 +16,10 @@ public class Order {
     @GeneratedValue
     @Id
     long id;
+    @Enumerated(EnumType.STRING)
     PalletType type = PalletType.EURO;
 
+    @Enumerated(EnumType.STRING)
     OrderStatus orderStatus = OrderStatus.PROCESSING;
 
     Boolean isPickup = false;
@@ -30,12 +32,13 @@ public class Order {
     @ManyToOne
     Route route;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "pallets",
-            joinColumns = @JoinColumn(name="id")
-    )
-    @Column(name="palletlist")
+//    @ElementCollection
+//    @CollectionTable(
+//            name = "pallets",
+//            joinColumns = @JoinColumn(name="id")
+//    )
+//    @Column(name="palletlist")
+    @OneToMany
     List<Pallet> pallets = new ArrayList<>();
 
     //loading adress

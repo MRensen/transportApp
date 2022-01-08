@@ -1,9 +1,14 @@
 package com.MRensen.transportApp.utils.Pallet;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Inheritance
+@Entity
+@Table(name="pallets")
 public abstract class Pallet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String load;
     int height;
     int weight;

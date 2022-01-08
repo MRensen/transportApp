@@ -2,11 +2,14 @@ package com.MRensen.transportApp.DTO;
 
 import com.MRensen.transportApp.utils.Pallet.*;
 
+import javax.validation.constraints.Size;
+
 public class PalletDto {
     public int height;
     public int width;
     public int length;
     public int weight;
+    @Size(max = 10)
     public String load;
     public String type;
 

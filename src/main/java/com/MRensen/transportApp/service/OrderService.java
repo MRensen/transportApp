@@ -4,6 +4,7 @@ import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.CustomerRepository;
 import com.MRensen.transportApp.repository.OrderRepository;
+import com.MRensen.transportApp.repository.PalletRepository;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,13 @@ public class OrderService {
 
     private OrderRepository orderRepository;
     private CustomerRepository customerRepository;
+    private PalletRepository palletRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
-                        CustomerRepository customerRepository) {
+                        CustomerRepository customerRepository,
+                        PalletRepository palletRepository) {
+        this.palletRepository = palletRepository;
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
     }
@@ -69,6 +73,7 @@ public class OrderService {
         old.setDeliveryName(order.getDeliveryName());
         old.setDeliveryCity(order.getDeliveryCity());
         old.setDeliveryDate(order.getDeliveryDate());
+        orderRepository.save(old);
     }
 
     public void patchOrder(Long id, Order order) {
@@ -118,6 +123,7 @@ public class OrderService {
         if (order.getDeliveryCity() != null) {
             old.setDeliveryCity(order.getDeliveryCity());
         }
+        orderRepository.save(old);
     }
 
     public PalletType getType(Long id) {
@@ -134,8 +140,14 @@ public class OrderService {
     }
 
     public void addPallet(Long id, Pallet pallet){
+        palletRepository.save(pallet);
         Order newOrder = new Order();
         newOrder.addPallet(pallet);
         patchOrder(id, newOrder);
+    }
+
+    public List<Pallet> getPallets(Long id){
+        Order order = getOrder(id);
+        return order.getPallets();
     }
 }

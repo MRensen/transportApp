@@ -1,5 +1,8 @@
 package com.MRensen.transportApp.utils.Pallet;
 
+import javax.persistence.Entity;
+
+@Entity
 public class BlockPallet extends Pallet {
     int width = 120;
     int length = 100;
