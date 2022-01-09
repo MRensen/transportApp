@@ -56,13 +56,16 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-        if(customerRepository.existsById(order.getCreator().getUsername())){
+        if (customerRepository.existsById(order.getCreator().getUsername())) {
             old.setCreator(order.getCreator());
         } else {
             throw new RecordNotFoundException("No (creator)customer found");
         }
         old.setPallets(order.getPallets());
         old.setLoadingStreet(order.getLoadingStreet());
+        old.setOrderStatus(order.getOrderStatus());
+        old.setType(order.getType());
+        old.setPickup(order.isPickup());
         old.setLoadingHouseNumber(order.getLoadingHouseNumber());
         old.setLoadingPostal(order.getLoadingPostal());
         old.setLoadingName(order.getLoadingName());
@@ -83,6 +86,15 @@ public class OrderService {
         Order old = orderRepository.findById(id).orElse(null);
         if (order.getCreator() != null) {
             old.setCreator(order.getCreator());
+        }
+        if (order.getType() != null) {
+            old.setType(order.getType());
+        }
+        if (order.isPickup() != null) {
+            old.setPickup(order.isPickup());
+        }
+        if (order.getOrderStatus() != null) {
+            old.setOrderStatus(order.getOrderStatus());
         }
         if (order.getPallets() != null) {
             old.setPallets(order.getPallets());
@@ -139,14 +151,14 @@ public class OrderService {
         }
     }
 
-    public void addPallet(Long id, Pallet pallet){
+    public void addPallet(Long id, Pallet pallet) {
         palletRepository.save(pallet);
         Order newOrder = new Order();
         newOrder.addPallet(pallet);
         patchOrder(id, newOrder);
     }
 
-    public List<Pallet> getPallets(Long id){
+    public List<Pallet> getPallets(Long id) {
         Order order = getOrder(id);
         return order.getPallets();
     }

@@ -42,7 +42,6 @@ public class PlannerDto {
 
     public Planner toPlanner(){
         Planner p = new Planner();
-        p.setId(id);
         p.setFirstName(firstName);
         p.setLastName(lastName);
         p.setStreet(street);

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import java.util.List;
 
 public class DriverDto {
+    public String role = "driver";
     public Long id;
     public String username;
     @JsonIncludeProperties("id")
@@ -44,7 +45,6 @@ public class DriverDto {
 
     public Driver toDriver(){
         Driver d = new Driver();
-        d.setId(id);
         d.setUsername(username);
         d.setRoutes(route);
         d.setFirstName(firstName);

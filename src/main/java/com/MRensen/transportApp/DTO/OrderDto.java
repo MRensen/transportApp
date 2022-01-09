@@ -67,14 +67,18 @@ public class OrderDto {
 
     public Order toOrder(){
         Order o = new Order();
-        o.setId(id);
+        if(id != null) {
+            o.setId(id);
+        }
         o.setOrderStatus(orderStatus);
         o.setPickup(isPickup);
         o.setType(type);
         o.setDescription(description);
         o.setCreator(creator);
         o.setRoute(route);
-        o.setPallets(pallets.stream().map(PalletDto::toPallet).toList());
+        if(pallets != null) {
+            o.setPallets(pallets.stream().map(PalletDto::toPallet).toList());
+        }
         o.setLoadingStreet(loadingStreet);
         o.setLoadingHouseNumber(loadingHouseNumber);
         o.setLoadingPostal(loadingPostal);
