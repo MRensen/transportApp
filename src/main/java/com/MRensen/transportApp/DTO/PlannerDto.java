@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class PlannerDto {
     public Long id;
+    public String role = "planner";
     public String firstName;
     public String lastName;
     public String street;

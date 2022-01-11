@@ -13,6 +13,7 @@ import java.util.Set;
 public class Driver {
     @GeneratedValue
     long id;
+    String role;
 
     @Column(nullable = false,unique = true)
     @Id

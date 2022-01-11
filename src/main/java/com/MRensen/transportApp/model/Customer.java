@@ -12,6 +12,7 @@ import java.util.Set;
 public class Customer {
     @GeneratedValue
     long id;
+    String role = "customer";
 
     @Column(nullable = false,unique = true)
     @Id

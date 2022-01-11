@@ -12,6 +12,7 @@ import java.util.Set;
 public class CustomerDto {
     public Long id;
     public String username;
+    public String role = "customer";
     @JsonIncludeProperties("id")
     public List<Order> myOrders;
     public String name;

@@ -12,6 +12,7 @@ public class Planner {
     @GeneratedValue
     long id;
 
+    String role = "planner";
     String firstName;
     String lastName;
     String street;

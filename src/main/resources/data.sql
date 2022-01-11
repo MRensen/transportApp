@@ -3,18 +3,18 @@ VALUES
 ('customerusername', 'customer'),
 ('plannerusername', 'planner'),
 ('driverusername', 'driver');
-INSERT INTO customers (id, username, name, street, house_number, postal_code, city, phone_number, password, enabled)
+INSERT INTO customers (id, username, name, street, house_number, postal_code, city, phone_number, password, enabled, role)
 VALUES
-(1001, 'customerusername', 'jansen', 'kalverstraat', '22', '1001ab', 'Amsterdam', '010-894839', 'password', true);
+(1001, 'customerusername', 'jansen', 'kalverstraat', '22', '1001ab', 'Amsterdam', '010-894839', 'password', true, 'customer');
 
-INSERT INTO drivers (id, username,  first_name, last_name, street, house_number, city, employee_number, driver_license_number, phone_number, regular_truck, password, enabled )
+INSERT INTO drivers (id, username,  first_name, last_name, street, house_number, city, employee_number, driver_license_number, phone_number, regular_truck, password, enabled, role)
 VALUES
-(2005, 'driverusername2', 'jantje', 'jansen', 'straatweg', '26', 'amsterdam', 1000000, 'xxx111xxx', '0612334566', '97bph8', 'password', true);
+(2005, 'driverusername2', 'jantje', 'jansen', 'straatweg', '26', 'amsterdam', 1000000, 'xxx111xxx', '0612334566', '97bph8', 'password', true, 'driver');
 
 
-INSERT INTO planners (id, username, first_name, password, enabled)
+INSERT INTO planners (id, username, first_name, password, enabled, role)
 VALUES
-(4001, 'plannerusername', 'piet', 'password', true);
+(4001, 'plannerusername', 'piet', 'password', true, 'planner');
 
 INSERT INTO routes (id, truck, planner_username)
 VALUES
@@ -28,9 +28,9 @@ VALUES
 (3002, 'wasstraat', '5', '7062xs', 'fabriek', 'Didam','03-03-2022', 'achterweg', '65', '6006it', 'hendriksen', 'houten','06-03-2022', 'customerusername', 5001, 'BLOCK', 'IN_TRANSPORT', false, 'get your ass over here or else');
 
 
-INSERT INTO drivers (id, username,  first_name, last_name, street, house_number, city, employee_number, driver_license_number, phone_number, regular_truck, password, enabled)
+INSERT INTO drivers (id, role, username,  first_name, last_name, street, house_number, city, employee_number, driver_license_number, phone_number, regular_truck, password, enabled)
 VALUES
-(2001, 'driverusername', 'Mark', 'Rensen', 'Doesburgseweg', '26', 'Wehl', 1000000, 'xxx111xxx', '0612334566', '97bph8', 'password', true);
+(2001,'driver', 'driverusername', 'Mark', 'Rensen', 'Doesburgseweg', '26', 'Wehl', 1000000, 'xxx111xxx', '0612334566', '97bph8', 'password', true);
 
 UPDATE routes SET driver_username='driverusername' WHERE id=5001;
 UPDATE routes SET driver_username='driverusername' WHERE id=5002;
@@ -39,7 +39,7 @@ INSERT INTO pallets (dtype, id, height, length, load, weight, width, type )
 VALUES
 ('EuroPallet', 6001, 100, 120, 'stuff', 1000, 80, 0),
 ('EuroPallet', 6003, 50, 120, 'paper', 300, 80, 0),
-('OtherPallet', 6004, 40, 120, 'oil', 500, 80, 0),
+('OtherPallet', 6004, 40, 120, 'oil', 500, 80, 2),
 ('BlockPallet', 6002, 100, 120, 'beer', 1000, 100, 1);
 --type 0 = euro, 1 = block, 2 = other, 3 = none
 INSERT INTO orders_pallets (order_id, pallets_id)
