@@ -62,7 +62,9 @@ public class DriverDto {
         d.setDriverLicenseNumber(driverLicenseNumber);
         d.getUser().setPhoneNumber(phoneNumber);
         d.setRegularTruck(regularTruck);
-        d.getUser().setPassword(password);
+        if(password != null) {
+            d.getUser().setPassword(password);
+        }
         d.getUser().setEnabled(enabled);
         return d;
     }

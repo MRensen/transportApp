@@ -52,7 +52,9 @@ public class CustomerDto {
         c.getUser().setPostalCode(postalCode);
         c.getUser().setCity(city);
         c.getUser().setPhoneNumber(phoneNumber);
-        c.getUser().setPassword(password);
+        if(password != null) {
+            c.getUser().setPassword(password);
+        }
         c.getUser().setEnabled(enabled);
         return c;
     }

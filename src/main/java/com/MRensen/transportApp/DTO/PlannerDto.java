@@ -53,7 +53,9 @@ public class PlannerDto {
         p.getUser().setCity(city);
         p.getUser().setPhoneNumber(phoneNumber);
         p.setRoutes(routes);
-        p.getUser().setPassword(password);
+        if(password != null) {
+            p.getUser().setPassword(password);
+        }
         p.getUser().setEnabled(enabled);
         p.getUser().setUsername(username);
         return p;
