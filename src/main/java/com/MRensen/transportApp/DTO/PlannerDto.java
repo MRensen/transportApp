@@ -3,6 +3,7 @@ package com.MRensen.transportApp.DTO;
 import com.MRensen.transportApp.model.Authority;
 import com.MRensen.transportApp.model.Planner;
 import com.MRensen.transportApp.model.Route;
+import com.MRensen.transportApp.model.User;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import java.util.List;
@@ -27,33 +28,34 @@ public class PlannerDto {
     public static PlannerDto fromPlanner(Planner p){
         PlannerDto dto = new PlannerDto();
         dto.id = p.getId();
-        dto.firstName = p.getFirstName();
-        dto.lastName = p.getLastName();
-        dto.street = p.getStreet();
-        dto.houseNumber = p.getHouseNumber();
-        dto.postalCode = p.getPostalCode();
-        dto.city = p.getCity();
-        dto.phoneNumber = p.getPhoneNumber();
+        dto.firstName = p.getUser().getFirstName();
+        dto.lastName = p.getUser().getLastName();
+        dto.street = p.getUser().getStreet();
+        dto.houseNumber = p.getUser().getHouseNumber();
+        dto.postalCode = p.getUser().getPostalCode();
+        dto.city = p.getUser().getCity();
+        dto.phoneNumber = p.getUser().getPhoneNumber();
         dto.routes = p.getRoutes();
-        dto.password = p.getPassword();
-        dto.enabled = p.isEnabled();
-        dto.username = p.getUsername();
+        dto.password = p.getUser().getPassword();
+        dto.enabled = p.getUser().isEnabled();
+        dto.username = p.getUser().getUsername();
         return dto;
     }
 
     public Planner toPlanner(){
         Planner p = new Planner();
-        p.setFirstName(firstName);
-        p.setLastName(lastName);
-        p.setStreet(street);
-        p.setHouseNumber(houseNumber);
-        p.setPostalCode(postalCode);
-        p.setCity(city);
-        p.setPhoneNumber(phoneNumber);
+        p.setUser(new User());
+        p.getUser().setFirstName(firstName);
+        p.getUser().setLastName(lastName);
+        p.getUser().setStreet(street);
+        p.getUser().setHouseNumber(houseNumber);
+        p.getUser().setPostalCode(postalCode);
+        p.getUser().setCity(city);
+        p.getUser().setPhoneNumber(phoneNumber);
         p.setRoutes(routes);
-        p.setPassword(password);
-        p.setEnabled(enabled);
-        p.setUsername(username);
+        p.getUser().setPassword(password);
+        p.getUser().setEnabled(enabled);
+        p.getUser().setUsername(username);
         return p;
     }
 }

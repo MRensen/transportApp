@@ -3,6 +3,7 @@ package com.MRensen.transportApp.model;
 import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Order {
     String description;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     Customer creator;
 
     @ManyToOne

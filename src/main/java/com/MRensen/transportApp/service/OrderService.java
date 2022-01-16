@@ -5,6 +5,7 @@ import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.CustomerRepository;
 import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.repository.PalletRepository;
+import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,10 @@ public class OrderService {
         }
     }
 
+    public List<Order>  getOrdersByStatus(OrderStatus status){
+        return orderRepository.findAllByOrderStatus(status);
+    }
+
     public Order addOrder(Order order) {
         return orderRepository.save(order);
     }
@@ -56,12 +61,13 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-        if (customerRepository.existsById(order.getCreator().getUsername())) {
-            old.setCreator(order.getCreator());
+        if (customerRepository.existsById(order.getCreator().getId())) {
+            old.setCreator(customerRepository.getById(order.getCreator().getId()));
         } else {
             throw new RecordNotFoundException("No (creator)customer found");
         }
         old.setPallets(order.getPallets());
+        old.setDescription(order.getDescription());
         old.setLoadingStreet(order.getLoadingStreet());
         old.setOrderStatus(order.getOrderStatus());
         old.setType(order.getType());
@@ -86,6 +92,9 @@ public class OrderService {
         Order old = orderRepository.findById(id).orElse(null);
         if (order.getCreator() != null) {
             old.setCreator(order.getCreator());
+        }
+        if(order.getDescription() != null){
+            old.setDescription(order.getDescription());
         }
         if (order.getType() != null) {
             old.setType(order.getType());

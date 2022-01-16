@@ -1,5 +1,7 @@
 package com.MRensen.transportApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +22,7 @@ public class Route {
     @ManyToOne
     Planner planner;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "route")
     List<Order> orders;
 

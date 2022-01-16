@@ -4,6 +4,7 @@ import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.CustomerRepository;
+import com.MRensen.transportApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,74 +12,79 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerService {
+public class CustomerService implements UserService<Customer>{
     private CustomerRepository customerRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository) {
         this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
     }
 
-    public List<Customer> getAllCustomers(){
+    public List<Customer> getAll(){
         return customerRepository.findAll();
     }
 
-    public Customer getCustomer(String username){
-        Optional<Customer> cumstomerOption = customerRepository.findById(username);
+    public Customer getOne(Long id){
+        Optional<Customer> cumstomerOption = customerRepository.findById(id);
         if(cumstomerOption.isPresent()) {
             return cumstomerOption.get();
         } else {
             throw new RecordNotFoundException("Customer Id was not found");
         }}
 
-    public Customer addCustomer(Customer customer) {
+    public Customer addOne(Customer customer) {
+        userRepository.save(customer.getUser());
         return customerRepository.save(customer);
     }
 
-    public void deleteCustomer(String username){customerRepository.deleteById(username);}
+    public void deleteOne(Long id){customerRepository.deleteById(id);}
 
-    public void patchCustomer(String username, Customer customer){
-        if(!customerRepository.existsById(username)){
+    public Customer patchOne(Long id, Customer customer){
+        if(!customerRepository.existsById(id)){
             throw new RecordNotFoundException("Customer not found");
         }
-        Customer old = customerRepository.findById(username).orElse(null);
-        if(customer.getStreet() != null){
-            old.setStreet(customer.getStreet());
+        Customer old = customerRepository.findById(id).orElse(null);
+        if(customer.getUser().getStreet() != null){
+            old.getUser().setStreet(customer.getUser().getStreet());
         }
         if(customer.getName() != null) {
             old.setName(customer.getName());
         }
-        if(customer.getHouseNumber() != null) {
-            old.setHouseNumber(customer.getHouseNumber());
+        if(customer.getUser().getHouseNumber() != null) {
+            old.getUser().setHouseNumber(customer.getUser().getHouseNumber());
         }
-        if(customer.getPostalCode() != null) {
-            old.setPostalCode(customer.getPostalCode());
+        if(customer.getUser().getPostalCode() != null) {
+            old.getUser().setPostalCode(customer.getUser().getPostalCode());
         }
-        if(customer.getCity() != null) {
-            old.setCity(customer.getCity());
+        if(customer.getUser().getCity() != null) {
+            old.getUser().setCity(customer.getUser().getCity());
         }
-        if(customer.getPhoneNumber() != null) {
-            old.setPhoneNumber(customer.getPhoneNumber());
+        if(customer.getUser().getPhoneNumber() != null) {
+            old.getUser().setPhoneNumber(customer.getUser().getPhoneNumber());
         }
         customerRepository.save(old);
+        return old;
     }
 
-    public void updateCustomer(String username, Customer customer){
-        if(!customerRepository.existsById(username)){
+    public Customer updateOne(Long id, Customer customer){
+        if(!customerRepository.existsById(id)){
             throw new RecordNotFoundException("Customer not found");
         }
-        Customer old = customerRepository.findById(username).orElse(null);
-        old.setStreet(customer.getStreet());
+        Customer old = customerRepository.findById(id).orElse(null);
+        old.getUser().setStreet(customer.getUser().getStreet());
         old.setName(customer.getName());
-        old.setHouseNumber(customer.getHouseNumber());
-        old.setPostalCode(customer.getPostalCode());
-        old.setCity(customer.getCity());
-        old.setPhoneNumber(customer.getPhoneNumber());
+        old.getUser().setHouseNumber(customer.getUser().getHouseNumber());
+        old.getUser().setPostalCode(customer.getUser().getPostalCode());
+        old.getUser().setCity(customer.getUser().getCity());
+        old.getUser().setPhoneNumber(customer.getUser().getPhoneNumber());
         customerRepository.save(old);
+        return old;
     }
 
-   public List<Order> getOrders(String username) {
-       Optional<Customer> customerOption = customerRepository.findById(username);
+   public List<Order> getOrders(Long id) {
+       Optional<Customer> customerOption = customerRepository.findById(id);
        if (customerOption.isPresent()) {
            Customer customer = customerOption.get();
            return customer.getMyOrders();

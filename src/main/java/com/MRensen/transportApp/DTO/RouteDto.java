@@ -31,7 +31,6 @@ public class RouteDto {
 
     public Route toRoute(){
         Route r = new Route();
-        r.setId(id);
         r.setTruck(truck);
         r.setDriver(driver);
         r.setPlanner(planner);

@@ -23,13 +23,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private DataSource dataSource;
 
+    //UserDetailsService userDetailsService;
 
     JwtRequestFilter jwtRequestFilter;
+
 
     @Autowired
     WebSecurityConfig(DataSource dataSource, JwtRequestFilter jwtRequestFilter){
         this.dataSource = dataSource;
         this.jwtRequestFilter = jwtRequestFilter;
+        //this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -66,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .authorizeRequests()
 //                .antMatchers("/users/**").hasRole("ADMIN")
-//                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/authenticate").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement()

@@ -1,6 +1,7 @@
 package com.MRensen.transportApp.controller;
 
 import com.MRensen.transportApp.DTO.CustomerDto;
+import com.MRensen.transportApp.exception.BadRequestException;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.service.CustomerService;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,40 +25,43 @@ public class CustomerController {
 
     @GetMapping("")
     public ResponseEntity<List<CustomerDto>> getCustomers(){
-        var c = customerService.getAllCustomers().stream().map(CustomerDto::fromCustomer).toList();
+        var c = customerService.getAll().stream().map(CustomerDto::fromCustomer).toList();
         return ResponseEntity.ok().body(c);
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<CustomerDto> getCustomer(@PathVariable String username){
-        CustomerDto customer = CustomerDto.fromCustomer(customerService.getCustomer(username));
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id){
+        CustomerDto customer = CustomerDto.fromCustomer(customerService.getOne(id));
         return ResponseEntity.ok().body(customer);
     }
 
-    @GetMapping("/{username}/orders")
-    public ResponseEntity<List<Order>> getOrders(@PathVariable String username){
-        var orders = customerService.getOrders(username);
+    @GetMapping("/{id}/orders")
+    public ResponseEntity<List<Order>> getOrders(@PathVariable Long id){
+        var orders = customerService.getOrders(id);
         return ResponseEntity.ok().body(orders);
     }
 
     @PostMapping("")
     public ResponseEntity<Object> postCustomer(@RequestBody CustomerDto customer){
-        Customer newCustomer = customerService.addCustomer(customer.toCustomer());
-        String username = newCustomer.getUsername();
+        if(customer.username == null){
+            throw new BadRequestException("Bad request: customer requires a username");
+        }
+        Customer newCustomer = customerService.addOne(customer.toCustomer());
+        String username = newCustomer.getUser().getUsername();
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
                 .buildAndExpand(username).toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping("/{username}")
-    public ResponseEntity<Object> putCustomer(@PathVariable String username, @RequestBody CustomerDto customer){
-        customerService.updateCustomer(username, customer.toCustomer());
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> putCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
+        customerService.updateOne(id, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{username}")
-    public ResponseEntity<Object> patchCustomer(@PathVariable String username, @RequestBody CustomerDto customer){
-        customerService.patchCustomer(username, customer.toCustomer());
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> patchCustomer(@PathVariable Long id, @RequestBody CustomerDto customer){
+        customerService.patchOne(id, customer.toCustomer());
         return ResponseEntity.noContent().build();
     }
 }

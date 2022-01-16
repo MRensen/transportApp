@@ -5,6 +5,7 @@ import com.MRensen.transportApp.DTO.PalletDto;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.service.OrderService;
+import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,18 @@ public class OrderController {
     public ResponseEntity<Object> gettype(@PathVariable long id){
         PalletType type = orderService.getType(id);
         return ResponseEntity.ok().body(type);
+    }
+
+    @GetMapping("/status/open")
+    public ResponseEntity<Object> getOpenOrders(){
+        var result = orderService.getOrdersByStatus(OrderStatus.PROCESSING);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/status/delivered")
+    public ResponseEntity<Object> getDeliveredOrders(){
+        var result = orderService.getOrdersByStatus(OrderStatus.DELIVERED);
+        return ResponseEntity.ok().body(result);
     }
 
     @PutMapping("/{id}")

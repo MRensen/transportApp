@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,9 @@ public class UserAuthenticateService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -38,11 +42,23 @@ public class UserAuthenticateService {
             throw new UsernameNotFoundException("Incorrect username or password");
         }
 
-       final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final UserDetails userDetails;
+        try {
+             userDetails = userDetailsService.loadUserByUsername(username);
+        } catch (RuntimeException ex){
+            throw new UsernameNotFoundException("userDetails not found");
+        }
 
         final String jwt = jwtUtl.generateToken(userDetails);
 
         return new AuthenticationResponseDto(jwt);
     }
 
+    public boolean comparePassword(String plaintext, String encrypted){
+        return passwordEncoder.matches(plaintext, encrypted);
+    }
+
+    public String encryptPassword(String plaintext){
+        return passwordEncoder.encode(plaintext);
+    }
 }

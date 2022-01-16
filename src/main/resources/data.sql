@@ -1,39 +1,45 @@
+
+INSERT INTO users (username, first_name, last_name, street, house_number, postal_code, city,phone_number, password, enabled, role)
+VALUES
+('plannerusername', 'piet', 'pieterson', 'steenstraat', '33', '8909ie', 'arnhem', '0689493832','$2a$12$5usMMaD9hathHXMKNMjlseunXe.QEQbRBtFiBycc.V/teqa0c4v6K', true, 'planner'),
+('customerusername', 'jan', 'jansen', 'kalverstraat', '22', '1001ab', 'Amsterdam', '010-894839', '$2a$12$5usMMaD9hathHXMKNMjlseunXe.QEQbRBtFiBycc.V/teqa0c4v6K', true, 'customer'),
+('driverusername', 'Mark', 'Rensen', 'Doesburgseweg', '26', '7031jd', 'Wehl', '0612334566', '$2a$12$5usMMaD9hathHXMKNMjlseunXe.QEQbRBtFiBycc.V/teqa0c4v6K', true, 'driver'),
+('driverusername2', 'jantje', 'jansen', 'straatweg', '26','1001hd', 'amsterdam','0612334566', '$2a$12$5usMMaD9hathHXMKNMjlseunXe.QEQbRBtFiBycc.V/teqa0c4v6K', true, 'driver');
+
+
 INSERT INTO authorities (username, authority)
 VALUES
 ('customerusername', 'customer'),
 ('plannerusername', 'planner'),
 ('driverusername', 'driver');
-INSERT INTO customers (id, username, name, street, house_number, postal_code, city, phone_number, password, enabled, role)
+INSERT INTO customers (id, name, user_username)
 VALUES
-(1001, 'customerusername', 'jansen', 'kalverstraat', '22', '1001ab', 'Amsterdam', '010-894839', 'password', true, 'customer');
+(1001, 'jansen', 'customerusername');
 
-INSERT INTO drivers (id, username,  first_name, last_name, street, house_number, city, employee_number, driver_license_number, phone_number, regular_truck, password, enabled, role)
+INSERT INTO drivers (user_username, id,  employee_number, driver_license_number,  regular_truck)
 VALUES
-(2005, 'driverusername2', 'jantje', 'jansen', 'straatweg', '26', 'amsterdam', 1000000, 'xxx111xxx', '0612334566', '97bph8', 'password', true, 'driver');
+('driverusername', 2001, 1000001, 'xxx111xxx',  '97bph8'),
+('driverusername2', 2005,  1000000, 'xxx222xxx',  'brvt22');
 
-
-INSERT INTO planners (id, username, first_name, password, enabled, role)
+INSERT INTO planners (id, user_username )
 VALUES
-(4001, 'plannerusername', 'piet', 'password', true, 'planner');
+(4001, 'plannerusername');
 
-INSERT INTO routes (id, truck, planner_username)
+INSERT INTO routes (id, truck, planner_id)
 VALUES
-(5001, '97bph8', 'plannerusername'),
-(5002, '97bph8', 'plannerusername');
+(5001, '97bph8', 4001),
+(5003, 'brvt33', 4001),
+(5002, '97bph8', 4001);
 
-INSERT INTO orders (id, loading_street, loading_house_number, loading_postal, loading_name, loading_city, loading_date, delivery_street, delivery_house_number, delivery_postal, delivery_name, delivery_city, delivery_date, creator_username, route_id, type, order_status, is_pickup, description)
+INSERT INTO orders (id, loading_street, loading_house_number, loading_postal, loading_name, loading_city, loading_date, delivery_street, delivery_house_number, delivery_postal, delivery_name, delivery_city, delivery_date, creator_id, route_id, type, order_status, is_pickup, description)
 VALUES
-(3001, 'edisonstraat', '39', '7002xs', 'Brutra', 'Doetinchem', '15-02-2022', 'zuivelweg', '55', '8004dv', 'jansen', 'almere', '16-02-2022', 'customerusername', 5001, 'EURO', 'IN_TRANSPORT', true, 'whatever'),
-(3003, 'voorweg', '44', '8888hg',       'Pfizer', 'Hamburg', '07-08-2022', 'varsseveldseweg', '55', '5345hh','dinges', 'terborg','04-04-2023', 'customerusername', 5001, 'OTHER', 'IN_TRANSPORT', false, 'testing how far it goes'),
-(3002, 'wasstraat', '5', '7062xs', 'fabriek', 'Didam','03-03-2022', 'achterweg', '65', '6006it', 'hendriksen', 'houten','06-03-2022', 'customerusername', 5001, 'BLOCK', 'IN_TRANSPORT', false, 'get your ass over here or else');
+(3001, 'edisonstraat', '39', '7002xs', 'Brutra', 'Doetinchem', '15-02-2022', 'zuivelweg', '55', '8004dv', 'jansen', 'almere', '16-02-2022', 1001, 5001, 'EURO', 'PROCESSING', true, 'this one is prcessing'),
+(3003, 'voorweg', '44', '8888hg',       'Pfizer', 'Hamburg', '07-08-2022', 'varsseveldseweg', '55', '5345hh','dinges', 'terborg','04-04-2023', 1001, 5001, 'OTHER', 'DELIVERED', false, 'this one is delivered'),
+(3002, 'wasstraat', '5', '7062xs', 'fabriek', 'Didam','03-03-2022', 'achterweg', '65', '6006it', 'hendriksen', 'houten','06-03-2022', 1001, 5001, 'BLOCK', 'IN_TRANSPORT', false, 'get your ass over here or else');
 
 
-INSERT INTO drivers (id, role, username,  first_name, last_name, street, house_number, city, employee_number, driver_license_number, phone_number, regular_truck, password, enabled)
-VALUES
-(2001,'driver', 'driverusername', 'Mark', 'Rensen', 'Doesburgseweg', '26', 'Wehl', 1000000, 'xxx111xxx', '0612334566', '97bph8', 'password', true);
-
-UPDATE routes SET driver_username='driverusername' WHERE id=5001;
-UPDATE routes SET driver_username='driverusername' WHERE id=5002;
+UPDATE routes SET driver_id=2001 WHERE id=5001;
+UPDATE routes SET driver_id=2001 WHERE id=5002;
 
 INSERT INTO pallets (dtype, id, height, length, load, weight, width, type )
 VALUES

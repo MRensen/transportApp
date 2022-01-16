@@ -1,7 +1,7 @@
 package com.MRensen.transportApp.controller;
 
 import com.MRensen.transportApp.DTO.PlannerDto;
-import com.MRensen.transportApp.model.Driver;
+import com.MRensen.transportApp.exception.BadRequestException;
 import com.MRensen.transportApp.model.Planner;
 import com.MRensen.transportApp.service.PlannerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,40 +24,51 @@ public class PlannerController {
 
     @GetMapping("")
     public ResponseEntity<List<PlannerDto>> getAllPlanners(){
-       var planners = plannerService.getAllPlanners().stream().map(PlannerDto::fromPlanner).toList();
+       var planners = plannerService.getAll().stream().map(PlannerDto::fromPlanner).toList();
        return ResponseEntity.ok().body(planners);
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<PlannerDto> getPlanner(@PathVariable String username){
-        var planner = PlannerDto.fromPlanner(plannerService.getPlanner(username));
+    @GetMapping("/{id}")
+    public ResponseEntity<PlannerDto> getPlanner(@PathVariable Long id){
+        var planner = PlannerDto.fromPlanner(plannerService.getOne(id));
         return ResponseEntity.ok().body(planner);
     }
 
     @PostMapping("")
     public ResponseEntity<Object> postPlanner(@RequestBody PlannerDto planner){
-        Planner p = plannerService.addPlanner(planner.toPlanner());
-        String username = p.getUsername();
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(username).toUri();
+        if(planner.username == null){
+            throw new BadRequestException("Bad request: Planner requires a username");
+        }
+        Planner p = plannerService.addOne(planner.toPlanner());
+        Long id = p.getId();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("{username}")
-    public ResponseEntity<Object> deletePlanner(@PathVariable String username){
-        plannerService.deletePlanner(username);
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deletePlanner(@PathVariable Long id){
+        plannerService.deleteOne(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{username}")
-    public ResponseEntity<Object> updatePlanner(@PathVariable String username, @RequestBody PlannerDto planner){
-        plannerService.updatePlanner(username, planner.toPlanner());
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updatePlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
+        plannerService.updateOne(id, planner.toPlanner());
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("{username}")
-    public ResponseEntity<Object> patchPlanner(@PathVariable String username, @RequestBody PlannerDto planner){
-        plannerService.patchPlanner(username, planner.toPlanner());
+    @PatchMapping("{id}")
+    public ResponseEntity<Object> patchPlanner(@PathVariable Long id, @RequestBody PlannerDto planner){
+        plannerService.patchOne(id, planner.toPlanner());
         return  ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("{id}/{route}")
+    public ResponseEntity<Object> addPlannerRoute(@PathVariable Long id, @PathVariable Long route){
+        plannerService.addPlannerRoute(route, id);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(id).toUri();
+        return ResponseEntity.created(location).build();
     }
 }
