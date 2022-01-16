@@ -67,13 +67,13 @@ public class OrderController {
 
     @GetMapping("/status/open")
     public ResponseEntity<Object> getOpenOrders(){
-        var result = orderService.getOrdersByStatus(OrderStatus.PROCESSING);
+        var result = orderService.getOrdersByStatus(OrderStatus.PROCESSING).stream().map(OrderDto::fromOrder).toList();
         return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/status/delivered")
     public ResponseEntity<Object> getDeliveredOrders(){
-        var result = orderService.getOrdersByStatus(OrderStatus.DELIVERED);
+        var result = orderService.getOrdersByStatus(OrderStatus.DELIVERED).stream().map(OrderDto::fromOrder).toList();
         return ResponseEntity.ok().body(result);
     }
 
