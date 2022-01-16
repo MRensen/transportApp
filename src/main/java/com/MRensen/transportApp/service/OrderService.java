@@ -2,9 +2,11 @@ package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Order;
+import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.repository.CustomerRepository;
 import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.repository.PalletRepository;
+import com.MRensen.transportApp.repository.RouteRepository;
 import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
@@ -21,14 +23,17 @@ public class OrderService {
     private OrderRepository orderRepository;
     private CustomerRepository customerRepository;
     private PalletRepository palletRepository;
+    private RouteRepository routeRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
                         CustomerRepository customerRepository,
-                        PalletRepository palletRepository) {
+                        PalletRepository palletRepository,
+                        RouteRepository routeRepository) {
         this.palletRepository = palletRepository;
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
+        this.routeRepository = routeRepository;
     }
 
     public List<Order> getAllOrders() {
@@ -42,6 +47,11 @@ public class OrderService {
         } else {
             throw new RecordNotFoundException("Order Id was not found");
         }
+    }
+
+    public List<Order> getOrdersByRoute(Long id){
+        Route route = routeRepository.getById(id);
+        return orderRepository.findAllByRoute(route);
     }
 
     public List<Order>  getOrdersByStatus(OrderStatus status){
@@ -90,6 +100,9 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
+        if(order.getRoute() != null){
+            old.setRoute(routeRepository.getById(order.getRoute().getId()));
+        }
         if (order.getCreator() != null) {
             old.setCreator(order.getCreator());
         }

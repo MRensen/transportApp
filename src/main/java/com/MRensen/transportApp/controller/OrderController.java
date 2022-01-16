@@ -65,6 +65,12 @@ public class OrderController {
         return ResponseEntity.ok().body(type);
     }
 
+    @GetMapping("/route/{id}")
+    public ResponseEntity<Object> getByRoute(@PathVariable long id){
+        var result = orderService.getOrdersByRoute(id).stream().map(OrderDto::fromOrder).toList();
+        return ResponseEntity.ok().body(result);
+    }
+
     @GetMapping("/status/open")
     public ResponseEntity<Object> getOpenOrders(){
         var result = orderService.getOrdersByStatus(OrderStatus.PROCESSING).stream().map(OrderDto::fromOrder).toList();
