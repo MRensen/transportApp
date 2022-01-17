@@ -54,6 +54,12 @@ public class RouteController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("{id}/orders")
+    public ResponseEntity<Object> deleteORders(@PathVariable Long id, @RequestBody String[] orders){
+        routeService.deleteOrders(id, orders);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("{id}")
     public ResponseEntity<Object> patchRoute(@PathVariable Long id, @RequestBody RouteDto route){
         routeService.patchRoute(id, route.toRoute());

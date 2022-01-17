@@ -101,19 +101,20 @@ public class RouteService {
             old.setTruck(route.getTruck());
         }
         if(route.getDriver() != null) {
-            old.setDriver(route.getDriver());
-           //old.setDriver(driverService.getOne(old.getDriver().getId()));
+//            old.setDriver(route.getDriver());
+           old.setDriver(driverService.getOne(route.getDriver().getId()));
         }
         if(route.getPlanner() != null) {
-            old.setPlanner(route.getPlanner());
-            //old.setPlanner(plannerService.getOne(old.getPlanner().getId()));
+//            old.setPlanner(route.getPlanner());
+            old.setPlanner(plannerService.getOne(route.getPlanner().getId()));
         }
         if(route.getOrders() != null) {
-            old.setOrders(route.getOrders());
-//            for(Order o: route.getOrders()){
-//                o.setRoute(route);
-//                orderService.patchOrder(o.getId(), o);
-//            }
+//            old.setOrders(route.getOrders());
+            for(Order o: route.getOrders()){
+                o.setRoute(old);
+                orderService.patchOrder(o.getId(), o);
+                old.addOrder(o);
+            }
 //            old.setOrders(orderService.getAllOrders());
         }
 
