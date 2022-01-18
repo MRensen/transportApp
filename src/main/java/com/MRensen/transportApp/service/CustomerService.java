@@ -4,6 +4,7 @@ import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.repository.CustomerRepository;
+import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,13 @@ import java.util.Optional;
 public class CustomerService implements UserService<Customer>{
     private CustomerRepository customerRepository;
     private UserRepository userRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository) {
+    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository, OrderRepository orderRepository) {
         this.customerRepository = customerRepository;
         this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
     }
 
     public List<Customer> getAll(){
@@ -49,6 +52,9 @@ public class CustomerService implements UserService<Customer>{
         if(customer.getUser().getStreet() != null){
             old.getUser().setStreet(customer.getUser().getStreet());
         }
+        if(customer.getUser().getCountry()!= null){
+            old.getUser().setCountry(customer.getUser().getCountry());
+        }
         if(customer.getName() != null) {
             old.setName(customer.getName());
         }
@@ -68,13 +74,16 @@ public class CustomerService implements UserService<Customer>{
         return old;
     }
 
+
     public Customer updateOne(Long id, Customer customer){
         if(!customerRepository.existsById(id)){
             throw new RecordNotFoundException("Customer not found");
         }
         Customer old = customerRepository.findById(id).orElse(null);
         old.getUser().setStreet(customer.getUser().getStreet());
+        old.setMyOrders(customer.getMyOrders());
         old.setName(customer.getName());
+        old.getUser().setCountry(customer.getUser().getCountry());
         old.getUser().setHouseNumber(customer.getUser().getHouseNumber());
         old.getUser().setPostalCode(customer.getUser().getPostalCode());
         old.getUser().setCity(customer.getUser().getCity());

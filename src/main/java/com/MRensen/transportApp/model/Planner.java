@@ -30,9 +30,9 @@ public class Planner implements UserInterface {
     public Planner() {
     }
 
-    public Planner(long id, String role, String firstName, String lastName, String street, String houseNumber, String postalCode, String city, String phoneNumber, List<Route> routes, String password, boolean enabled, String username, Set<Authority> authorities) {
+    public Planner(String country, long id, String role, String firstName, String lastName, String street, String houseNumber, String postalCode, String city, String phoneNumber, List<Route> routes, String password, boolean enabled, String username, Set<Authority> authorities) {
         this.id = id;
-        this.user =  new User( role,  postalCode,  username,   firstName,  lastName,  street,  houseNumber,  city,  phoneNumber,  password,  authorities);
+        this.user =  new User(country,  role,  postalCode,  username,   firstName,  lastName,  street,  houseNumber,  city,  phoneNumber,  password,  authorities);
         this.routes = routes;
     }
 

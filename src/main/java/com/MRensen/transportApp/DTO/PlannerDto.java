@@ -24,10 +24,12 @@ public class PlannerDto {
     public String password;
     public boolean enabled;
     public String username;
+    public String country;
 
     public static PlannerDto fromPlanner(Planner p){
         PlannerDto dto = new PlannerDto();
         dto.id = p.getId();
+        dto.country = p.getUser().getCountry();
         dto.firstName = p.getUser().getFirstName();
         dto.lastName = p.getUser().getLastName();
         dto.street = p.getUser().getStreet();
@@ -45,6 +47,7 @@ public class PlannerDto {
     public Planner toPlanner(){
         Planner p = new Planner();
         p.setUser(new User());
+        p.getUser().setCountry(country);
         p.getUser().setFirstName(firstName);
         p.getUser().setLastName(lastName);
         p.getUser().setStreet(street);
