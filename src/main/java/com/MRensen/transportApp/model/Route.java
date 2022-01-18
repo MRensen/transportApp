@@ -70,4 +70,6 @@ public class Route {
     }
 
     public void addOrder(Order order){this.orders.add(order);}
+
+    public void removeOrder(Order order){this.orders.remove(order);}
 }

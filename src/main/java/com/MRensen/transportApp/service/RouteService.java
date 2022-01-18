@@ -9,6 +9,7 @@ import com.MRensen.transportApp.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -120,5 +121,19 @@ public class RouteService {
 
         routeRepository.save(old);
 
+    }
+
+    public void deleteOrders(Long id, Order[] orders){
+        if (routeRepository.existsById(id)) {
+            Route route = routeRepository.getById(id);
+            for(Order order : orders){
+                Order tempOrder = orderService.getOrder(order.getId());
+                tempOrder.setRoute(null);
+                orderService.patchOrder(order.getId(), tempOrder);
+            }
+            routeRepository.save(route);
+        } else {
+            throw new RecordNotFoundException("Route not found");
+        }
     }
 }

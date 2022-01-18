@@ -1,6 +1,8 @@
 package com.MRensen.transportApp.controller;
 
+import com.MRensen.transportApp.DTO.OrderDto;
 import com.MRensen.transportApp.DTO.RouteDto;
+import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -55,8 +58,8 @@ public class RouteController {
     }
 
     @DeleteMapping("{id}/orders")
-    public ResponseEntity<Object> deleteORders(@PathVariable Long id, @RequestBody String[] orders){
-        routeService.deleteOrders(id, orders);
+    public ResponseEntity<Object> deleteORders(@PathVariable Long id, @RequestBody OrderDto[] orders){
+        routeService.deleteOrders(id, Arrays.stream(orders).map(OrderDto::toOrder).toArray(Order[]::new) );
         return ResponseEntity.noContent().build();
     }
 
