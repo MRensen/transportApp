@@ -64,6 +64,7 @@ public class PlannerService implements UserService<Planner> {
 //
         old.getUser().setFirstName(planner.getUser().getFirstName());
         old.getUser().setLastName(planner.getUser().getLastName());
+        old.getUser().setCountry(planner.getUser().getCountry());
         old.getUser().setStreet(planner.getUser().getStreet());
         old.getUser().setHouseNumber(planner.getUser().getHouseNumber());
         old.getUser().setCity(planner.getUser().getCity());
@@ -85,6 +86,9 @@ public class PlannerService implements UserService<Planner> {
         Planner old = plannerRepository.findById(id).orElse(null);
         if(planner.getUser().getRole() != null){
             old.getUser().setRole(planner.getUser().getRole());
+        }
+        if(planner.getUser().getCountry()!=null){
+            old.getUser().setCountry(planner.getUser().getCountry());
         }
         if(planner.getUser().getFirstName()!= null) {
             old.getUser().setFirstName(planner.getUser().getFirstName());

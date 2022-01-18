@@ -28,6 +28,7 @@ public class User {
     String postalCode;
     String phoneNumber;
     String password;
+    String country;
     boolean enabled = true;
     @OneToMany(
             targetEntity = Authority.class,
@@ -43,8 +44,9 @@ public class User {
     public User() {
     }
 
-    public User(String role, String postalCode, String username, String firstName, String lastName, String street, String houseNumber, String city, String phoneNumber, String password, Set<Authority> authorities) {
+    public User(String country, String role, String postalCode, String username, String firstName, String lastName, String street, String houseNumber, String city, String phoneNumber, String password, Set<Authority> authorities) {
         this.password = passwordEncoder.encode(password);
+        this.country = country;
         this.username = username;
         this.postalCode = postalCode;
         this.role = role;
@@ -59,6 +61,14 @@ public class User {
 
     //getter setters
 
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public String getUsername() {
         return username;

@@ -25,10 +25,10 @@ public class Customer implements UserInterface {
 
     //GETTERS AND SETTERS
 
-    public Customer(long id, String username, String firstName, String lastName, String street, List<Order> myOrders, String passWord, Set<Authority> authorities, String houseNumber, String postalCode, String city, String phoneNumber) {
+    public Customer(String country, long id, String username, String firstName, String lastName, String street, List<Order> myOrders, String passWord, Set<Authority> authorities, String houseNumber, String postalCode, String city, String phoneNumber) {
         this.id = id;
         this.myOrders = myOrders;
-        this.user = new User("customer",postalCode, username,  firstName, lastName, street, houseNumber, city, phoneNumber, passWord, authorities);
+        this.user = new User(country, "customer",postalCode, username,  firstName, lastName, street, houseNumber, city, phoneNumber, passWord, authorities);
     }
 
     public Customer() {

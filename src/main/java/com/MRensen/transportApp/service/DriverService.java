@@ -69,6 +69,9 @@ public class DriverService implements UserService<Driver> {
         if (driver.getUser().getLastName() != null) {
             old.getUser().setLastName(driver.getUser().getLastName());
         }
+        if(driver.getUser().getCountry()!= null){
+            old.getUser().setCountry(driver.getUser().getCountry());
+        }
         if (driver.getUser().getStreet() != null) {
             old.getUser().setStreet(driver.getUser().getStreet());
         }
@@ -110,6 +113,7 @@ public class DriverService implements UserService<Driver> {
         }
         Driver old = driverRepository.findById(id).orElse(null);
         old.getUser().setFirstName(driver.getUser().getFirstName());
+        old.getUser().setCountry(driver.getUser().getCountry());
         old.getUser().setLastName(driver.getUser().getLastName());
         old.getUser().setStreet(driver.getUser().getStreet());
         old.getUser().setHouseNumber(driver.getUser().getHouseNumber());

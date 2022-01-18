@@ -23,11 +23,13 @@ public class CustomerDto {
     public String city;
     public String phoneNumber;
     public String password;
+    public String country;
     public boolean enabled;
 
     public static CustomerDto fromCustomer(Customer c){
         CustomerDto dto = new CustomerDto();
         dto.id = c.getId();
+        dto.country = c.getUser().getCountry();
         dto.username = c.getUser().getUsername();
         dto.myOrders = c.getMyOrders();
         dto.name = c.getName();
@@ -45,6 +47,7 @@ public class CustomerDto {
         Customer c = new Customer();
         c.setUser(new User());
         c.getUser().setUsername(username);
+        c.getUser().setCountry(country);
         c.setMyOrders(myOrders);
         c.setName(name);
         c.getUser().setStreet(street);

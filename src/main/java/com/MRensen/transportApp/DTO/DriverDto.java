@@ -24,11 +24,13 @@ public class DriverDto {
     public String phoneNumber;
     public String regularTruck;
     public String password;
+    public String country;
     public boolean enabled;
 
     public static DriverDto fromDriver(Driver d){
         DriverDto dto = new DriverDto();
         dto.id = d.getId();
+        dto.country = d.getUser().getCountry();
         dto.username = d.getUser().getUsername();
         dto.postalcode = d.getUser().getPostalCode();
         dto.route = d.getRoutes();
@@ -49,6 +51,7 @@ public class DriverDto {
     public Driver toDriver(){
         Driver d = new Driver();
         d.setUser(new User());
+        d.getUser().setCountry(country);
         d.getUser().setRole(role);
         d.getUser().setUsername(username);
         d.getUser().setPostalCode(postalcode);

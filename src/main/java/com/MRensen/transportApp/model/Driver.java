@@ -38,10 +38,10 @@ public class Driver implements UserInterface {
     public Driver() {
     }
 
-    public Driver(long id,String postal, String username, List<Route> route, String firstName, String lastName, Set<Authority> authorities, String passWord, String street, String houseNumber, String city, int employeeNumber, String driverLicenseNumber, String phoneNumber, String regularTruck) {
+    public Driver(String country, long id,String postal, String username, List<Route> route, String firstName, String lastName, Set<Authority> authorities, String passWord, String street, String houseNumber, String city, int employeeNumber, String driverLicenseNumber, String phoneNumber, String regularTruck) {
         this.id = id;
         this.routes = route;
-        this.user = new User("driver",postal, username,  firstName, lastName, street, houseNumber, city, phoneNumber, passWord, authorities);
+        this.user = new User(country,"driver",postal, username,  firstName, lastName, street, houseNumber, city, phoneNumber, passWord, authorities);
         this.employeeNumber = employeeNumber;
         this.driverLicenseNumber = driverLicenseNumber;
         this.regularTruck = regularTruck;
