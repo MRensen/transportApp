@@ -22,8 +22,8 @@ public class PalletTest{
         assertEquals(null, pallet.getLoad());
         pallet = new OtherPallet();
         assertEquals(null, pallet.getLoad());
-        pallet.setType("none");
-        assertEquals("none", pallet.getType());
+        pallet.setType(PalletType.NONE);
+        assertEquals(PalletType.NONE, pallet.getType());
 
     }
 
@@ -40,7 +40,7 @@ public class PalletTest{
         assertEquals(10, pallet.getHeight());
         pallet.setWeight(100);
         assertEquals(100, pallet.getWeight());
-        assertEquals("block", pallet.getType());
+        assertEquals(PalletType.BLOCK, pallet.getType());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class PalletTest{
         assertEquals(10, pallet.getHeight());
         pallet.setWeight(100);
         assertEquals(100, pallet.getWeight());
-        assertEquals("euro", pallet.getType());
+        assertEquals(PalletType.EURO, pallet.getType());
     }
 
     @Test
@@ -79,6 +79,6 @@ public class PalletTest{
         assertEquals("constructorTest", pallet.getLoad());
         pallet.setWeight(100);
         assertEquals(100, pallet.getWeight());
-        assertEquals("other", pallet.getType());
+        assertEquals(PalletType.OTHER, pallet.getType());
     }
 }

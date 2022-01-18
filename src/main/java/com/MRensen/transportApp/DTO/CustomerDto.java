@@ -4,6 +4,7 @@ package com.MRensen.transportApp.DTO;
 import com.MRensen.transportApp.model.Authority;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
+import com.MRensen.transportApp.model.User;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Set;
 public class CustomerDto {
     public Long id;
     public String username;
+    public String role = "customer";
     @JsonIncludeProperties("id")
     public List<Order> myOrders;
     public String name;
@@ -26,32 +28,34 @@ public class CustomerDto {
     public static CustomerDto fromCustomer(Customer c){
         CustomerDto dto = new CustomerDto();
         dto.id = c.getId();
-        dto.username = c.getUsername();
+        dto.username = c.getUser().getUsername();
         dto.myOrders = c.getMyOrders();
         dto.name = c.getName();
-        dto.street = c.getStreet();
-        dto.houseNumber = c.getHouseNumber();
-        dto.postalCode = c.getPostalCode();
-        dto.city = c.getCity();
-        dto.phoneNumber = c.getPhoneNumber();
-        dto.password = c.getPassword();
-        dto.enabled = c.isEnabled();
+        dto.street = c.getUser().getStreet();
+        dto.houseNumber = c.getUser().getHouseNumber();
+        dto.postalCode = c.getUser().getPostalCode();
+        dto.city = c.getUser().getCity();
+        dto.phoneNumber = c.getUser().getPhoneNumber();
+        dto.password = c.getUser().getPassword();
+        dto.enabled = c.getUser().isEnabled();
         return dto;
     }
 
     public Customer toCustomer(){
         Customer c = new Customer();
-        c.setId(id);
-        c.setUsername(username);
+        c.setUser(new User());
+        c.getUser().setUsername(username);
         c.setMyOrders(myOrders);
         c.setName(name);
-        c.setStreet(street);
-        c.setHouseNumber(houseNumber);
-        c.setPostalCode(postalCode);
-        c.setCity(city);
-        c.setPhoneNumber(phoneNumber);
-        c.setPassword(password);
-        c.setEnabled(enabled);
+        c.getUser().setStreet(street);
+        c.getUser().setHouseNumber(houseNumber);
+        c.getUser().setPostalCode(postalCode);
+        c.getUser().setCity(city);
+        c.getUser().setPhoneNumber(phoneNumber);
+        if(password != null) {
+            c.getUser().setPassword(password);
+        }
+        c.getUser().setEnabled(enabled);
         return c;
     }
 }

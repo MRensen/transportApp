@@ -2,8 +2,14 @@ package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Order;
+import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.repository.CustomerRepository;
 import com.MRensen.transportApp.repository.OrderRepository;
+import com.MRensen.transportApp.repository.PalletRepository;
+import com.MRensen.transportApp.repository.RouteRepository;
+import com.MRensen.transportApp.utils.OrderStatus;
+import com.MRensen.transportApp.utils.Pallet.Pallet;
+import com.MRensen.transportApp.utils.Pallet.PalletType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -16,12 +22,18 @@ public class OrderService {
 
     private OrderRepository orderRepository;
     private CustomerRepository customerRepository;
+    private PalletRepository palletRepository;
+    private RouteRepository routeRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
-                        CustomerRepository customerRepository) {
+                        CustomerRepository customerRepository,
+                        PalletRepository palletRepository,
+                        RouteRepository routeRepository) {
+        this.palletRepository = palletRepository;
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
+        this.routeRepository = routeRepository;
     }
 
     public List<Order> getAllOrders() {
@@ -37,6 +49,15 @@ public class OrderService {
         }
     }
 
+    public List<Order> getOrdersByRoute(Long id){
+        Route route = routeRepository.getById(id);
+        return orderRepository.findAllByRoute(route);
+    }
+
+    public List<Order>  getOrdersByStatus(OrderStatus status){
+        return orderRepository.findAllByOrderStatus(status);
+    }
+
     public Order addOrder(Order order) {
         return orderRepository.save(order);
     }
@@ -50,13 +71,17 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
-        if(customerRepository.existsById(order.getCreator().getUsername())){
-            old.setCreator(order.getCreator());
+        if (customerRepository.existsById(order.getCreator().getId())) {
+            old.setCreator(customerRepository.getById(order.getCreator().getId()));
         } else {
             throw new RecordNotFoundException("No (creator)customer found");
         }
         old.setPallets(order.getPallets());
+        old.setDescription(order.getDescription());
         old.setLoadingStreet(order.getLoadingStreet());
+        old.setOrderStatus(order.getOrderStatus());
+        old.setType(order.getType());
+        old.setPickup(order.isPickup());
         old.setLoadingHouseNumber(order.getLoadingHouseNumber());
         old.setLoadingPostal(order.getLoadingPostal());
         old.setLoadingName(order.getLoadingName());
@@ -67,6 +92,7 @@ public class OrderService {
         old.setDeliveryName(order.getDeliveryName());
         old.setDeliveryCity(order.getDeliveryCity());
         old.setDeliveryDate(order.getDeliveryDate());
+        orderRepository.save(old);
     }
 
     public void patchOrder(Long id, Order order) {
@@ -74,8 +100,23 @@ public class OrderService {
             throw new RecordNotFoundException("Order not found");
         }
         Order old = orderRepository.findById(id).orElse(null);
+        if(order.getRoute() != null){
+            old.setRoute(routeRepository.getById(order.getRoute().getId()));
+        }
         if (order.getCreator() != null) {
             old.setCreator(order.getCreator());
+        }
+        if(order.getDescription() != null){
+            old.setDescription(order.getDescription());
+        }
+        if (order.getType() != null) {
+            old.setType(order.getType());
+        }
+        if (order.isPickup() != null) {
+            old.setPickup(order.isPickup());
+        }
+        if (order.getOrderStatus() != null) {
+            old.setOrderStatus(order.getOrderStatus());
         }
         if (order.getPallets() != null) {
             old.setPallets(order.getPallets());
@@ -116,18 +157,31 @@ public class OrderService {
         if (order.getDeliveryCity() != null) {
             old.setDeliveryCity(order.getDeliveryCity());
         }
+        orderRepository.save(old);
     }
 
-    public String getType(Long id) {
+    public PalletType getType(Long id) {
         if (!orderRepository.existsById(id)) {
             throw new RecordNotFoundException("Order not found");
         }
         Order order = orderRepository.findById(id).orElse(null);
         var pallets = order.getPallets();
         if (pallets.isEmpty()) {
-            return "none";
+            return PalletType.NONE;
         } else {
             return pallets.get(0).getType();
         }
+    }
+
+    public void addPallet(Long id, Pallet pallet) {
+        palletRepository.save(pallet);
+        Order newOrder = new Order();
+        newOrder.addPallet(pallet);
+        patchOrder(id, newOrder);
+    }
+
+    public List<Pallet> getPallets(Long id) {
+        Order order = getOrder(id);
+        return order.getPallets();
     }
 }

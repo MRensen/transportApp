@@ -1,5 +1,7 @@
 package com.MRensen.transportApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -14,12 +16,13 @@ public class Route {
 
     String truck; //license plate
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Driver driver;
 
     @ManyToOne
     Planner planner;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "route")
     List<Order> orders;
 
@@ -65,4 +68,8 @@ public class Route {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+
+    public void addOrder(Order order){this.orders.add(order);}
+
+    public void removeOrder(Order order){this.orders.remove(order);}
 }

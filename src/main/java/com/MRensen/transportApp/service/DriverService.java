@@ -2,140 +2,169 @@ package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.AttributeOverrideException;
 import com.MRensen.transportApp.exception.RecordNotFoundException;
-import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.repository.DriverRepository;
 import com.MRensen.transportApp.repository.RouteRepository;
+import com.MRensen.transportApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DriverService {
+public class DriverService implements UserService<Driver> {
     private DriverRepository driverRepository;
     private RouteRepository routeRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public DriverService(DriverRepository driverRepository,
-                         RouteRepository routeRepository) {
+                         RouteRepository routeRepository,
+                         UserRepository userRepository) {
         this.driverRepository = driverRepository;
         this.routeRepository = routeRepository;
+        this.userRepository = userRepository;
     }
 
-    public List<Driver> getAllDrivers(){
+    public List<Driver> getAll() {
         return driverRepository.findAll();
     }
 
-    public Driver getOne(String username){
-        Optional<Driver> driverOption = driverRepository.findById(username);
-        if(driverOption.isPresent()) {
+    public Driver getOne(Long id) {
+        Optional<Driver> driverOption = driverRepository.findById(id);
+        if (driverOption.isPresent()) {
             return driverOption.get();
         } else {
             throw new RecordNotFoundException("Driver Id was not found");
-        }}
+        }
+    }
 
     public Driver addOne(Driver driver) {
+        userRepository.save(driver.getUser());
         return driverRepository.save(driver);
     }
 
-    public void deleteOne(String id){
-//        Driver driver = driverRepository.getById(id);
+    public void deleteOne(Long id) {
+        Driver driver = driverRepository.getById(id);
+        var routes = driver.getRoutes();
+        for(Route route : routes){
+            route.setDriver(null);
+        }
 //        driver.setRoute(null);
 //        driverRepository.save(driver);
         driverRepository.deleteById(id);
     }
 
-    public Driver patchOne(String id, Driver driver){
-        if(!driverRepository.existsById(id)){
+    public Driver patchOne(Long id, Driver driver) {
+        if (!driverRepository.existsById(id)) {
             throw new RecordNotFoundException("Driver not found");
         }
         Driver old = driverRepository.findById(id).orElse(null);
-        if(driver.getFirstName() != null){
-            old.setFirstName(driver.getFirstName());
+        if (driver.getUser().getFirstName() != null) {
+            old.getUser().setFirstName(driver.getUser().getFirstName());
         }
-        if(driver.getLastName() != null){
-            old.setLastName(driver.getLastName());
+        if (driver.getUser().getLastName() != null) {
+            old.getUser().setLastName(driver.getUser().getLastName());
         }
-        if(driver.getStreet() != null){
-            old.setStreet(driver.getStreet());
+        if (driver.getUser().getStreet() != null) {
+            old.getUser().setStreet(driver.getUser().getStreet());
         }
-        if(driver.getHouseNumber() != null){
-            old.setHouseNumber(driver.getHouseNumber());
+        if (driver.getUser().getHouseNumber() != null) {
+            old.getUser().setHouseNumber(driver.getUser().getHouseNumber());
         }
-        if(driver.getCity() != null){
-            old.setCity(driver.getCity());
+        if (driver.getUser().getCity() != null) {
+            old.getUser().setCity(driver.getUser().getCity());
         }
-        if(driver.getEmployeeNumber() > 0){
+        if (driver.getEmployeeNumber() > 0) {
             old.setEmployeeNumber(driver.getEmployeeNumber());
         }
-        if(driver.getDriverLicenseNumber() != null){
+        if (driver.getDriverLicenseNumber() != null) {
             old.setDriverLicenseNumber(driver.getDriverLicenseNumber());
         }
-        if(driver.getPhoneNumber() != null){
-            old.setPhoneNumber(driver.getPhoneNumber());
+        if (driver.getUser().getPhoneNumber() != null) {
+            old.getUser().setPhoneNumber(driver.getUser().getPhoneNumber());
         }
-        if(driver.getRegularTruck() != null){
+        if (driver.getRegularTruck() != null) {
             old.setRegularTruck(driver.getRegularTruck());
+        }
+        if(driver.getUser().getUsername() != null){
+            old.getUser().setUsername(driver.getUser().getUsername());
         }
         driverRepository.save(old);
         return old;
     }
 
-    public Driver updateOne(String id, Driver driver){
-        if(!driverRepository.existsById(id)){
+    public String getPassword(Long id){
+        if(driverRepository.existsById(id)) {
+            Driver driver =driverRepository.getById(id);
+            return driver.getUser().getPassword();
+        } else {throw new RecordNotFoundException("Driver not found");}
+    }
+
+    public Driver updateOne(Long id, Driver driver) {
+        if (!driverRepository.existsById(id)) {
             throw new RecordNotFoundException("Driver not found");
         }
         Driver old = driverRepository.findById(id).orElse(null);
-        old.setFirstName(driver.getFirstName());
-        old.setLastName(driver.getLastName());
-        old.setStreet(driver.getStreet());
-        old.setHouseNumber(driver.getHouseNumber());
-        old.setCity(driver.getCity());
+        old.getUser().setFirstName(driver.getUser().getFirstName());
+        old.getUser().setLastName(driver.getUser().getLastName());
+        old.getUser().setStreet(driver.getUser().getStreet());
+        old.getUser().setHouseNumber(driver.getUser().getHouseNumber());
+        old.getUser().setCity(driver.getUser().getCity());
         old.setEmployeeNumber(driver.getEmployeeNumber());
         old.setDriverLicenseNumber(driver.getDriverLicenseNumber());
-        old.setPhoneNumber(driver.getPhoneNumber());
+        old.getUser().setPhoneNumber(driver.getUser().getPhoneNumber());
         old.setRegularTruck(driver.getRegularTruck());
+        old.getUser().setUsername(driver.getUser().getUsername());
         driverRepository.save(old);
         return old;
     }
 
-    public Route getDriverRoute(String id){
+    public List<Route> getDriverRoute(Long id) {
         Optional<Driver> driverOption = driverRepository.findById(id);
-        if(driverOption.isPresent()) {
+        if (driverOption.isPresent()) {
             Driver driver = driverOption.get();
-            return driver.getRoute();
-        } else { throw new RecordNotFoundException("Driver not found");}
+            return driver.getRoutes();
+        } else {
+            throw new RecordNotFoundException("Driver not found");
+        }
     }
 
-    public void addDriverRoute(Route route, String id){
+    public void addDriverRoute(Long route, Long id) {
         Optional<Driver> driverOption = driverRepository.findById(id);
-        if(driverOption.isPresent()) {
+        if (driverOption.isPresent()) {
             Driver driver = driverOption.get();
-            if(driver.getRoute() == null){
-                Route routedb = routeRepository.findById(route.getId()).orElse(null);
-                routedb.setDriver(driver);
-                routeRepository.save(routedb);
-                driver.setRoute(routedb);
-                driverRepository.save(driver);
-            } else {
-                throw new AttributeOverrideException("Attribute is allready filled");
-            }
-        } else { throw new RecordNotFoundException("Driver not found");}
-    }
-
-    public void deleteDriverRoute(String id){
-        Optional<Driver> driverOption = driverRepository.findById(id);
-        if(driverOption.isPresent()) {
-            Driver driver = driverOption.get();
-            Route route = driver.getRoute();
-            route.setDriver(null);
-            routeRepository.save(route);
-            driver.setRoute(null);
+            Route routedb = routeRepository.findById(route).orElse(null);
+            routedb.setDriver(driver);
+            routeRepository.save(routedb);
+            driver.addRoute(routedb);
             driverRepository.save(driver);
-        } else { throw new RecordNotFoundException("Driver not found");}
+        } else {
+            throw new RecordNotFoundException("Driver not found");
+        }
+    }
+
+    public void deleteDriverRoute(Long driverId, Long routeId) {
+        Optional<Driver> driverOption = driverRepository.findById(driverId);
+        if (driverOption.isPresent()) {
+            Driver driver = driverOption.get();
+            List<Route> routes = new ArrayList(driver.getRoutes());
+//            routes.removeIf(r -> routeId.equals(r.getId()));
+            routes.stream().forEach((r) -> {
+                if(routeId.equals(r.getId())) {
+                    r.setDriver(null);
+                    driver.deleteRoute(r);
+                    routeRepository.save(r);
+                }
+            });
+            driver.setRoutes(routes);
+            driverRepository.save(driver);
+        } else {
+            throw new RecordNotFoundException("Driver not found");
+        }
 
     }
 }

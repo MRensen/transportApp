@@ -1,5 +1,7 @@
 package com.MRensen.transportApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,90 +10,36 @@ import java.util.Set;
 
 @Entity
 @Table(name="planners")
-public class Planner {
+public class Planner implements UserInterface {
     @GeneratedValue
+    @Id
     long id;
 
-    String firstName;
-    String lastName;
-    String street;
-    String houseNumber;
-    String postalCode;
-    String city;
-    String phoneNumber;
+    @OneToOne
+    User user;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "planner")
     List<Route> routes = new ArrayList<>();
 
-    //security
-    String password;
-
-    boolean enabled = true;
-
-    @Column(nullable = false,unique = true)
-    @Id
-    String username;
-
-    @OneToMany(
-            targetEntity = Authority.class,
-            mappedBy = "username",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private Set<Authority> authorities = new HashSet<>();
 
 
+    //CONSTRUCTORS
+
+    public Planner() {
+    }
+
+    public Planner(long id, String role, String firstName, String lastName, String street, String houseNumber, String postalCode, String city, String phoneNumber, List<Route> routes, String password, boolean enabled, String username, Set<Authority> authorities) {
+        this.id = id;
+        this.user =  new User( role,  postalCode,  username,   firstName,  lastName,  street,  houseNumber,  city,  phoneNumber,  password,  authorities);
+        this.routes = routes;
+    }
 
     //GETTERS AND SETTERS
 
 
-    public String getLastName() {
-        return lastName;
-    }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public long getId() {
         return id;
@@ -101,45 +49,6 @@ public class Planner {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
 
     public List<Route> getRoutes() {
         return routes;
@@ -149,11 +58,15 @@ public class Planner {
         this.routes = routes;
     }
 
-    public void addAuthority(Authority authority) {
-        this.authorities.add(authority);
+    public void addRoute(Route route){ this.routes.add(route);}
+
+    public void deleteRoute(Route route){this.routes.remove(route);}
+
+    public User getUser() {
+        return user;
     }
 
-    public void addAuthority(String authority) {
-        this.authorities.add(new Authority(this.username, authority));
+    public void setUser(User user) {
+        this.user = user;
     }
 }

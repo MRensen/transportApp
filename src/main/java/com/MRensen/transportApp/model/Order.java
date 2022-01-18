@@ -2,6 +2,8 @@ package com.MRensen.transportApp.model;
 
 import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
+import com.MRensen.transportApp.utils.Pallet.PalletType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,23 +17,30 @@ public class Order {
     @GeneratedValue
     @Id
     long id;
+    @Enumerated(EnumType.STRING)
+    PalletType type = PalletType.EURO;
 
-    OrderStatus orderStatus;
+    @Enumerated(EnumType.STRING)
+    OrderStatus orderStatus = OrderStatus.PROCESSING;
 
     Boolean isPickup = false;
 
+    String description;
+
     @ManyToOne(optional = false)
+    @JsonIgnore
     Customer creator;
 
     @ManyToOne
     Route route;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "pallets",
-            joinColumns = @JoinColumn(name="id")
-    )
-    @Column(name="palletlist")
+//    @ElementCollection
+//    @CollectionTable(
+//            name = "pallets",
+//            joinColumns = @JoinColumn(name="id")
+//    )
+//    @Column(name="palletlist")
+    @OneToMany
     List<Pallet> pallets = new ArrayList<>();
 
     //loading adress
@@ -53,6 +62,24 @@ public class Order {
 
 
     //GETTERS AND SETTERS
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public PalletType getType() {
+        return type;
+    }
+
+    public void setType(PalletType type) {
+        this.type = type;
+    }
+
 
     public Boolean isPickup() {
         return isPickup;
@@ -197,6 +224,8 @@ public class Order {
     public void setPallets(List<Pallet> pallets) {
         this.pallets = pallets;
     }
+
+    public void addPallet(Pallet pallet){ this.pallets.add(pallet);}
 
 
 }

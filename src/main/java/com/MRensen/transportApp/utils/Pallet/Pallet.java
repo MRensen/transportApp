@@ -1,13 +1,20 @@
 package com.MRensen.transportApp.utils.Pallet;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Inheritance
+@Entity
+@Table(name="pallets")
 public abstract class Pallet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String load;
     int height;
     int weight;
-    String type = "none";
+    int width;
+    int length;
+    PalletType type = PalletType.NONE;
 
     public int getHeight() {
         return height;
@@ -25,24 +32,24 @@ public abstract class Pallet {
         this.load = load;
     }
 
-    public Pallet(String load, int height, String type) {
+    public Pallet(String load, int height, PalletType type) {
         this.load = load;
         this.height = height;
         this.type = type;
     }
 
-    public Pallet(String type) {
+    public Pallet(PalletType type) {
         this.type = type;
     }
 
     //this is useless, but I get an error is I don't put this in
     public Pallet(){}
 
-    public String getType() {
+    public PalletType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PalletType type) {
         this.type = type;
     }
 
@@ -52,5 +59,21 @@ public abstract class Pallet {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }
