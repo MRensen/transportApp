@@ -21,9 +21,9 @@ public class Order {
     PalletType type = PalletType.EURO;
 
     @Enumerated(EnumType.STRING)
-    OrderStatus orderStatus = OrderStatus.PROCESSING;
+    OrderStatus orderStatus; // empty new = OrderStatus.PROCESSING;
 
-    Boolean isPickup = false;
+    Boolean isPickup; // empty new = false;
 
     String description;
 
@@ -41,7 +41,7 @@ public class Order {
 //    )
 //    @Column(name="palletlist")
     @OneToMany
-    List<Pallet> pallets = new ArrayList<>();
+    List<Pallet> pallets; // empty new = new ArrayList();
 
     //loading adress
     String loadingStreet;
