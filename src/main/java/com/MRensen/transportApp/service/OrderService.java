@@ -1,6 +1,7 @@
 package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.RecordNotFoundException;
+import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.repository.CustomerRepository;
@@ -59,6 +60,12 @@ public class OrderService {
     }
 
     public Order addOrder(Order order) {
+        order.getPallets().stream().forEach((pallet)->{palletRepository.save(pallet);});
+        Customer c = customerRepository.getById(order.getCreator().getId());
+        order.setCreator(c);
+//        for(Pallet pallet : order.getPallets()){
+//            palletRepository.save(pallet);
+//        }
         return orderRepository.save(order);
     }
 

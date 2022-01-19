@@ -3,6 +3,7 @@ package com.MRensen.transportApp.DTO;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.Route;
+import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
@@ -21,7 +22,7 @@ public class OrderDto {
     @Size(max=30)
     public String description;
     @JsonIncludeProperties("id")
-    public Customer creator;
+    public CustomerDto creator;
     @JsonIncludeProperties("id")
     public Route route;
     public List<PalletDto> pallets;
@@ -47,7 +48,7 @@ public class OrderDto {
         dto.type = o.getType();
         dto.isPickup = o.isPickup();
         dto.description = o.getDescription();
-        dto.creator = o.getCreator();
+        dto.creator = CustomerDto.fromCustomer(o.getCreator());
         dto.route = o.getRoute();
         dto.pallets = o.getPallets().stream().map(PalletDto::fromPallet).toList();
         dto.loadingStreet = o.getLoadingStreet();
@@ -74,7 +75,9 @@ public class OrderDto {
         o.setPickup(isPickup);
         o.setType(type);
         o.setDescription(description);
-        o.setCreator(creator);
+        if(creator != null){
+            o.setCreator(creator.toCustomer());
+        }
         o.setRoute(route);
         if(pallets != null) {
             o.setPallets(pallets.stream().map(PalletDto::toPallet).toList());
