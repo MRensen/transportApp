@@ -11,9 +11,9 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
-
-    @Transient
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//
+//    @Transient
+//    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Column(nullable = false, unique = true)
     @Id
@@ -45,7 +45,7 @@ public class User {
     }
 
     public User(String country, String role, String postalCode, String username, String firstName, String lastName, String street, String houseNumber, String city, String phoneNumber, String password, Set<Authority> authorities) {
-        this.password = passwordEncoder.encode(password);
+        this.password = password;
         this.country = country;
         this.username = username;
         this.postalCode = postalCode;
@@ -56,7 +56,11 @@ public class User {
         this.houseNumber = houseNumber;
         this.city = city;
         this.phoneNumber = phoneNumber;
-        this.authorities = authorities;
+        if(authorities.isEmpty()){
+            this.authorities.add(new Authority(username, role));
+        }else {
+            this.authorities = authorities;
+        }
     }
 
     //getter setters
@@ -84,6 +88,7 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+        this.authorities.add(new Authority(this.username, role));
     }
 
     public String getFirstName() {
@@ -139,7 +144,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = passwordEncoder.encode(password);
+        this.password = password;
     }
 
     public boolean isEnabled() {

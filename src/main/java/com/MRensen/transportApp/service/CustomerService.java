@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerService implements UserService<Customer>{
+public class CustomerService implements UserServiceInt<Customer> {
     private CustomerRepository customerRepository;
     private UserRepository userRepository;
     private OrderRepository orderRepository;

@@ -1,6 +1,5 @@
 package com.MRensen.transportApp.service;
 
-import com.MRensen.transportApp.exception.AttributeOverrideException;
 import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Route;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DriverService implements UserService<Driver> {
+public class DriverService implements UserServiceInt<Driver> {
     private DriverRepository driverRepository;
     private RouteRepository routeRepository;
     private UserRepository userRepository;
