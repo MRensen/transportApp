@@ -1,6 +1,7 @@
 package com.MRensen.transportApp.config;
 
 import com.MRensen.transportApp.config.security.JwtRequestFilter;
+import com.MRensen.transportApp.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,16 +24,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private DataSource dataSource;
 
-    //UserDetailsService userDetailsService;
+    UserDetailsService userDetailsService;
 
     JwtRequestFilter jwtRequestFilter;
 
 
     @Autowired
-    WebSecurityConfig(DataSource dataSource, JwtRequestFilter jwtRequestFilter){
+    WebSecurityConfig(DataSource dataSource, JwtRequestFilter jwtRequestFilter, CustomUserDetailsService userDetailsService){
         this.dataSource = dataSource;
         this.jwtRequestFilter = jwtRequestFilter;
-        //this.userDetailsService = userDetailsService;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -41,11 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
-    }
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsServiceBean() throws Exception {
+//        return super.userDetailsServiceBean();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){

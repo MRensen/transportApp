@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PlannerService implements UserService<Planner> {
+public class PlannerService implements UserServiceInt<Planner> {
     private PlannerRepository plannerRepository;
     private UserRepository userRepository;
     private RouteRepository routeRepository;

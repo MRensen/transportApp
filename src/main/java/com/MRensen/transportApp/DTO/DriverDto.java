@@ -51,9 +51,9 @@ public class DriverDto {
     public Driver toDriver(){
         Driver d = new Driver();
         d.setUser(new User());
+        d.getUser().setUsername(username);
         d.getUser().setCountry(country);
         d.getUser().setRole(role);
-        d.getUser().setUsername(username);
         d.getUser().setPostalCode(postalcode);
         d.setRoutes(route);
         d.getUser().setFirstName(firstName);

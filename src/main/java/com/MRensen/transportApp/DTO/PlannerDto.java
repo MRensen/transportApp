@@ -47,6 +47,8 @@ public class PlannerDto {
     public Planner toPlanner(){
         Planner p = new Planner();
         p.setUser(new User());
+        p.getUser().setUsername(username);
+        p.getUser().setRole(role);
         p.getUser().setCountry(country);
         p.getUser().setFirstName(firstName);
         p.getUser().setLastName(lastName);
@@ -60,7 +62,6 @@ public class PlannerDto {
             p.getUser().setPassword(password);
         }
         p.getUser().setEnabled(enabled);
-        p.getUser().setUsername(username);
         return p;
     }
 }
