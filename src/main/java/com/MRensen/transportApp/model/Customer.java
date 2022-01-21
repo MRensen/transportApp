@@ -3,13 +3,12 @@ package com.MRensen.transportApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="customers")
-public class Customer implements UserInterface {
+@Table(name = "customers")
+public class Customer implements AccountInterface {
     @GeneratedValue
     @Id
     long id;
@@ -17,6 +16,7 @@ public class Customer implements UserInterface {
     String name;
 
     @OneToOne
+    @JoinColumn(name = "user_username", referencedColumnName = "username")
     User user;
 
     @JsonIgnore
@@ -28,7 +28,7 @@ public class Customer implements UserInterface {
     public Customer(String country, long id, String username, String firstName, String lastName, String street, List<Order> myOrders, String passWord, Set<Authority> authorities, String houseNumber, String postalCode, String city, String phoneNumber) {
         this.id = id;
         this.myOrders = myOrders;
-        this.user = new User(country, "customer",postalCode, username,  firstName, lastName, street, houseNumber, city, phoneNumber, passWord, authorities);
+        this.user = new User(country, "customer", postalCode, username, firstName, lastName, street, houseNumber, city, phoneNumber, passWord, authorities);
     }
 
     public Customer() {

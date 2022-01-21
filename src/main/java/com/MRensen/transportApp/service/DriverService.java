@@ -52,8 +52,7 @@ public class DriverService implements UserServiceInt<Driver> {
         for(Route route : routes){
             route.setDriver(null);
         }
-//        driver.setRoute(null);
-//        driverRepository.save(driver);
+
         driverRepository.deleteById(id);
     }
 
@@ -68,7 +67,7 @@ public class DriverService implements UserServiceInt<Driver> {
         if (driver.getUser().getLastName() != null) {
             old.getUser().setLastName(driver.getUser().getLastName());
         }
-        if(driver.getUser().getCountry()!= null){
+        if(driver.getUser().getCountry() != null){
             old.getUser().setCountry(driver.getUser().getCountry());
         }
         if (driver.getUser().getStreet() != null) {

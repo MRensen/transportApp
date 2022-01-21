@@ -12,14 +12,23 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
 //
-//    @Transient
-//    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Transient
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Column(nullable = false, unique = true)
     @Id
     String username;
-
     String role;
+
+    @OneToOne(mappedBy = "user")
+    Planner planner;
+
+    @OneToOne(mappedBy = "user")
+    Driver driver;
+
+    @OneToOne(mappedBy = "user")
+    Customer customer;
+    
     String firstName;
     String lastName;
     String street;
@@ -45,7 +54,7 @@ public class User {
     }
 
     public User(String country, String role, String postalCode, String username, String firstName, String lastName, String street, String houseNumber, String city, String phoneNumber, String password, Set<Authority> authorities) {
-        this.password = password;
+        this.password = passwordEncoder.encode(password);
         this.country = country;
         this.username = username;
         this.postalCode = postalCode;
@@ -65,6 +74,30 @@ public class User {
 
     //getter setters
 
+
+    public Planner getPlanner() {
+        return planner;
+    }
+
+    public void setPlanner(Planner planner) {
+        this.planner = planner;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public String getCountry() {
         return country;
@@ -144,7 +177,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = passwordEncoder.encode(password);
     }
 
     public boolean isEnabled() {

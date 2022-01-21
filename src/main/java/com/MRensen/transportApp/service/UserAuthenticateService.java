@@ -23,7 +23,7 @@ public class UserAuthenticateService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Autowired
     JwtUtil jwtUtl;
