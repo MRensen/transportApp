@@ -12,6 +12,14 @@ import java.util.Set;
 public interface AccountInterface {
 
 
+    public long getId();
+
+    public void setId(long Id);
+
+    public User getUser();
+
+    public void setUser(User user);
+
 
 //    public String getUsername();
 //
@@ -38,9 +46,6 @@ public interface AccountInterface {
 //    public void setPhoneNumber(String phoneNumber);
 //
 //
-    public long getId();
-
-    public void setId(long Id);
 //
 //    public String getStreet();
 //

@@ -34,9 +34,15 @@ public class UserAuthenticationController {
     }
 
     @GetMapping(value="/user/{username}")
-    public ResponseEntity<Object> getUser(@PathVariable String username){
+    public ResponseEntity<Object> getUserDetails(@PathVariable String username){
         UserOutputDto user = UserOutputDto.fromUser(userService.getByUsername(username));
         return ResponseEntity.ok().body(user);
+    }
+
+    @PatchMapping(value="user/{username}/password")
+    public ResponseEntity<Object> setPassword(@PathVariable String username, @RequestBody String password){
+        userService.updatePassword(username, password);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(value = "/authenticate/compare")
