@@ -5,10 +5,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 import java.util.Set;
 
-public interface UserInterface {
+public interface AccountInterface {
+
+
+    public long getId();
+
+    public void setId(long Id);
+
+    public User getUser();
+
+    public void setUser(User user);
+
 
 //    public String getUsername();
 //
@@ -35,9 +46,6 @@ public interface UserInterface {
 //    public void setPhoneNumber(String phoneNumber);
 //
 //
-//    public long getId();
-//
-//    public void setId(long Id);
 //
 //    public String getStreet();
 //

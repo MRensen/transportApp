@@ -1,11 +1,13 @@
 package com.MRensen.transportApp.service;
 
+import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.User;
 import com.MRensen.transportApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,5 +24,16 @@ public class UserService {
 
     public User getByUsername(String username){
         return userRepository.getById(username);
+    }
+
+    public void updatePassword(String username, String password){
+        Optional<User> userOptional = userRepository.findById(username);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            user.setPassword(password);
+            userRepository.save(user);
+        } else {
+            throw new RecordNotFoundException("User not found");
+        }
     }
 }

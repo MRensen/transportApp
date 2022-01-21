@@ -34,7 +34,7 @@ VALUES
 INSERT INTO orders (id, loading_street, loading_house_number, loading_postal, loading_name, loading_city, loading_date, delivery_street, delivery_house_number, delivery_postal, delivery_name, delivery_city, delivery_date, creator_id, route_id, type, order_status, is_pickup, description)
 VALUES
 (3001, 'edisonstraat', '39', '7002xs', 'Brutra', 'Doetinchem', '15-02-2022', 'zuivelweg', '55', '8004dv', 'jansen', 'almere', '16-02-2022', 1001, null, 'EURO', 'PROCESSING', true, 'this one is processing'),
-(3003, 'voorweg', '44', '8888hg',       'Pfizer', 'Hamburg', '07-08-2022', 'varsseveldseweg', '55', '5345hh','dinges', 'terborg','04-04-2023', 1001, 5001, 'OTHER', 'DELIVERED', false, 'this one is delivered'),
+(3003, 'voorweg', '44', '8888hg',       'Pfizer', 'Hamburg', '07-08-2022', 'varsseveldseweg', '55', '5345hh','dinges', 'terborg','04-04-2023', 1001, 5001, 'OTHER', 'PROCESSING', false, 'this one is delivered'),
 (3002, 'wasstraat', '5', '7062xs', 'fabriek', 'Didam','03-03-2022', 'achterweg', '65', '6006it', 'hendriksen', 'houten','06-03-2022', 1001, 5001, 'BLOCK', 'IN_TRANSPORT', false, 'get your ass over here or else');
 
 

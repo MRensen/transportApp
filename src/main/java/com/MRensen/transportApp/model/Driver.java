@@ -3,19 +3,18 @@ package com.MRensen.transportApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 
 @Entity
 @Table(name="drivers")
-public class Driver implements UserInterface {
+public class Driver implements AccountInterface {
     @Id
     @GeneratedValue
     long id;
 
     @OneToOne
+    @JoinColumn(name = "user_username", referencedColumnName = "username")
     User user;
 
     @OneToMany(

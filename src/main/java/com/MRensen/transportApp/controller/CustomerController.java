@@ -1,6 +1,7 @@
 package com.MRensen.transportApp.controller;
 
 import com.MRensen.transportApp.DTO.CustomerDto;
+import com.MRensen.transportApp.DTO.OrderDto;
 import com.MRensen.transportApp.exception.BadRequestException;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
@@ -36,8 +37,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}/orders")
-    public ResponseEntity<List<Order>> getOrders(@PathVariable Long id){
-        var orders = customerService.getOrders(id);
+    public ResponseEntity<List<OrderDto>> getOrders(@PathVariable Long id){
+        var orders = customerService.getOrders(id).stream().map(OrderDto::fromOrder).toList();
         return ResponseEntity.ok().body(orders);
     }
 
