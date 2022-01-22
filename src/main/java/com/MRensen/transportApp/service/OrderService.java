@@ -61,8 +61,10 @@ public class OrderService {
 
     public Order addOrder(Order order) {
         order.getPallets().stream().forEach((pallet)->{palletRepository.save(pallet);});
-        Customer c = customerRepository.getById(order.getCreator().getId());
-        order.setCreator(c);
+        if(order.getCreator() != null) {
+            Customer c = customerRepository.getById(order.getCreator().getId());
+            order.setCreator(c);
+        }
 //        for(Pallet pallet : order.getPallets()){
 //            palletRepository.save(pallet);
 //        }

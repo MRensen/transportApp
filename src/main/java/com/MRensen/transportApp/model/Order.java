@@ -27,7 +27,7 @@ public class Order {
 
     String description;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JsonIgnore
     Customer creator;
 
