@@ -20,13 +20,13 @@ public class User {
     String username;
     String role;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     Planner planner;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     Driver driver;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     Customer customer;
 
     @Lob
@@ -47,7 +47,7 @@ public class User {
             mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
     // constructor
