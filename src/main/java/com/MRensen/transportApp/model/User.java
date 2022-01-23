@@ -28,6 +28,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     Customer customer;
+
+    @Lob
+    byte[] image;
     
     String firstName;
     String lastName;
@@ -74,6 +77,14 @@ public class User {
 
     //getter setters
 
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public Planner getPlanner() {
         return planner;
