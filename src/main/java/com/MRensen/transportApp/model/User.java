@@ -20,18 +20,15 @@ public class User {
     String username;
     String role;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user")
     Planner planner;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user")
     Driver driver;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user")
     Customer customer;
 
-    @Lob
-    byte[] image;
-    
     String firstName;
     String lastName;
     String street;
@@ -47,7 +44,7 @@ public class User {
             mappedBy = "username",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private Set<Authority> authorities = new HashSet<>();
 
     // constructor
@@ -77,14 +74,6 @@ public class User {
 
     //getter setters
 
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 
     public Planner getPlanner() {
         return planner;

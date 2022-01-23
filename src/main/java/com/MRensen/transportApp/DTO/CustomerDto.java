@@ -25,7 +25,7 @@ public class CustomerDto {
     public String password;
     public String country;
     public boolean enabled;
-    public String image;
+//    public String image;
 
     public static CustomerDto fromCustomer(Customer c){
         CustomerDto dto = new CustomerDto();
@@ -41,9 +41,9 @@ public class CustomerDto {
         dto.phoneNumber = c.getUser().getPhoneNumber();
         dto.password = c.getUser().getPassword();
         dto.enabled = c.getUser().isEnabled();
-        if(c.getUser().getImage() != null) {
-            dto.image = new String(c.getUser().getImage());
-        }
+//        if(c.getUser().getImage() != null) {
+//            dto.image = new String(c.getUser().getImage());
+//        }
         return dto;
     }
 

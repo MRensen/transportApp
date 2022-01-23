@@ -51,7 +51,7 @@ public class UserService {
 //            if (image.contains(partSeparator)) {
 //                String encodedImg = image.split(partSeparator)[1];
 //                byte[] decodedImg = Base64.getEncoder().encode(image.getBytes(StandardCharsets.UTF_8));
-                user.setImage(decodedImg);
+//                user.setImage(decodedImg);
                 userRepository.save(user);
 //            }
         }
