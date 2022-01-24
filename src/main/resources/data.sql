@@ -9,9 +9,9 @@ VALUES
 
 INSERT INTO authorities (username, authority)
 VALUES
-('customerusername', 'customer'),
-('plannerusername', 'planner'),
-('driverusername', 'driver');
+('customerusername', 'ROLE_CUSTOMER'),
+('plannerusername', 'ROLE_PLANNER'),
+('driverusername', 'ROLE_DRIVER');
 INSERT INTO customers (id, name, user_username)
 VALUES
 (1001, 'jansen', 'customerusername');
@@ -48,6 +48,7 @@ VALUES
 ('OtherPallet', 6004, 40, 120, 'oil', 500, 80, 2),
 ('BlockPallet', 6002, 100, 120, 'beer', 1000, 100, 1);
 --type 0 = euro, 1 = block, 2 = other, 3 = none
+
 INSERT INTO orders_pallets (order_id, pallets_id)
 VALUES
 (3001, 6002),
