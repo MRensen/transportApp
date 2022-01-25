@@ -25,6 +25,7 @@ public class PlannerDto {
     public boolean enabled;
     public String username;
     public String country;
+//    public String image;
 
     public static PlannerDto fromPlanner(Planner p){
         PlannerDto dto = new PlannerDto();
@@ -41,6 +42,9 @@ public class PlannerDto {
         dto.password = p.getUser().getPassword();
         dto.enabled = p.getUser().isEnabled();
         dto.username = p.getUser().getUsername();
+//        if(p.getUser().getImage() != null) {
+//            dto.image = new String(p.getUser().getImage());
+//        }
         return dto;
     }
 

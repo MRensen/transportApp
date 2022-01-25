@@ -28,7 +28,7 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     Customer customer;
-    
+
     String firstName;
     String lastName;
     String street;

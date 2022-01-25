@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+//        auth.userDetailsService(userDetailsService);
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username=?")
                 .authoritiesByUsernameQuery("SELECT username, authority FROM authorities AS a WHERE username=?");
@@ -68,10 +69,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
+                .cors()
+                .and()
                 .authorizeRequests()
-//                .antMatchers("/users/**").hasRole("ADMIN")
+                .antMatchers("/customers").hasAnyRole("CUSTOMER", "PLANNER")
+                .antMatchers("/customers/**").hasAnyRole("CUSTOMER","PLANNER")
+                .antMatchers("/planners").hasRole("PLANNER")
+                .antMatchers("/planners/**").hasRole("PLANNER")
+                .antMatchers("/drivers").hasAnyRole("PLANNER", "DRIVER")
+                .antMatchers("/drivers/**").hasAnyRole("DRIVER", "PLANNER")
+                .antMatchers("/routes/**").authenticated()
+                .antMatchers("/orders/**").authenticated()
+                .antMatchers("/orders/**/**").authenticated()
+                .antMatchers("/user/**").authenticated()
                 .antMatchers("/authenticate").permitAll()
-                .anyRequest().permitAll()
+//                .anyRequest().permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

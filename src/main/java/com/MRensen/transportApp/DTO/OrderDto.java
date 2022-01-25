@@ -80,7 +80,11 @@ public class OrderDto {
         }
         o.setRoute(route);
         if(pallets != null) {
-            o.setPallets(pallets.stream().map(PalletDto::toPallet).toList());
+            List<Pallet> palletList = new ArrayList<>();
+            for(PalletDto pallet : pallets){
+                palletList.add(pallet.toPallet());
+            }
+            o.setPallets(palletList);
         }
         o.setLoadingStreet(loadingStreet);
         o.setLoadingHouseNumber(loadingHouseNumber);

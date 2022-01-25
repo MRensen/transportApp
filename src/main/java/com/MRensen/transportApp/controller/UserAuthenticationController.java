@@ -3,11 +3,15 @@ package com.MRensen.transportApp.controller;
 import com.MRensen.transportApp.DTO.AuthenticationRequestDto;
 import com.MRensen.transportApp.DTO.AuthenticationResponseDto;
 import com.MRensen.transportApp.DTO.UserOutputDto;
+import com.MRensen.transportApp.exception.BadRequestException;
 import com.MRensen.transportApp.service.UserAuthenticateService;
 import com.MRensen.transportApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 public class UserAuthenticationController {
@@ -45,15 +49,14 @@ public class UserAuthenticationController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/authenticate/compare")
-    public  ResponseEntity<Object> comparePasswords(@RequestBody AuthenticationRequestDto authenticationRequestDto){
-       boolean result = userAuthenticateService.comparePassword(authenticationRequestDto.getPassword(), authenticationRequestDto.getOldPassword());
-       return ResponseEntity.ok().body(result);
+    @PatchMapping(value="user/{username}/photo")
+    public ResponseEntity<Object> setPhoto(@PathVariable String username, @RequestBody MultipartFile image){
+        try {
+            userService.updatePhoto(username, image);
+        } catch(IOException e){throw new BadRequestException("IOException was thrown");
+        }
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/authenticate/encrypt")
-    public  ResponseEntity<Object> encryptPassword(@RequestBody AuthenticationRequestDto authenticationRequestDto){
-        String result = userAuthenticateService.encryptPassword(authenticationRequestDto.getPassword());
-        return ResponseEntity.ok().body(result);
-    }
+
 }

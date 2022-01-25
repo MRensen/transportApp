@@ -24,12 +24,16 @@ public class PalletDto {
         return dto;
     }
     public Pallet toPallet(){
-        Pallet p = switch (type) {
-            case "euro" -> new EuroPallet(load, height);
-            case "block" -> new BlockPallet(load, height);
-            case "other" -> new OtherPallet(load, height, width, length);
-            default -> null;
+        Pallet p;
+        switch (type) {
+            case "EURO" -> p = new EuroPallet(load, height);
+            case  "BLOCK" -> p = new BlockPallet(load, height);
+            case "OTHER" -> p = new OtherPallet(load, height, width, length);
+            default -> p = new OtherPallet();
         };
+        if (p != null) {
+            p.setWeight(weight);
+        }
         return p;
     }
 }
