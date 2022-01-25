@@ -41,6 +41,18 @@ public class UserService {
         }
     }
 
+    public byte[] getPhoto(String username){
+        Optional<User> userOptional = userRepository.findById(username);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            if(user.getImage() != null) {
+                return user.getImage();
+            } else {throw new RecordNotFoundException("Image not found");}
+        } else {
+            throw new RecordNotFoundException("user not found");
+        }
+    }
+
     public void updatePhoto(String username, MultipartFile image) throws IOException {
         Optional<User> userOptional = userRepository.findById(username);
 
@@ -51,7 +63,7 @@ public class UserService {
 //            if (image.contains(partSeparator)) {
 //                String encodedImg = image.split(partSeparator)[1];
 //                byte[] decodedImg = Base64.getEncoder().encode(image.getBytes(StandardCharsets.UTF_8));
-//                user.setImage(decodedImg);
+                user.setImage(decodedImg);
                 userRepository.save(user);
 //            }
         }

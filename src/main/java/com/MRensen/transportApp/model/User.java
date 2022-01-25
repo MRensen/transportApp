@@ -1,5 +1,6 @@
 package com.MRensen.transportApp.model;
 
+import org.hibernate.annotations.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,6 +48,10 @@ public class User {
             fetch = FetchType.LAZY)
     private Set<Authority> authorities = new HashSet<>();
 
+    @Lob
+    @Type(type = "org.hibernate.type.ImageType")
+    byte[] image;
+
     // constructor
 
 
@@ -74,6 +79,14 @@ public class User {
 
     //getter setters
 
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public Planner getPlanner() {
         return planner;

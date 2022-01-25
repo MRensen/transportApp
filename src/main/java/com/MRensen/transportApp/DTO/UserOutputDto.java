@@ -24,6 +24,7 @@ public class UserOutputDto {
     public CustomerDto customer;
     public DriverDto driver;
     public Set<Authority> authorities;
+    public byte[] image;
 
     public static UserOutputDto fromUser(User u){
         UserOutputDto dto = new UserOutputDto();
@@ -38,6 +39,8 @@ public class UserOutputDto {
         dto.enabled = u.isEnabled();
         dto.username = u.getUsername();
         dto.country = u.getCountry();
+        dto.authorities = u.getAuthorities();
+        dto.image= u.getImage();
         if(u.getPlanner() != null) {
             dto.planner = PlannerDto.fromPlanner(u.getPlanner());
         }
