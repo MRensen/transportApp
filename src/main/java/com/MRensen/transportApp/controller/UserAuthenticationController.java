@@ -58,15 +58,5 @@ public class UserAuthenticationController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/authenticate/compare")
-    public  ResponseEntity<Object> comparePasswords(@RequestBody AuthenticationRequestDto authenticationRequestDto){
-       boolean result = userAuthenticateService.comparePassword(authenticationRequestDto.getPassword(), authenticationRequestDto.getOldPassword());
-       return ResponseEntity.ok().body(result);
-    }
 
-    @GetMapping(value = "/authenticate/encrypt")
-    public  ResponseEntity<Object> encryptPassword(@RequestBody AuthenticationRequestDto authenticationRequestDto){
-        String result = userAuthenticateService.encryptPassword(authenticationRequestDto.getPassword());
-        return ResponseEntity.ok().body(result);
-    }
 }

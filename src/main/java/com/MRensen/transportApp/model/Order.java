@@ -34,7 +34,7 @@ public class Order {
     @ManyToOne
     Route route;
 
-//    @ElementCollection
+    //    @ElementCollection
 //    @CollectionTable(
 //            name = "pallets",
 //            joinColumns = @JoinColumn(name="id")
@@ -113,7 +113,7 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-   public long getId() {
+    public long getId() {
         return id;
     }
 
@@ -225,7 +225,12 @@ public class Order {
         this.pallets = pallets;
     }
 
-    public void addPallet(Pallet pallet){ this.pallets.add(pallet);}
+    public void addPallet(Pallet pallet) {
+        if (this.pallets == null) {
+            this.pallets = new ArrayList<>();
+        }
+        this.pallets.add(pallet);
+    }
 
 
 }

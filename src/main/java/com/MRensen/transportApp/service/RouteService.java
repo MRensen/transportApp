@@ -86,8 +86,8 @@ public class RouteService {
         Route old = routeRepository.findById(id).orElse(null);
 
         old.setTruck(route.getTruck());
-        old.setDriver(route.getDriver());
-        old.setPlanner(route.getPlanner());
+        old.setDriver(driverService.getOne(route.getDriver().getId()));
+        old.setPlanner(plannerService.getOne(route.getPlanner().getId()));
         old.setOrders(route.getOrders());
 
         routeRepository.save(old);
