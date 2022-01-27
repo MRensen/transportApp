@@ -7,6 +7,7 @@ public enum OrderStatus {
     ACCEPTED("accepted"),
     IN_TRANSPORT("in transport"),
     DELIVERED("delivered"),
+    NOT_DELIVERED("not delivered"),
     DECLINED("declined"),
     PROCESSING("processing");
 

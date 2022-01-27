@@ -64,8 +64,9 @@ public class UserAuthenticationController {
     }
 
     @GetMapping(value = "user/{username}/photo")
-    public ResponseEntity<byte[]> getPhoto(@PathVariable String username, HttpServletRequest request){
-        byte[] image = userService.getPhoto(username);
+    public ResponseEntity<String> getPhoto(@PathVariable String username, HttpServletRequest request){
+        String image = userService.getPhoto(username);
+//        String send = image.toString();
         MediaType contentType = MediaType.IMAGE_PNG;
         return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + username).body(image);
     }
