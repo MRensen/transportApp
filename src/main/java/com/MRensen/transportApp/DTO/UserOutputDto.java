@@ -38,6 +38,7 @@ public class UserOutputDto {
         dto.enabled = u.isEnabled();
         dto.username = u.getUsername();
         dto.country = u.getCountry();
+        dto.authorities = u.getAuthorities();
         if(u.getPlanner() != null) {
             dto.planner = PlannerDto.fromPlanner(u.getPlanner());
         }

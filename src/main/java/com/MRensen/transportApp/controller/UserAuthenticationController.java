@@ -4,14 +4,19 @@ import com.MRensen.transportApp.DTO.AuthenticationRequestDto;
 import com.MRensen.transportApp.DTO.AuthenticationResponseDto;
 import com.MRensen.transportApp.DTO.UserOutputDto;
 import com.MRensen.transportApp.exception.BadRequestException;
+import com.MRensen.transportApp.model.User;
 import com.MRensen.transportApp.service.UserAuthenticateService;
 import com.MRensen.transportApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 public class UserAuthenticationController {
@@ -50,12 +55,20 @@ public class UserAuthenticationController {
     }
 
     @PatchMapping(value="user/{username}/photo")
-    public ResponseEntity<Object> setPhoto(@PathVariable String username, @RequestBody MultipartFile image){
+    public ResponseEntity<Object> setPhoto(@PathVariable String username, @RequestParam MultipartFile image){
         try {
             userService.updatePhoto(username, image);
         } catch(IOException e){throw new BadRequestException("IOException was thrown");
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "user/{username}/photo")
+    public ResponseEntity<String> getPhoto(@PathVariable String username, HttpServletRequest request){
+        String image = userService.getPhoto(username);
+//        String send = image.toString();
+        MediaType contentType = MediaType.IMAGE_PNG;
+        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + username).body(image);
     }
 
 
