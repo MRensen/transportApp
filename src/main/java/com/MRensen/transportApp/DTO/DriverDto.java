@@ -26,7 +26,6 @@ public class DriverDto {
     public String password;
     public String country;
     public boolean enabled;
-//    public String image;
 
     public static DriverDto fromDriver(Driver d){
         DriverDto dto = new DriverDto();
@@ -46,9 +45,6 @@ public class DriverDto {
         dto.regularTruck = d.getRegularTruck();
         dto.password = d.getUser().getPassword();
         dto.enabled = d.getUser().isEnabled();
-//        if(d.getUser().getImage() != null) {
-//            dto.image = new String(d.getUser().getImage());
-//        }
         return dto;
     }
 
