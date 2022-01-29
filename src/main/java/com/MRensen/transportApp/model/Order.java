@@ -18,12 +18,12 @@ public class Order {
     @Id
     long id;
     @Enumerated(EnumType.STRING)
-    PalletType type = PalletType.EURO;
+    PalletType type = PalletType.EURO; //default value, because an Order has to have a type
 
     @Enumerated(EnumType.STRING)
-    OrderStatus orderStatus; // empty new = OrderStatus.PROCESSING;
+    OrderStatus orderStatus;
 
-    Boolean isPickup; // empty new = false;
+    Boolean isPickup;
 
     String description;
 
@@ -34,14 +34,8 @@ public class Order {
     @ManyToOne
     Route route;
 
-    //    @ElementCollection
-//    @CollectionTable(
-//            name = "pallets",
-//            joinColumns = @JoinColumn(name="id")
-//    )
-//    @Column(name="palletlist")
     @OneToMany
-    List<Pallet> pallets; // empty new = new ArrayList();
+    List<Pallet> pallets;
 
     //loading adress
     String loadingStreet;
@@ -60,6 +54,30 @@ public class Order {
     String deliveryCity;
     String deliveryDate;
 
+    public Order() {
+    }
+
+    public Order(PalletType type, OrderStatus orderStatus, Boolean isPickup, String description, Customer creator, Route route, List<Pallet> pallets, String loadingStreet, String loadingHouseNumber, String loadingPostal, String loadingName, String loadingCity, String loadingDate, String deliveryStreet, String deliveryHouseNumber, String deliveryPostal, String deliveryName, String deliveryCity, String deliveryDate) {
+        this.type = type;
+        this.orderStatus = orderStatus;
+        this.isPickup = isPickup;
+        this.description = description;
+        this.creator = creator;
+        this.route = route;
+        this.pallets = pallets;
+        this.loadingStreet = loadingStreet;
+        this.loadingHouseNumber = loadingHouseNumber;
+        this.loadingPostal = loadingPostal;
+        this.loadingName = loadingName;
+        this.loadingCity = loadingCity;
+        this.loadingDate = loadingDate;
+        this.deliveryStreet = deliveryStreet;
+        this.deliveryHouseNumber = deliveryHouseNumber;
+        this.deliveryPostal = deliveryPostal;
+        this.deliveryName = deliveryName;
+        this.deliveryCity = deliveryCity;
+        this.deliveryDate = deliveryDate;
+    }
 
     //GETTERS AND SETTERS
 

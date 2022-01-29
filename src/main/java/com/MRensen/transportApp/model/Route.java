@@ -26,6 +26,16 @@ public class Route {
     @OneToMany(mappedBy = "route")
     List<Order> orders;
 
+    public Route() {
+    }
+
+    public Route(String truck, Driver driver, Planner planner, List<Order> orders) {
+        this.truck = truck;
+        this.driver = driver;
+        this.planner = planner;
+        this.orders = orders;
+    }
+
     // GETTERS AND SETTERS
 
 

@@ -30,8 +30,7 @@ public class Planner implements AccountInterface {
     public Planner() {
     }
 
-    public Planner(String country, long id, String role, String firstName, String lastName, String street, String houseNumber, String postalCode, String city, String phoneNumber, List<Route> routes, String password, boolean enabled, String username, Set<Authority> authorities) {
-        this.id = id;
+    public Planner(String country, String role, String firstName, String lastName, String street, String houseNumber, String postalCode, String city, String phoneNumber, List<Route> routes, String password, boolean enabled, String username, Set<Authority> authorities) {
         this.user =  new User(country,  role,  postalCode,  username,   firstName,  lastName,  street,  houseNumber,  city,  phoneNumber,  password,  authorities);
         this.routes = routes;
     }

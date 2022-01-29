@@ -23,7 +23,7 @@ public class Customer implements AccountInterface {
     @OneToMany(mappedBy = "creator")
     List<Order> myOrders;
 
-    //GETTERS AND SETTERS
+   // CONSTRUCTORS
 
     public Customer(String country, long id, String username, String firstName, String lastName, String street, List<Order> myOrders, String passWord, Set<Authority> authorities, String houseNumber, String postalCode, String city, String phoneNumber) {
         this.id = id;
@@ -33,6 +33,8 @@ public class Customer implements AccountInterface {
 
     public Customer() {
     }
+
+    //GETTERS AND SETTERS
 
     public long getId() {
         return id;
