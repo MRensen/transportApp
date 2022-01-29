@@ -30,9 +30,9 @@ public class CustomerService implements UserServiceInt<Customer> {
     }
 
     public Customer getOne(Long id){
-        Optional<Customer> cumstomerOption = customerRepository.findById(id);
-        if(cumstomerOption.isPresent()) {
-            return cumstomerOption.get();
+        Optional<Customer> customerOption = customerRepository.findById(id);
+        if(customerOption.isPresent()) {
+            return customerOption.get();
         } else {
             throw new RecordNotFoundException("Customer Id was not found");
         }}

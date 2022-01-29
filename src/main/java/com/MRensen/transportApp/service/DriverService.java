@@ -154,7 +154,6 @@ public class DriverService implements UserServiceInt<Driver> {
         if (driverOption.isPresent()) {
             Driver driver = driverOption.get();
             List<Route> routes = new ArrayList(driver.getRoutes());
-//            routes.removeIf(r -> routeId.equals(r.getId()));
             routes.stream().forEach((r) -> {
                 if(routeId.equals(r.getId())) {
                     r.setDriver(null);

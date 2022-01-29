@@ -26,8 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userService = userService;
     }
 
-//    @Autowired
-//    private AuthorityService authorityService;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -38,13 +36,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         String password = user.getPassword();
-//        Long id;
-//        switch (user.getRole()) {
-//            case "driver" -> id = user.getDriver().getId();
-//            case "customer" -> id = user.getCustomer().getId();
-//            case "planner" -> id = user.getPlanner().getId();
-//            default -> id = null;
-//        }
 
         Set<Authority> authorities = user.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
