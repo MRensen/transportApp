@@ -65,18 +65,11 @@ public class OrderService {
             for(Pallet pallet : order.getPallets()){
                 palletRepository.save(pallet);
             }
-//            order.getPallets().stream().forEach((pallet) -> {
-//                System.out.println(pallet);
-//                palletRepository.save(pallet);
-//            });
         }
         if(order.getCreator() != null) {
             Customer c = customerRepository.getById(order.getCreator().getId());
             order.setCreator(c);
         }
-//        for(Pallet pallet : order.getPallets()){
-//            palletRepository.save(pallet);
-//        }
         return orderRepository.save(order);
     }
 
@@ -199,7 +192,7 @@ public class OrderService {
     }
 
     public List<Pallet> getPallets(Long id) {
-        Order order = getOrder(id);
+        Order order = this.getOrder(id);
         return order.getPallets();
     }
 }

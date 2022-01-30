@@ -39,7 +39,6 @@ public class PlannerService implements UserServiceInt<Planner> {
         }}
 
     public Planner addOne(Planner planner) {
-        System.out.println(planner.getId());
         userRepository.save(planner.getUser());
         return plannerRepository.save(planner);
     }

@@ -9,7 +9,7 @@ import javax.persistence.OneToOne;
 import java.util.List;
 import java.util.Set;
 
-public interface AccountInterface {
+public interface UserInterface {
 
 
     public long getId();

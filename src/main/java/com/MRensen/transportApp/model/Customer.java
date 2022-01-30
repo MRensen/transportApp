@@ -3,12 +3,13 @@ package com.MRensen.transportApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "customers")
-public class Customer implements AccountInterface {
+public class Customer implements UserInterface {
     @GeneratedValue
     @Id
     long id;
@@ -25,6 +26,7 @@ public class Customer implements AccountInterface {
 
    // CONSTRUCTORS
 
+
     public Customer(String country, long id, String username, String firstName, String lastName, String street, List<Order> myOrders, String passWord, Set<Authority> authorities, String houseNumber, String postalCode, String city, String phoneNumber) {
         this.id = id;
         this.myOrders = myOrders;
@@ -32,6 +34,7 @@ public class Customer implements AccountInterface {
     }
 
     public Customer() {
+        this.myOrders = new ArrayList<>();
     }
 
     //GETTERS AND SETTERS

@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="planners")
-public class Planner implements AccountInterface {
+public class Planner implements UserInterface {
     @GeneratedValue
     @Id
     long id;

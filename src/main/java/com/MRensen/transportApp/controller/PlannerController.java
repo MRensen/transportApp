@@ -37,6 +37,7 @@ public class PlannerController {
     @PostMapping("")
     public ResponseEntity<Object> postPlanner(@RequestBody PlannerDto planner){
         if(planner.username == null){
+            //TODO test
             throw new BadRequestException("Bad request: Planner requires a username");
         }
         Planner p = plannerService.addOne(planner.toPlanner());

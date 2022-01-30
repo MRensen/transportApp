@@ -1,4 +1,3 @@
-
 INSERT INTO users (username, first_name, last_name, street, house_number, postal_code, city,phone_number, password, enabled, role)
 VALUES
 ('plannerusername', 'piet', 'pieterson', 'steenstraat', '33', '8909ie', 'arnhem', '0689493832','$2a$12$5usMMaD9hathHXMKNMjlseunXe.QEQbRBtFiBycc.V/teqa0c4v6K', true, 'planner'),

@@ -3,6 +3,7 @@ package com.MRensen.transportApp.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 public class AuthorityKey implements Serializable {
     private String username;
     private String authority;

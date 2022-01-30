@@ -3,6 +3,7 @@ package com.MRensen.transportApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,10 @@ public class Route {
     @OneToMany(mappedBy = "route")
     List<Order> orders;
 
+    //CONSTRUCTORS
+
     public Route() {
+        this.orders = new ArrayList<>();
     }
 
     public Route(String truck, Driver driver, Planner planner, List<Order> orders) {

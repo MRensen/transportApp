@@ -3,12 +3,13 @@ package com.MRensen.transportApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name="drivers")
-public class Driver implements AccountInterface {
+public class Driver implements UserInterface {
     @Id
     @GeneratedValue
     long id;
@@ -35,6 +36,7 @@ public class Driver implements AccountInterface {
     //CONSTRUCTORS
 
     public Driver() {
+        this.routes = new ArrayList<>();
     }
 
     public Driver(String country, long id,String postal, String username, List<Route> route, String firstName, String lastName, Set<Authority> authorities, String passWord, String street, String houseNumber, String city, int employeeNumber, String driverLicenseNumber, String phoneNumber, String regularTruck) {

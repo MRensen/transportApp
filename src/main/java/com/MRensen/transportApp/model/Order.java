@@ -54,7 +54,10 @@ public class Order {
     String deliveryCity;
     String deliveryDate;
 
+    //CONSTRUCTORS
+
     public Order() {
+        this.pallets = new ArrayList<>();
     }
 
     public Order(PalletType type, OrderStatus orderStatus, Boolean isPickup, String description, Customer creator, Route route, List<Pallet> pallets, String loadingStreet, String loadingHouseNumber, String loadingPostal, String loadingName, String loadingCity, String loadingDate, String deliveryStreet, String deliveryHouseNumber, String deliveryPostal, String deliveryName, String deliveryCity, String deliveryDate) {

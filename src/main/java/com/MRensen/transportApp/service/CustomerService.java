@@ -70,6 +70,9 @@ public class CustomerService implements UserServiceInt<Customer> {
         if(customer.getUser().getPhoneNumber() != null) {
             old.getUser().setPhoneNumber(customer.getUser().getPhoneNumber());
         }
+        if(customer.getUser().getAuthorities() != null) {
+
+        }
         customerRepository.save(old);
         return old;
     }

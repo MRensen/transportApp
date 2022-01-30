@@ -4,7 +4,6 @@ import com.MRensen.transportApp.DTO.CustomerDto;
 import com.MRensen.transportApp.DTO.OrderDto;
 import com.MRensen.transportApp.exception.BadRequestException;
 import com.MRensen.transportApp.model.Customer;
-import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
