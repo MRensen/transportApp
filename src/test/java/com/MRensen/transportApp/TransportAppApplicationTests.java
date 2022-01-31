@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ContextConfiguration(classes={TransportAppApplication.class})
-@EnableConfigurationProperties
 class TransportAppApplicationTests {
 
 	@Test
