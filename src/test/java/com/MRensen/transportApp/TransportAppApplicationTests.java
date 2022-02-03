@@ -9,12 +9,11 @@ import org.springframework.test.context.ContextConfiguration;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@ContextConfiguration(classes={TransportAppApplication.class})
 class TransportAppApplicationTests {
 
 	@Test
-	void contextLoads(ApplicationContext context) {
-		assertNotNull(context);
+	void contextLoads() {
+
 	}
 
 }

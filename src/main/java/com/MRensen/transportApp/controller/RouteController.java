@@ -58,7 +58,7 @@ public class RouteController {
     }
 
     @DeleteMapping("{id}/orders")
-    public ResponseEntity<Object> deleteORders(@PathVariable Long id, @RequestBody OrderDto[] orders){
+    public ResponseEntity<Object> deleteOrders(@PathVariable Long id, @RequestBody OrderDto[] orders){
         routeService.deleteOrders(id, Arrays.stream(orders).map(OrderDto::toOrder).toArray(Order[]::new) );
         return ResponseEntity.noContent().build();
     }

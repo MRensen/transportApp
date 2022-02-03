@@ -44,7 +44,6 @@ public class DriverController {
     @PostMapping("")
     public ResponseEntity<Object> postDriver(@RequestBody DriverDto driver){
         if(driver.username == null){
-            //TODO test
             throw new BadRequestException("Bad request: driver requires a username");
         }
         Driver newDriver = driverService.addOne(driver.toDriver());

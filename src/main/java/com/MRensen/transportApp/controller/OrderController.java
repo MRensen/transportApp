@@ -60,7 +60,7 @@ public class OrderController {
         return ResponseEntity.ok().body(palletDtos);
     }
     @GetMapping("/{id}/type")
-    public ResponseEntity<Object> gettype(@PathVariable long id){
+    public ResponseEntity<Object> getType(@PathVariable long id){
         PalletType type = orderService.getType(id);
         return ResponseEntity.ok().body(type);
     }
