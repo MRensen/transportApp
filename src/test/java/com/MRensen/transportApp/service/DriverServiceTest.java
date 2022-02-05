@@ -29,8 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 
 @SpringBootTest
-@ContextConfiguration(classes={TransportAppApplication.class})
-@EnableConfigurationProperties
+//@ContextConfiguration(classes={TransportAppApplication.class})
 public class DriverServiceTest {
 
     @Autowired

@@ -47,12 +47,6 @@ public class UserAuthenticationController {
         UserOutputDto user = UserOutputDto.fromUser(userService.getByUsername(username));
         return ResponseEntity.ok().body(user);
     }
-//
-//    @PatchMapping(value="user/{username}/password")
-//    public ResponseEntity<Object> setPassword(@PathVariable String username, @RequestBody String password){
-//        userService.updatePassword(username, password);
-//        return ResponseEntity.noContent().build();
-//    }
 
     @PatchMapping(value="user/{username}/photo")
     public ResponseEntity<Object> setPhoto(@PathVariable String username, @RequestParam MultipartFile image){
@@ -63,7 +57,7 @@ public class UserAuthenticationController {
         return ResponseEntity.noContent().build();
     }
 
-    //This doesn't give a proper result in Postman, because it is missing the "data:image/jpeg;base64," prefix.
+    //This doesn't show a photo in Postman, because it is missing the "data:image/jpeg;base64," prefix.
     @GetMapping(value = "user/{username}/photo")
     public ResponseEntity<String> getPhoto(@PathVariable String username, HttpServletRequest request){
         String image = userService.getPhoto(username);
