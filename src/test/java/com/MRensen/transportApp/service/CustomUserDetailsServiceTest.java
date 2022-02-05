@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.io.Serializable;
@@ -24,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @SpringBootTest
-@ContextConfiguration(classes={TransportAppApplication.class})
-@EnableConfigurationProperties
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
 public class CustomUserDetailsServiceTest {
 
     @Autowired

@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,8 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @SpringBootTest
-@ContextConfiguration(classes={TransportAppApplication.class})
-@EnableConfigurationProperties
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
 public class UserAuthenticateServiceTest {
     @Autowired
     UserAuthenticateService userAuthenticateService;

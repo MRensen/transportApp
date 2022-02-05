@@ -18,6 +18,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.parameters.P;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
@@ -30,8 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 
 @SpringBootTest
-@ContextConfiguration(classes={TransportAppApplication.class})
-@EnableConfigurationProperties
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
 public class PlannerServiceTest {
 
     @Autowired
