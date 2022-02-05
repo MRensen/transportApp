@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 @SpringBootTest
-@ContextConfiguration(classes={TransportAppApplication.class})
-@EnableConfigurationProperties
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
 public class OrderServiceTest {
 
     @Autowired

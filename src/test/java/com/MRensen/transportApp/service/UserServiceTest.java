@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.*;
@@ -22,8 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @SpringBootTest()
-@ContextConfiguration(classes={TransportAppApplication.class})
-@EnableConfigurationProperties
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
 public class UserServiceTest {
     @Autowired
     UserService userService;
