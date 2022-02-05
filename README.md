@@ -1,4 +1,4 @@
-#LogistiekApp backend
+# LogistiekApp backend
 
 Voor je deze applicatie kunt starten, zul je de dependencies moeten
 installeren door in de terminal `mvn clean install` te typen.
