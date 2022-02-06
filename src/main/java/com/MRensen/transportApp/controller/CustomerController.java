@@ -47,9 +47,9 @@ public class CustomerController {
             throw new BadRequestException("Bad request: customer requires a username");
         }
         Customer newCustomer = customerService.addOne(customer.toCustomer());
-        String username = newCustomer.getUser().getUsername();
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(username).toUri();
+        Long id = newCustomer.getId();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();
     }
 

@@ -53,13 +53,4 @@ public class UserAuthenticateService {
 
         return new AuthenticationResponseDto(jwt);
     }
-
-    //Deze 2 functies (comparePassword en encryptPassword) worden momenteel niet gebruikt, maar ik laat ze staan voor wanneer de "change password" functie wordt geimplementeerd
-    public boolean comparePassword(String plaintext, String encrypted){
-        return passwordEncoder.matches(plaintext, encrypted);
-    }
-
-    public String encryptPassword(String plaintext){
-        return passwordEncoder.encode(plaintext);
-    }
 }

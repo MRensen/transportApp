@@ -32,9 +32,12 @@ VALUES
 
 INSERT INTO orders (id, loading_street, loading_house_number, loading_postal, loading_name, loading_city, loading_date, delivery_street, delivery_house_number, delivery_postal, delivery_name, delivery_city, delivery_date, creator_id, route_id, type, order_status, is_pickup, description)
 VALUES
-(3001, 'edisonstraat', '39', '7002xs', 'Brutra', 'Doetinchem', '15-02-2022', 'zuivelweg', '55', '8004dv', 'jansen', 'almere', '16-02-2022', 1001, 5001, 'EURO', 'PROCESSING', true, 'super long intelligent description telling the user what the exact contents of this delivery are and telling the driver how to properly handle it even though the description can actually not be longer that 30 characters.'),
-(3003, 'voorweg', '44', '8888hg',       'Pfizer', 'Hamburg', '07-08-2022', 'varsseveldseweg', '55', '5345hh','dinges', 'terborg','04-04-2023', 1001, 5001, 'OTHER', 'PROCESSING', false, 'corona vaccin'),
-(3002, 'wasstraat', '5', '7062xs', 'fabriek', 'Didam','03-03-2022', 'achterweg', '65', '6006it', 'hendriksen', 'houten','06-03-2022', 1001, 5001, 'BLOCK', 'IN_TRANSPORT', false, 'stuff');
+(3001, 'edisonstraat', '39', '7002xs', 'Brutra', 'Doetinchem', '15-02-2022', 'zuivelweg', '55', '8004dv', 'jansen', 'almere', '16-02-2022', 1001, 5001, 'EURO', 'IN_TRANSPORT', true, 'super long intelligent description telling the user what the exact contents of this delivery are and telling the driver how to properly handle it even though the description can actually not be longer that 30 characters.'),
+(3003, 'voorweg', '44', '8888hg',       'Pfizer', 'Hamburg', '07-08-2022', 'varsseveldseweg', '55', '5345hh','dinges', 'terborg','04-04-2023', 1001, 5001, 'OTHER', 'IN_TRANSPORT', false, 'corona vaccin'),
+(3002, 'wasstraat', '5', '7062xs', 'fabriek', 'Didam','03-03-2022', 'achterweg', '65', '6006it', 'hendriksen', 'houten','06-03-2022', 1001, 5001, 'BLOCK', 'IN_TRANSPORT', false, 'stuff'),
+(3004, 'vechtstraat', '45', '5903nd', 'hellofresh', 'Didam','03-03-2022', 'liemersweg', '1', '04624jd', 'Lutjebroek', 'houten','06-03-2022', 1001, null, 'BLOCK', 'ACCEPTED', false, 'voedsel'),
+(3005, 'donauweg', '34', '9493jd', 'hema', 'Doetinchem','03-03-2022', 'ridderstraat', '44', '93076dj', 'HEMA', 'Geldermalsen','06-03-2022', 1001, null, 'BLOCK', 'PROCESSING', false, 'taart'),
+(3006, 'null', 'null', 'null', 'null', 'null','03-null-2022', 'null', 'null', 'null', 'null', 'null','06-03-2022', 1001, null, 'BLOCK', 'DECLINED', false, 'null');
 
 
 UPDATE routes SET driver_id=2001 WHERE id=5001;
@@ -45,6 +48,8 @@ VALUES
 ('EuroPallet', 6001, 100, 120, 'stuff', 1000, 80, 0),
 ('EuroPallet', 6003, 50, 120, 'paper', 300, 80, 0),
 ('OtherPallet', 6004, 40, 120, 'oil', 500, 80, 2),
+('OtherPallet', 6005, 40, 120, 'voedsel', 500, 80, 2),
+('OtherPallet', 6006, 40, 120, 'taart', 500, 80, 2),
 ('BlockPallet', 6002, 100, 120, 'beer', 1000, 100, 1);
 --type 0 = euro, 1 = block, 2 = other, 3 = none
 
@@ -53,4 +58,6 @@ VALUES
 (3001, 6002),
 (3001, 6003),
 (3001, 6004),
+(3004, 6005),
+(3005, 6006),
 (3001, 6001);

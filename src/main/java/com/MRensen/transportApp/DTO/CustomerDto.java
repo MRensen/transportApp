@@ -45,9 +45,6 @@ public class CustomerDto {
 
     public Customer toCustomer(){
         Customer c = new Customer();
-        if(id != null){
-            c.setId(id);
-        }
         c.setUser(new User());
         c.getUser().setUsername(username);
         c.getUser().setRole(role);

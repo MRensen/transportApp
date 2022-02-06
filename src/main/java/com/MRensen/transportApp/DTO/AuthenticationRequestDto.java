@@ -11,19 +11,11 @@ public class AuthenticationRequestDto {
     @Size(min=8)
     private String password;
 
-    private String oldPassword;
-
     public AuthenticationRequestDto() {
     }
     public AuthenticationRequestDto(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public AuthenticationRequestDto(String username, String password, String oldPassword) {
-        this.username = username;
-        this.password = password;
-        this.oldPassword = oldPassword;
     }
 
     public String getUsername() {
@@ -39,11 +31,4 @@ public class AuthenticationRequestDto {
         this.password = password;
     }
 
-    public String getOldPassword() {
-        return oldPassword;
-    }
-
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
 }

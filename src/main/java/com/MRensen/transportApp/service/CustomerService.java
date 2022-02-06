@@ -1,5 +1,6 @@
 package com.MRensen.transportApp.service;
 
+import com.MRensen.transportApp.exception.BadRequestException;
 import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
@@ -38,8 +39,14 @@ public class CustomerService implements UserServiceInt<Customer> {
         }}
 
     public Customer addOne(Customer customer) {
-        userRepository.save(customer.getUser());
-        return customerRepository.save(customer);
+        if(customerRepository.existsById(customer.getId())) {
+            throw new BadRequestException("customer already exists");
+        }
+        if(userRepository.existsById(customer.getUser().getUsername())) {
+            throw new BadRequestException("User already exists");
+        }
+            userRepository.save(customer.getUser());
+            return customerRepository.save(customer);
     }
 
     public void deleteOne(Long id){customerRepository.deleteById(id);}
