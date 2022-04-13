@@ -1,11 +1,8 @@
 package com.MRensen.transportApp.DTO;
 
 import com.MRensen.transportApp.model.Authority;
-import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.model.User;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
-import java.util.List;
 import java.util.Set;
 
 public class UserOutputDto {

@@ -1,6 +1,5 @@
 package com.MRensen.transportApp.DTO;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public class AuthenticationRequestDto {

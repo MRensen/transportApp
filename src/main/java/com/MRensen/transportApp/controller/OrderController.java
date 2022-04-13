@@ -3,7 +3,6 @@ package com.MRensen.transportApp.controller;
 import com.MRensen.transportApp.DTO.OrderDto;
 import com.MRensen.transportApp.DTO.PalletDto;
 import com.MRensen.transportApp.model.Order;
-import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.service.OrderService;
 import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;

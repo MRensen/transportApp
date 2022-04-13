@@ -1,6 +1,5 @@
 package com.MRensen.transportApp.utils;
 
-import com.MRensen.transportApp.service.OrderService;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum OrderStatus {
@@ -12,7 +11,7 @@ public enum OrderStatus {
     PROCESSING("processing");
 
     private String value;
-    private OrderStatus(String value){
+     OrderStatus(String value){
         this.value = value;
     }
 

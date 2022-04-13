@@ -4,7 +4,6 @@ import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.Planner;
 import com.MRensen.transportApp.model.Route;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import java.util.List;

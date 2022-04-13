@@ -42,7 +42,6 @@ public abstract class Pallet {
         this.type = type;
     }
 
-    //this is useless, but I get an error is I don't put this in
     public Pallet(){}
 
     public PalletType getType() {

@@ -7,9 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -37,7 +35,6 @@ public class Order {
     @OneToMany
     List<Pallet> pallets;
 
-    //loading adress
     String loadingStreet;
     String loadingHouseNumber;
     String loadingPostal;
@@ -46,7 +43,6 @@ public class Order {
     String loadingDate;
 
 
-    //delivery adress
     String deliveryStreet;
     String deliveryHouseNumber;
     String deliveryPostal;

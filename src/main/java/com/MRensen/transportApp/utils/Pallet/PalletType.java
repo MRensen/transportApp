@@ -8,7 +8,7 @@ public enum PalletType {
     OTHER("other"),
     NONE( "none");
 
-    private PalletType(String value){
+     PalletType(String value){
         this.value = value;
     }
 

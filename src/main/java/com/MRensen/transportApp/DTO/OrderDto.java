@@ -1,15 +1,12 @@
 package com.MRensen.transportApp.DTO;
 
-import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.Route;
-import com.MRensen.transportApp.repository.OrderRepository;
 import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.Pallet;
 import com.MRensen.transportApp.utils.Pallet.PalletType;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;

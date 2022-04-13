@@ -46,7 +46,7 @@ public class UserAuthenticationController {
         if(authName.equals(username)) {
             user = UserOutputDto.fromUser(userService.getByUsername(username));
         } else {
-            throw new BadRequestException("Username does not match search parameter");
+            throw new BadRequestException("Denied: username does not match search parameter");
         }
         return ResponseEntity.ok().body(user);
     }
@@ -58,7 +58,7 @@ public class UserAuthenticationController {
             if(authName.equals(username)) {
                 userService.updatePhoto(username, image);
             } else {
-                throw new BadRequestException("Username does not match search parameter");
+                throw new BadRequestException("Denied: username does not match search parameter");
             }
 
         } catch(IOException e){throw new BadRequestException("IOException was thrown");

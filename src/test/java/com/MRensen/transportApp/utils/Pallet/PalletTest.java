@@ -7,13 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PalletTest{
 
-//    @Test
-//    void WeightTest(){
-//        Pallet pallet = new EuroPallet();
-//        pallet.setWeight(100);
-//        assertEquals(100, pallet.getWeight());
-//    }
-
     @Test
     void NoPalletTest(){
         Pallet pallet = new BlockPallet();

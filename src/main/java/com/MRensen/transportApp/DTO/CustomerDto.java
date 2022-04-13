@@ -1,14 +1,12 @@
 package com.MRensen.transportApp.DTO;
 
 
-import com.MRensen.transportApp.model.Authority;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.User;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import java.util.List;
-import java.util.Set;
 
 public class CustomerDto {
     public Long id;

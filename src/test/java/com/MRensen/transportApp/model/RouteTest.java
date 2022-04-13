@@ -1,6 +1,5 @@
 package com.MRensen.transportApp.model;
 
-import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,5 +33,6 @@ public class RouteTest {
         route.setOrders(testList);
         var expected = testList;
         var actual = route.getOrders();
+        assertEquals(expected, actual);
     }
 }
