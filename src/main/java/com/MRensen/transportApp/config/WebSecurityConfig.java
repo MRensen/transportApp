@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/orders/**/**").authenticated()
                 .antMatchers("/user/**").authenticated()
                 .antMatchers("/authenticate").permitAll()
+                .anyRequest().denyAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -4,19 +4,16 @@ import com.MRensen.transportApp.DTO.AuthenticationRequestDto;
 import com.MRensen.transportApp.DTO.AuthenticationResponseDto;
 import com.MRensen.transportApp.DTO.UserOutputDto;
 import com.MRensen.transportApp.exception.BadRequestException;
-import com.MRensen.transportApp.model.User;
 import com.MRensen.transportApp.service.UserAuthenticateService;
 import com.MRensen.transportApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 public class UserAuthenticationController {
@@ -44,14 +41,26 @@ public class UserAuthenticationController {
 
     @GetMapping(value="/user/{username}")
     public ResponseEntity<Object> getUserDetails(@PathVariable String username){
-        UserOutputDto user = UserOutputDto.fromUser(userService.getByUsername(username));
+        UserOutputDto user = null;
+        String authName = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(authName.equals(username)) {
+            user = UserOutputDto.fromUser(userService.getByUsername(username));
+        } else {
+            throw new BadRequestException("Username does not match search parameter");
+        }
         return ResponseEntity.ok().body(user);
     }
 
     @PatchMapping(value="user/{username}/photo")
     public ResponseEntity<Object> setPhoto(@PathVariable String username, @RequestParam MultipartFile image){
+        String authName = SecurityContextHolder.getContext().getAuthentication().getName();
         try {
-            userService.updatePhoto(username, image);
+            if(authName.equals(username)) {
+                userService.updatePhoto(username, image);
+            } else {
+                throw new BadRequestException("Username does not match search parameter");
+            }
+
         } catch(IOException e){throw new BadRequestException("IOException was thrown");
         }
         return ResponseEntity.noContent().build();
@@ -59,7 +68,7 @@ public class UserAuthenticationController {
 
     //This doesn't show a photo in Postman, because it is missing the "data:image/jpeg;base64," prefix.
     @GetMapping(value = "user/{username}/photo")
-    public ResponseEntity<String> getPhoto(@PathVariable String username, HttpServletRequest request){
+    public ResponseEntity<String> getPhoto(@PathVariable String username){
         String image = userService.getPhoto(username);
         MediaType contentType = MediaType.IMAGE_PNG;
         return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + username).body(image);
