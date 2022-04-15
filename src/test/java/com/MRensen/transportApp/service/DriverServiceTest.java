@@ -35,9 +35,6 @@ public class DriverServiceTest {
     DriverRepository driverRepository;
 
     @MockBean
-    RouteRepository routeRepository;
-
-    @MockBean
     UserRepository userRepository;
 
     Driver driver;
