@@ -6,7 +6,6 @@ import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.model.User;
 import com.MRensen.transportApp.repository.DriverRepository;
-import com.MRensen.transportApp.repository.RouteRepository;
 import com.MRensen.transportApp.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
