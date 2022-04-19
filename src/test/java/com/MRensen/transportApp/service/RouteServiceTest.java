@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest()
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
@@ -49,20 +51,21 @@ public class RouteServiceTest {
     void setup(){
         Driver driver = new Driver();
         driver.setId(10L);
+        driver.setRoutes(new ArrayList<Route>());
         Planner planner = new Planner();
         planner.setId(20L);
         orderList = new ArrayList<>();
         orderList.add(new Order());
         orderList.add(new Order());
         route = new Route("97-bph-8", driver, planner, orderList);
+        route.setId(1L);
     }
 
     @Test
     void getAllRoutesReturnsArraylist(){
         var routeList = new ArrayList<Route>();
         routeList.add(route);
-        Mockito
-                .when(routeRepository.findAll())
+        when(routeRepository.findAll())
                 .thenReturn(routeList);
 
         var actual = routeService.getAllRoutes();
@@ -72,8 +75,7 @@ public class RouteServiceTest {
 
     @Test
     void getRouteReturnsRoute(){
-        Mockito
-                .when(routeRepository.findById(anyLong()))
+        when(routeRepository.findById(anyLong()))
                 .thenReturn(Optional.of(route));
         var actual = routeService.getRoute(1L);
         assertEquals("97-bph-8", actual.getTruck());
@@ -84,8 +86,7 @@ public class RouteServiceTest {
 
         route.setOrders(new ArrayList<Order>());
 
-        Mockito
-                .when(routeRepository.save(route))
+        when(routeRepository.save(route))
                 .thenReturn(route);
 
         Mockito
@@ -101,6 +102,92 @@ public class RouteServiceTest {
 
         var actual = routeService.addRoute(route);
         assertEquals("97-bph-8", actual.getTruck());
+    }
+
+//    @Test
+//    void deleteRouteTest(){
+//        route.setOrders(new ArrayList<Order>());
+//
+//        Mockito
+//                .when(routeRepository.findById(anyLong()))
+//                .thenReturn(Optional.of(route));
+//
+//        Mockito
+//                .when(driverService.patchOne(anyLong(), any(Driver.class)))
+//                .thenReturn(route.getDriver());
+//
+//        Mockito
+//                .when(plannerService.patchOne(anyLong(), any(Planner.class)))
+//                .thenReturn(route.getPlanner());
+//
+//        Mockito
+//                .doNothing()
+//                .when(orderService).patchOrder(anyLong(), any(Order.class));
+//
+//        routeService.deleteRoute(route.getId());
+//        assertFalse(routeRepository.existsById(route.getId()));
+//
+//
+//    }
+
+    @Test
+    void updateRouteTest(){
+        Mockito
+                .when(routeRepository.findById(anyLong()))
+                .thenReturn(Optional.of(route));
+
+        Mockito
+                .when(routeRepository.existsById(anyLong()))
+                .thenReturn(true);
+
+        Mockito
+                .when(driverService.getOne(anyLong()))
+                .thenReturn(route.getDriver());
+
+        Mockito
+                .when(plannerService.getOne(anyLong()))
+                .thenReturn(route.getPlanner());
+
+        Mockito
+                .when(routeRepository.save(any(Route.class)))
+                .thenReturn(route);
+        Route expectedRoute = new Route("test", route.getDriver(), route.getPlanner(), route.getOrders());
+        Route newRoute = routeService.updateRoute(route.getId(), expectedRoute);
+        assertEquals("test", newRoute.getTruck());
+    }
+
+    @Test
+    void patchRouteTest(){
+
+        route.setOrders(null);
+
+            Mockito
+                    .when(routeRepository.existsById(anyLong()))
+                    .thenReturn(true);
+
+            Mockito
+                    .when(routeRepository.findById(anyLong()))
+                    .thenReturn(Optional.of(route));
+
+            Mockito
+                    .when(driverService.getOne(anyLong()))
+                            .thenReturn(route.getDriver());
+
+            Mockito
+                    .when(plannerService.getOne(anyLong()))
+                            .thenReturn(route.getPlanner());
+
+            Mockito
+                    .when(routeRepository.save(any(Route.class)))
+                    .thenReturn(route);
+
+            Route expected = routeService.patchRoute(1L, route);
+
+            assertEquals(expected.getOrders(), route.getOrders());
+            assertEquals(expected.getDriver(), route.getDriver());
+            assertEquals(expected.getPlanner(), route.getPlanner());
+            assertEquals(expected.getTruck(), route.getTruck());
+
     }
 
 

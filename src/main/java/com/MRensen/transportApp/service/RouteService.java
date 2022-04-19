@@ -76,9 +76,10 @@ public class RouteService {
             throw new RecordNotFoundException("Route not found");
         }
 
-        routeRepository.deleteById(id);}
+        routeRepository.deleteById(id);
+    }
 
-    public void updateRoute(Long id, Route route){
+    public Route updateRoute(Long id, Route route){
         if(!routeRepository.existsById(id)){
             throw new RecordNotFoundException("Route not found");
         }
@@ -90,8 +91,9 @@ public class RouteService {
         old.setOrders(route.getOrders());
 
         routeRepository.save(old);
+        return old;
     }
-    public void patchRoute(Long id, Route route){
+    public Route patchRoute(Long id, Route route){
         if(!routeRepository.existsById(id)){
             throw new RecordNotFoundException("Route not found");
         }
@@ -115,7 +117,7 @@ public class RouteService {
         }
 
         routeRepository.save(old);
-
+        return old;
     }
 
     public void deleteOrders(Long id, Order[] orders){
