@@ -13,6 +13,7 @@ import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -213,5 +214,129 @@ public class OrderServiceTest {
         List<Pallet> actual = orderService.getPallets(1L);
 
         assertEquals(pallets, actual);
+    }
+
+    @Test
+    public void updateOrderTest(){
+        Mockito
+                .when(orderRepository.findById(anyLong()))
+                .thenReturn(Optional.of(order));
+
+        Mockito
+                .when(orderRepository.existsById(anyLong()))
+                .thenReturn(true);
+
+        Mockito
+                .when(customerRepository.getById(anyLong()))
+                .thenReturn(customer);
+
+        Mockito
+                .when(customerRepository.existsById(anyLong()))
+                        .thenReturn(true);
+
+        Mockito
+                .when(orderRepository.save(any(Order.class)))
+                .thenReturn(order);
+
+        Order actual = orderService.updateOrder(10L, order);
+        assertEquals(actual.getRoute(), order.getRoute());
+        assertEquals(actual.getCreator(), order.getCreator());
+        assertEquals(actual.getDescription(), order.getDescription());
+        assertEquals(actual.getType(), order.getType());
+        assertEquals(actual.isPickup(), order.isPickup());
+        assertEquals(actual.getOrderStatus(), order.getOrderStatus());
+        assertEquals(actual.getPallets(), order.getPallets());
+        assertEquals(actual.getLoadingStreet(), order.getLoadingStreet());
+        assertEquals(actual.getLoadingHouseNumber(), order.getLoadingHouseNumber());
+        assertEquals(actual.getLoadingPostal(), order.getLoadingPostal());
+        assertEquals(actual.getLoadingName(), order.getLoadingName());
+        assertEquals(actual.getLoadingCity(), order.getLoadingCity());
+        assertEquals(actual.getLoadingDate(), order.getLoadingDate());
+        assertEquals(actual.getDeliveryStreet(), order.getDeliveryStreet());
+        assertEquals(actual.getDeliveryHouseNumber(), order.getDeliveryHouseNumber());
+        assertEquals(actual.getDeliveryPostal(), order.getDeliveryPostal());
+        assertEquals(actual.getDeliveryDate(), order.getDeliveryDate());
+        assertEquals(actual.getDeliveryName(), order.getDeliveryName());
+        assertEquals(actual.getDeliveryCity(), order.getDeliveryCity());
+
+    }
+
+    @Test
+    public void updateOrderTestThrowsExceptionForOrder(){
+
+        Mockito
+                .when(orderRepository.existsById(anyLong()))
+                .thenReturn(false);
+
+        assertThrows(RecordNotFoundException.class,
+                ()->orderService.updateOrder(10L,order),
+                "Order not found");
+
+    }
+    @Test
+    public void updateOrderTestThrowsExceptionForCustomer(){
+
+        Mockito
+                .when(customerRepository.existsById(anyLong()))
+                .thenReturn(false);
+
+        assertThrows(RecordNotFoundException.class,
+                ()->orderService.updateOrder(10L,order),
+                "No (creator)customer found");
+
+    }
+
+    @Test
+    public void patchOrderTest(){
+        Mockito
+                .when(orderRepository.findById(anyLong()))
+                .thenReturn(Optional.of(order));
+
+        Mockito
+                .when(orderRepository.existsById(anyLong()))
+                .thenReturn(true);
+
+        Mockito
+                .when(routeRepository.getById(anyLong()))
+                .thenReturn(route);
+
+        Mockito
+                .when(orderRepository.save(any(Order.class)))
+                .thenReturn(order);
+
+        Order actual = orderService.patchOrder(10L, order);
+
+        assertEquals(actual.getRoute(), order.getRoute());
+        assertEquals(actual.getCreator(), order.getCreator());
+        assertEquals(actual.getDescription(), order.getDescription());
+        assertEquals(actual.getType(), order.getType());
+        assertEquals(actual.isPickup(), order.isPickup());
+        assertEquals(actual.getOrderStatus(), order.getOrderStatus());
+        assertEquals(actual.getPallets(), order.getPallets());
+        assertEquals(actual.getLoadingStreet(), order.getLoadingStreet());
+        assertEquals(actual.getLoadingHouseNumber(), order.getLoadingHouseNumber());
+        assertEquals(actual.getLoadingPostal(), order.getLoadingPostal());
+        assertEquals(actual.getLoadingName(), order.getLoadingName());
+        assertEquals(actual.getLoadingCity(), order.getLoadingCity());
+        assertEquals(actual.getLoadingDate(), order.getLoadingDate());
+        assertEquals(actual.getDeliveryStreet(), order.getDeliveryStreet());
+        assertEquals(actual.getDeliveryHouseNumber(), order.getDeliveryHouseNumber());
+        assertEquals(actual.getDeliveryPostal(), order.getDeliveryPostal());
+        assertEquals(actual.getDeliveryDate(), order.getDeliveryDate());
+        assertEquals(actual.getDeliveryName(), order.getDeliveryName());
+        assertEquals(actual.getDeliveryCity(), order.getDeliveryCity());
+
+
+    }
+
+    @Test
+    public void patchOrderThrowsException(){
+        Mockito
+                .when(orderRepository.existsById(anyLong()))
+                .thenReturn(false);
+
+        assertThrows(RecordNotFoundException.class,
+                ()-> orderService.patchOrder(anyLong(), order),
+                "Order not found");
     }
 }

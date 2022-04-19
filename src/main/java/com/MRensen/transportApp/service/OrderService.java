@@ -75,7 +75,7 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void updateOrder(Long id, Order order) {
+    public Order updateOrder(Long id, Order order) {
         if (!orderRepository.existsById(id)) {
             throw new RecordNotFoundException("Order not found");
         }
@@ -102,9 +102,10 @@ public class OrderService {
         old.setDeliveryCity(order.getDeliveryCity());
         old.setDeliveryDate(order.getDeliveryDate());
         orderRepository.save(old);
+        return old;
     }
 
-    public void patchOrder(Long id, Order order) {
+    public Order patchOrder(Long id, Order order) {
         if (!orderRepository.existsById(id)) {
             throw new RecordNotFoundException("Order not found");
         }
@@ -167,6 +168,7 @@ public class OrderService {
             old.setDeliveryCity(order.getDeliveryCity());
         }
         orderRepository.save(old);
+        return old;
     }
 
     public PalletType getType(Long id) {
