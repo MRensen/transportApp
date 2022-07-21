@@ -4,15 +4,15 @@ package com.MRensen.transportApp.service;
 import com.MRensen.transportApp.model.Authority;
 import com.MRensen.transportApp.model.User;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.*;
 
@@ -20,15 +20,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 
-@SpringBootTest
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class CustomUserDetailsServiceTest {
 
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
 
-    @MockBean
+    @Mock
     UserService userService;
+
+    @InjectMocks
+    CustomUserDetailsService customUserDetailsService = new CustomUserDetailsService(userService);
+
 
 
 

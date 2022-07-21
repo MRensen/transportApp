@@ -11,11 +11,11 @@ import com.MRensen.transportApp.repository.RouteRepository;
 import com.MRensen.transportApp.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.DirtiesContext;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,21 +26,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 
-@SpringBootTest
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class PlannerServiceTest {
 
-    @Autowired
-    PlannerService plannerService;
 
-    @MockBean
+    @Mock
     PlannerRepository plannerRepository;
 
-    @MockBean
+    @Mock
     UserRepository userRepository;
 
-    @MockBean
+    @Mock
     RouteRepository routeRepository;
+
+
+    @InjectMocks
+    PlannerService plannerService = new PlannerService(plannerRepository, userRepository, routeRepository);
 
     Planner planner;
     User user;
@@ -169,22 +170,6 @@ public class PlannerServiceTest {
 
     @Test
     void patchOneThrowsExceptionForMissingUser(){
-        Planner planner1 = new Planner();
-        User user1 = new User();
-        planner1.setUser(user1);
-
-        Mockito
-                .when(plannerRepository.existsById(anyLong()))
-                .thenReturn(true);
-        Mockito
-                .when(plannerRepository.findById(anyLong()))
-                .thenReturn(Optional.of(planner1));
-        Mockito
-                .when(userRepository.existsById(anyString()))
-                .thenReturn(false);
-        Mockito
-                .when(userRepository.getById(anyString()))
-                .thenReturn(user);
 
         assertThrows(RecordNotFoundException.class, ()->{plannerService.patchOne(1L, planner);});
     }

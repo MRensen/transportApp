@@ -5,12 +5,11 @@ import com.MRensen.transportApp.model.*;
 import com.MRensen.transportApp.repository.RouteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.DirtiesContext;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,29 +19,26 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest()
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class RouteServiceTest {
 
-    @Autowired
-    RouteService routeService;
-
-    @MockBean
+    @Mock
     RouteRepository routeRepository;
 
-    @Mock
     Route route;
 
-    @MockBean
+    @Mock
     DriverService driverService;
 
-    @MockBean
+    @Mock
     PlannerService plannerService;
 
     @Mock
     OrderService orderService;
 
 
+    @InjectMocks
+    RouteService routeService = new RouteService(routeRepository, orderService, plannerService, driverService);
 
     List<Order> orderList;
 

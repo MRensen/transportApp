@@ -6,14 +6,15 @@ import com.MRensen.transportApp.model.Driver;
 import com.MRensen.transportApp.model.Route;
 import com.MRensen.transportApp.model.User;
 import com.MRensen.transportApp.repository.DriverRepository;
+import com.MRensen.transportApp.repository.RouteRepository;
 import com.MRensen.transportApp.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.DirtiesContext;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +24,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 
-@SpringBootTest
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class DriverServiceTest {
 
-    @Autowired
-    DriverService driverService;
-
-    @MockBean
+    @Mock
     DriverRepository driverRepository;
 
-    @MockBean
+    @Mock
     UserRepository userRepository;
+
+    @Mock
+    RouteRepository routeRepository;
+
+    @InjectMocks
+    DriverService driverService = new DriverService(driverRepository, routeRepository, userRepository);
 
     Driver driver;
 
@@ -58,6 +61,8 @@ public class DriverServiceTest {
         user.setHouseNumber("3");
         user.setCity("teststad");
         user.setPhoneNumber("3");
+
+        route.setId(2L);
 
         driver.setUser(user);
         driver.setEmployeeNumber(3);
@@ -88,6 +93,15 @@ public class DriverServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(RecordNotFoundException.class, ()->{driverService.getOne(1L);});
+    }
+
+    @Test
+    void deleteOneInvokesDeleteById(){
+        Mockito
+                .when(driverRepository.findById(anyLong()))
+                .thenReturn(Optional.of(driver));
+        driverService.deleteOne(anyLong());
+        Mockito.verify(driverRepository, Mockito.times(1)).deleteById(any());
     }
 
     @Test
@@ -157,12 +171,7 @@ public class DriverServiceTest {
 
     @Test
     void getPasswordThrowsException(){
-        Mockito
-                .when(driverRepository.existsById(anyLong()))
-                .thenReturn(false);
-        Mockito
-                .when(driverRepository.getById(anyLong()))
-                .thenReturn(driver);
+
         assertThrows(RecordNotFoundException.class, ()->{driverService.getPassword(1L);});
 
     }
@@ -216,5 +225,35 @@ public class DriverServiceTest {
         List<Route> actual = driverService.getDriverRoute(1L);
 
         assertEquals(routes, actual);
+    }
+
+    @Test
+    void addDriverRouteInvokesSave(){
+        Route route2 = new Route();
+        Mockito
+                .when(routeRepository.findById(anyLong()))
+                .thenReturn(Optional.of(route2));
+        Mockito
+                .when(driverRepository.findById(driver.getId()))
+                .thenReturn(Optional.of(driver));
+
+        driverService.addDriverRoute(2l, driver.getId());
+
+        Mockito.verify(driverRepository, Mockito.times(1)).save(driver);
+        assertThrows(RecordNotFoundException.class, ()->{driverService.addDriverRoute(1L, driver.getId()+1);});
+    }
+
+    @Test
+    void deleteDriverRouteInvokesSave(){
+        Mockito
+                .when(driverRepository.findById(driver.getId()))
+                .thenReturn(Optional.of(driver));
+
+        driverService.deleteDriverRoute(driver.getId(), route.getId());
+        driverService.deleteDriverRoute(driver.getId(), route.getId()+1);
+
+        Mockito.verify(routeRepository, Mockito.times(1)).save(route);
+        Mockito.verify(driverRepository, Mockito.times(2)).save(driver);
+        assertThrows(RecordNotFoundException.class, ()->{driverService.deleteDriverRoute(driver.getId()+1, route.getId());});
     }
 }

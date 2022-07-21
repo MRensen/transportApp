@@ -47,13 +47,17 @@ public class DriverService implements UserServiceInt<Driver> {
     }
 
     public void deleteOne(Long id) {
-        Driver driver = driverRepository.getById(id);
-        var routes = driver.getRoutes();
-        for(Route route : routes){
-            route.setDriver(null);
-        }
-
-        driverRepository.deleteById(id);
+       Optional<Driver> driverOptional = driverRepository.findById(id);
+       if(driverOptional.isPresent()) {
+           Driver driver = driverOptional.get();
+           var routes = driver.getRoutes();
+           for (Route route : routes) {
+               route.setDriver(null);
+           }
+           driverRepository.deleteById(id);
+       } else {
+           throw new RecordNotFoundException("Driver not found");
+       }
     }
 
     public Driver patchOne(Long id, Driver driver) {

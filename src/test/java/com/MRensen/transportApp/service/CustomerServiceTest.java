@@ -1,39 +1,44 @@
 package com.MRensen.transportApp.service;
 
+import com.MRensen.transportApp.exception.BadRequestException;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.User;
 import com.MRensen.transportApp.repository.CustomerRepository;
+import com.MRensen.transportApp.repository.OrderRepository;
+import com.MRensen.transportApp.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.DirtiesContext;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 
-@SpringBootTest
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
 
-    @Autowired
-    CustomerService customerService;
-
-    @MockBean
+    @Mock
     CustomerRepository customerRepository;
 
     @Mock
-    Customer customer;
+    UserRepository userRepository;
 
     @Mock
+    OrderRepository orderRepository;
+
+    @InjectMocks
+    CustomerService customerService = new CustomerService(customerRepository, userRepository, orderRepository);
+
+    Customer customer;
+
     Customer completeCustomer;
 
     List<Order> orderList;
@@ -65,6 +70,44 @@ public class CustomerServiceTest {
         assertEquals(customer.getName(), found.get(0).getName() );
     }
 
+    @Test
+    void addOneReturnsCustomer(){
+        Mockito
+                .when(customerRepository.existsById(customer.getId()))
+                .thenReturn(false);
+        Mockito
+                .when(userRepository.existsById(customer.getUser().getUsername()))
+                .thenReturn(false);
+        Mockito
+                .when(customerRepository.save(any()))
+                .thenAnswer(i -> i.getArguments()[0]);
+
+        assertEquals(customer, customerService.addOne(customer));
+    }
+    @Test
+    void addOneThrowsExceptionWhenUserNotExist(){
+        Mockito
+                .when(customerRepository.existsById(customer.getId()))
+                .thenReturn(false);
+        Mockito
+                .when(userRepository.existsById(customer.getUser().getUsername()))
+                .thenReturn(true);
+        assertThrows(BadRequestException.class, ()->{customerService.addOne(customer);});
+
+    }
+    @Test
+    void addOneThrowsExceptionWhenCustomerNotExist(){
+        Mockito
+                .when(customerRepository.existsById(customer.getId()))
+                .thenReturn(true);
+        assertThrows(BadRequestException.class, ()->{customerService.addOne(customer);});
+    }
+
+    @Test
+    void deleteOneInvokesDeleteById(){
+        customerService.deleteOne(customer.getId());
+        Mockito.verify(customerRepository, Mockito.times(1)).deleteById(customer.getId());
+    }
     @Test
     void getOneResturnsCustomer(){
         Optional<Customer> option = Optional.of(customer);

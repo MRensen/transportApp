@@ -13,12 +13,13 @@ import com.MRensen.transportApp.utils.OrderStatus;
 import com.MRensen.transportApp.utils.Pallet.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.DirtiesContext;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,24 +30,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 
-@SpringBootTest
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class OrderServiceTest {
 
-    @Autowired
-    OrderService orderService;
-
-    @MockBean
+    @Mock
     OrderRepository orderRepository;
 
-    @MockBean
+    @Mock
     CustomerRepository customerRepository;
 
-    @MockBean
+    @Mock
     PalletRepository palletRepository;
 
-    @MockBean
+    @Mock
     RouteRepository routeRepository;
+
+    @InjectMocks
+    OrderService orderService = new OrderService(orderRepository, customerRepository, palletRepository, routeRepository);
 
     Order order;
     Customer customer;
@@ -89,6 +90,13 @@ public class OrderServiceTest {
         List<Order> actual = orderService.getAllOrders();
 
         assertEquals(orders, actual);
+    }
+
+    @Test
+    void deleteOrderInvokesDeleteById(){
+        orderService.deleteOrder(order.getId());
+        Mockito.verify(orderRepository,Mockito.times(1)).deleteById(order.getId());
+
     }
 
     @Test
@@ -218,6 +226,10 @@ public class OrderServiceTest {
 
     @Test
     public void updateOrderTest(){
+        Customer customer1 = new Customer();
+        customer1.setId(10L);
+        Order order1 = order;
+        order1.setCreator(customer1);
         Mockito
                 .when(orderRepository.findById(anyLong()))
                 .thenReturn(Optional.of(order));
@@ -231,14 +243,14 @@ public class OrderServiceTest {
                 .thenReturn(customer);
 
         Mockito
-                .when(customerRepository.existsById(anyLong()))
+                .when(customerRepository.existsById(customer1.getId()))
                         .thenReturn(true);
 
         Mockito
                 .when(orderRepository.save(any(Order.class)))
                 .thenReturn(order);
 
-        Order actual = orderService.updateOrder(10L, order);
+        Order actual = orderService.updateOrder(order.getId(), order);
         assertEquals(actual.getRoute(), order.getRoute());
         assertEquals(actual.getCreator(), order.getCreator());
         assertEquals(actual.getDescription(), order.getDescription());
@@ -258,7 +270,7 @@ public class OrderServiceTest {
         assertEquals(actual.getDeliveryDate(), order.getDeliveryDate());
         assertEquals(actual.getDeliveryName(), order.getDeliveryName());
         assertEquals(actual.getDeliveryCity(), order.getDeliveryCity());
-
+        assertThrows(RecordNotFoundException.class, ()->{orderService.updateOrder(anyLong(), order1);},"No (creator)customer found" );
     }
 
     @Test
@@ -271,18 +283,6 @@ public class OrderServiceTest {
         assertThrows(RecordNotFoundException.class,
                 ()->orderService.updateOrder(10L,order),
                 "Order not found");
-
-    }
-    @Test
-    public void updateOrderTestThrowsExceptionForCustomer(){
-
-        Mockito
-                .when(customerRepository.existsById(anyLong()))
-                .thenReturn(false);
-
-        assertThrows(RecordNotFoundException.class,
-                ()->orderService.updateOrder(10L,order),
-                "No (creator)customer found");
 
     }
 

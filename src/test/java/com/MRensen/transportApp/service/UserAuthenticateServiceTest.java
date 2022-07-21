@@ -4,36 +4,32 @@ import com.MRensen.transportApp.DTO.AuthenticationRequestDto;
 import com.MRensen.transportApp.DTO.AuthenticationResponseDto;
 import com.MRensen.transportApp.config.security.JwtUtil;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
-@SpringBootTest
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class UserAuthenticateServiceTest {
-    @Autowired
-    UserAuthenticateService userAuthenticateService;
 
-    @MockBean
+    @Mock
     AuthenticationManager authenticationManager;
-
-    @MockBean
-    PasswordEncoder passwordEncoder;
-
-    @MockBean
+    @Mock
     CustomUserDetailsService userDetailsService;
 
-    @MockBean
+    @Mock
     JwtUtil jwtUtil;
+
+    @InjectMocks
+    UserAuthenticateService userAuthenticateService = new UserAuthenticateService(authenticationManager, userDetailsService, jwtUtil);
+
 
     @Test
     void authenticateUserTest(){
