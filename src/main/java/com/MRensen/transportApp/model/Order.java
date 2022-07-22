@@ -249,5 +249,10 @@ public class Order {
         this.pallets.add(pallet);
     }
 
-
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                '}';
+    }
 }

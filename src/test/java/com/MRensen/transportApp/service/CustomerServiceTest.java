@@ -1,6 +1,7 @@
 package com.MRensen.transportApp.service;
 
 import com.MRensen.transportApp.exception.BadRequestException;
+import com.MRensen.transportApp.exception.RecordNotFoundException;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.Order;
 import com.MRensen.transportApp.model.User;
@@ -109,56 +110,67 @@ public class CustomerServiceTest {
         Mockito.verify(customerRepository, Mockito.times(1)).deleteById(customer.getId());
     }
     @Test
-    void getOneResturnsCustomer(){
-        Optional<Customer> option = Optional.of(customer);
+    void getOneResturnsCustomerOrException(){
         Mockito
-                .when(customerRepository.findById(anyLong()))
-                .thenReturn(option);
+                .when(customerRepository.findById(customer.getId()))
+                .thenReturn(Optional.of(customer));
 
         var actual = customerService.getOne(customer.getId());
         assertEquals(customer.getName(), actual.getName());
+        assertThrows(RecordNotFoundException.class,
+                ()->{customerService.getOne(customer.getId()+1);},
+                "Customer Id was not found");
     }
 
     @Test
-    void patchOneReturnsCustomer(){
+    void patchOneReturnsCustomerOrException(){
         Mockito
-                .when(customerRepository.existsById(anyLong()))
+                .when(customerRepository.existsById(customer.getId()))
                 .thenReturn(true);
 
         Mockito
-                .when(customerRepository.findById(anyLong()))
+                .when(customerRepository.findById(customer.getId()))
                 .thenReturn(Optional.of(customer));
 
 
-        Customer actual = customerService.patchOne(1L, completeCustomer);
+        Customer actual = customerService.patchOne(customer.getId(), completeCustomer);
 
         assertEquals("completeCustomer", actual.getName());
+        assertThrows(RecordNotFoundException.class,
+                ()->{customerService.patchOne(customer.getId()+1, completeCustomer);},
+                "Customer not found");
     }
 
     @Test
-    void updateOneReturnsCustomer(){
+    void updateOneReturnsCustomerOrException(){
         Mockito
-                .when(customerRepository.existsById(anyLong()))
+                .when(customerRepository.existsById(customer.getId()))
                 .thenReturn(true);
 
         Mockito
-                .when(customerRepository.findById(anyLong()))
+                .when(customerRepository.findById(customer.getId()))
                 .thenReturn(Optional.of(customer));
 
 
-        Customer actual = customerService.updateOne(1L, completeCustomer);
+        Customer actual = customerService.updateOne(customer.getId(), completeCustomer);
 
         assertEquals("completeCustomer", actual.getName());
+        assertThrows(RecordNotFoundException.class,
+                ()->{customerService.updateOne(customer.getId()+1, completeCustomer);},
+                "Customer not found");
     }
 
     @Test
-    void getOrdersReturnsOrderList(){
+    void getOrdersReturnsOrderListOrException(){
         Mockito
-                .when(customerRepository.findById(anyLong()))
+                .when(customerRepository.findById(customer.getId()))
                 .thenReturn(Optional.of(completeCustomer));
 
-        var actual = customerService.getOrders(1l);
+        var actual = customerService.getOrders(customer.getId());
         assertEquals(orderList, actual);
+        assertThrows(RecordNotFoundException.class,
+                ()->{customerService.getOrders(customer.getId()+1);},
+                "Customer Id was not found");
     }
 
 }

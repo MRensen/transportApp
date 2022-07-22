@@ -9,6 +9,7 @@ import com.MRensen.transportApp.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,11 +110,13 @@ public class RouteService {
             old.setPlanner(plannerService.getOne(route.getPlanner().getId()));
         }
         if(route.getOrders() != null) {
+            List<Order> tempOrders = new ArrayList<>();
             for(Order o: route.getOrders()){
                 o.setRoute(old);
                 orderService.patchOrder(o.getId(), o);
-                old.addOrder(o);
+                tempOrders.add(o);
             }
+            tempOrders.forEach((o)->{old.addOrder(o);});
         }
 
         routeRepository.save(old);

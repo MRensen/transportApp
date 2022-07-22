@@ -96,12 +96,16 @@ public class DriverServiceTest {
     }
 
     @Test
-    void deleteOneInvokesDeleteById(){
+    void deleteOneInvokesDeleteByIdOrException(){
         Mockito
-                .when(driverRepository.findById(anyLong()))
+                .when(driverRepository.findById(driver.getId()))
                 .thenReturn(Optional.of(driver));
-        driverService.deleteOne(anyLong());
+        driverService.deleteOne(driver.getId());
         Mockito.verify(driverRepository, Mockito.times(1)).deleteById(any());
+        assertThrows(RecordNotFoundException.class,
+                ()->{driverService.deleteOne(driver.getId()+1);},
+                "Driver not found");
+
     }
 
     @Test

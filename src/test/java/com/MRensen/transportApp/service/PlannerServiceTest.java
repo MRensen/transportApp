@@ -97,6 +97,21 @@ public class PlannerServiceTest {
     }
 
     @Test
+    void deleteOneInvokesDeleteAndSaveOrException(){
+        Mockito
+                .when(plannerRepository.findById(planner.getId()))
+                .thenReturn(Optional.of(planner));
+
+        plannerService.deleteOne(planner.getId());
+
+        Mockito.verify(plannerRepository, Mockito.times(1)).deleteById(planner.getId());
+        Mockito.verify(routeRepository, Mockito.times(1)).save(route);
+        assertThrows(RecordNotFoundException.class,
+                ()->{plannerService.deleteOne(planner.getId()+1);},
+                "planner not found");
+    }
+
+    @Test
     void addOneReturnsPlanner(){
         Mockito
                 .when(userRepository.save(any(User.class)))
@@ -172,6 +187,24 @@ public class PlannerServiceTest {
     void patchOneThrowsExceptionForMissingUser(){
 
         assertThrows(RecordNotFoundException.class, ()->{plannerService.patchOne(1L, planner);});
+    }
+
+    @Test
+    void addPlannerRouteInvokesSaveOrException(){
+        Mockito
+                .when(plannerRepository.findById(planner.getId()))
+                .thenReturn(Optional.of(planner));
+        Mockito
+                .when(routeRepository.findById(route.getId()))
+                .thenReturn(Optional.of(route));
+
+        plannerService.addPlannerRoute(route.getId(), planner.getId());
+
+        Mockito.verify(routeRepository, Mockito.times(1)).save(route);
+        Mockito.verify(plannerRepository, Mockito.times(1)).save(planner);
+        assertThrows(RecordNotFoundException.class,
+                ()->{plannerService.addPlannerRoute(route.getId(), planner.getId()+1);},
+                "planner not found");
     }
 
 }

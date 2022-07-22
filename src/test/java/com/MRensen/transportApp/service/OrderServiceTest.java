@@ -339,4 +339,25 @@ public class OrderServiceTest {
                 ()-> orderService.patchOrder(anyLong(), order),
                 "Order not found");
     }
+
+    @Test
+    public void addPalletInvokesSaveAndPatchOrder(){
+        //De onderstaande mocks worden in PatchOrder aangeroepen
+        Mockito
+                .when(orderRepository.findById(order.getId()))
+                .thenReturn(Optional.of(order));
+
+        Mockito
+                .when(orderRepository.existsById(anyLong()))
+                .thenReturn(true);
+
+        Mockito
+                .when(routeRepository.getById(anyLong()))
+                .thenReturn(route);
+
+        orderService.addPallet(order.getId(), euroPallet);
+
+        Mockito.verify(palletRepository, Mockito.times(1)).save(euroPallet);
+        Mockito.verify(orderRepository, Mockito.times(1)).findById(order.getId());
+    }
 }
