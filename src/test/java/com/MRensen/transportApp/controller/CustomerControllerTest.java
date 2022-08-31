@@ -1,38 +1,56 @@
 package com.MRensen.transportApp.controller;
 
 import com.MRensen.transportApp.DTO.CustomerDto;
+import com.MRensen.transportApp.config.security.JwtRequestFilter;
 import com.MRensen.transportApp.model.Customer;
 import com.MRensen.transportApp.model.User;
+import com.MRensen.transportApp.service.CustomUserDetailsService;
 import com.MRensen.transportApp.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.sql.DataSource;
+
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+//@AutoConfigureMockMvc(addFilters = false)
+//@SpringBootTest
+@WebMvcTest(controllers = CustomerController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest
 public class CustomerControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @Autowired
-    private WebApplicationContext context;
+    @MockBean
+    private DataSource dataSource;
+    @MockBean
+    private JwtRequestFilter jwtRequestFilter;
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
 
     @MockBean
     CustomerService customerService;
 
+    //    @Autowired
+//    private WebApplicationContext context;
+//
     Customer customer;
 
     @BeforeEach
@@ -47,6 +65,7 @@ public class CustomerControllerTest {
 
 @Test
 public void getCustomersReturnsStatusOk() throws Exception{
+        Mockito.when(customerService.getAll()).thenReturn(new ArrayList<>());
     mvc.perform(get("/customers"))
                     .andExpect(status().isOk());
 }
